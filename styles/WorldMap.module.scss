@@ -4,15 +4,16 @@
 
 .country {
     cursor: pointer;
-    fill: #2E4057;
+    fill: var(--color-primary);
     outline: none;
 
-    transition: fill .15s ease-out; 
+    transition: fill .15s ease-out,
+        filter .2s ease-out; 
     &:hover {
-        fill: #048BA8;
+        fill: var(--color-secondary);
     }
 
     &:active {
-        fill: darken(#048BA8, 3%);
+        filter: brightness(90%);
     }
 }

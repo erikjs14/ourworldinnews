@@ -1,11 +1,10 @@
 import styles from '../styles/WorldMap.module.scss';
+import worldGeography from '../geographies/world-110m.json';
 import {
     ComposableMap,
     Geographies,
     Geography,
 } from 'react-simple-maps';
-
-const geoUrl = 'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json';
 
 export default function WorldMap({ setTooltipContent }) {
     return (
@@ -16,7 +15,7 @@ export default function WorldMap({ setTooltipContent }) {
             viewBox='0 0 800 450' 
             className={styles.world}
         >
-            <Geographies geography={geoUrl}>
+            <Geographies geography={worldGeography}>
                 {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
                     <Geography 
                         key={geo.rsmKey}
