@@ -1,0 +1,18 @@
+.world {
+    max-height: 100%;
+}
+
+.country {
+    cursor: pointer;
+    fill: #2E4057;
+    outline: none;
+
+    transition: fill .15s ease-out; 
+    &:hover {
+        fill: #048BA8;
+    }
+
+    &:active {
+        fill: darken(#048BA8, 3%);
+    }
+}
