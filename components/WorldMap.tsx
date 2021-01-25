@@ -6,7 +6,10 @@ import {
     Geography,
 } from 'react-simple-maps';
 
-export default function WorldMap({ setTooltipContent }) {
+interface WorldMapProps {
+    setTooltipContent(content: string): void;
+}
+export default function WorldMap({ setTooltipContent }: WorldMapProps) {
     return (
         <ComposableMap 
             data-tip='' 
