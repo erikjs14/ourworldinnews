@@ -1,0 +1,64 @@
+@import './_variables';
+
+.container {
+    color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 4rem 1rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    
+
+    .item {
+        position: relative;
+        --toggle-size: 1.25em;
+        --toggle-multiplier: 0.3;
+        padding-left: calc(var(--toggle-size) + 1rem);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:not(:last-child) {
+            margin-bottom: .75rem;
+        }
+
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: .5rem;
+            top: 50%;
+            transform: scale(1) translateY(-50%);
+            width: calc(var(--toggle-size) * 0.5);
+            height: calc(var(--toggle-size) * 0.5);
+            border: (calc(var(--toggle-size) * 0.25)) solid var(--color-primary);
+            border-radius: calc(var(--toggle-size) * 0.5);
+            transition: transform .075s ease-in-out;
+        }
+        &:active::before {
+            transform: scale(0.9) translateY(-50%);
+        }
+    
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: calc(.5rem + var(--toggle-size) * 0.5 - var(--toggle-multiplier) * var(--toggle-size) * 0.5);
+            top: 50%;
+            background-color: var(--color-primary);
+            width: calc(var(--toggle-multiplier) * var(--toggle-size));
+            height: calc(var(--toggle-multiplier) * var(--toggle-size));
+            border-radius: 100%;
+            opacity: 0;
+            transform: scale(0.1) translateY(-50%);
+            transition: all .15s ease-in;
+        }
+
+        &.selected::after {
+            opacity: 1;
+            transform: scale(1) translateY(-50%);
+        }
+    }
+}
