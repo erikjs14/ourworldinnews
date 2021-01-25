@@ -6,10 +6,12 @@ import {
     Geography,
 } from 'react-simple-maps';
 import { CountriesNews } from '../types';
+import BubbleContent from './BubbleContent';
+import { ReactNode } from 'react';
 
 interface WorldMapProps {
     news: CountriesNews;
-    setTooltipContent(content: string): void;
+    setTooltipContent(content: ReactNode): void;
 }
 export default function WorldMap({ news, setTooltipContent }: WorldMapProps) {
     return (
@@ -27,7 +29,12 @@ export default function WorldMap({ news, setTooltipContent }: WorldMapProps) {
                         geography={geo}
                         onMouseEnter={() => {
                             if (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle) {
-                                setTooltipContent(geo.properties.NAME + ' - ' + news[geo.properties.ISO_A2.toLowerCase()].topArticle.title);
+                                setTooltipContent(
+                                    <BubbleContent
+                                        countryName={geo.properties.NAME}
+                                        title={news[geo.properties.ISO_A2.toLowerCase()].topArticle.title}
+                                    />
+                                )
                             }
                         }}
                         onMouseLeave={() => {

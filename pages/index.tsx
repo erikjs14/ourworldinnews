@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import Head from 'next/head'
 import Tooltip from 'react-tooltip';
 
@@ -14,7 +14,7 @@ interface HomeProps {
 }
 export default function Home({ news }: HomeProps) {
 
-    const [tooltipContent, setTooltipContent] = useState('');
+    const [tooltipContent, setTooltipContent] = useState<ReactNode>(null);
 
     return (
         <>
@@ -25,7 +25,9 @@ export default function Home({ news }: HomeProps) {
             <div className={styles.container}>
                 <WorldMap setTooltipContent={setTooltipContent} news={news}/>
                 <Tooltip
-                    backgroundColor='var(--color-accent)'
+                    backgroundColor='#eee'
+                    textColor='#000'
+                    className={styles.tooltip}
                 >
                     {tooltipContent}
                 </Tooltip>
