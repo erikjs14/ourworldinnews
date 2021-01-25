@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@google-cloud/translate": "^6.1.0",
     "@types/memory-cache": "^0.2.1",
     "axios": "^0.21.1",
     "i18n-iso-countries": "^6.4.0",

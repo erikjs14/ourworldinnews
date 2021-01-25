@@ -1,9 +1,21 @@
 .container {
-    height: 99vh;
     text-align: center;
+
+    .mapContainer {
+        height: 99vh;
+    }
+
+    .left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 16rem;
+    }
+
 }
 
 .tooltip {
-    max-width: 20rem;
+    max-width: 25rem;
     opacity: 0.975 !important;
 }

@@ -3,7 +3,13 @@ export interface CountryNews {
     countryName: string;
     topArticle: {
         title: string;
+        titleTranslated: {
+            [string]: string; // en: "this is tranlated title"
+        };
         teaser: string;
+        teaserTranslated: {
+            [string]: string;
+        };
         imgLink: string;
         published: string;
         originalSourceLink: string;

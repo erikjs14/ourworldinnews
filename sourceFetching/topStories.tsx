@@ -4,7 +4,6 @@ import { getDateDiffInFormat } from './../utils/timeUtils';
 import { CountriesNews, CountryNews } from '../types';
 import { GetTopStoriesResponse } from '../config/sourceConfigRestResponse';
 import countries from 'i18n-iso-countries';
-import moment from 'moment';
 import cache from 'memory-cache';
 import { TTL_NEWS } from './../config/consts';
 
@@ -37,7 +36,9 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                 countryName: countries.getName(isoA2, 'en', {select: 'official'}),
                 topArticle: {
                     title: result.data.data[0].title,
+                    titleTranslated: {},
                     teaser: result.data.data[0].snippet,
+                    teaserTranslated: {},
                     imgLink: result.data.data[0].image_url,
                     originalSourceLink: result.data.data[0].url,
                     published: result.data.data[0].published_at,

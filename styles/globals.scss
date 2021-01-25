@@ -1,14 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+@import './_variables';
 
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: 'Lato', sans-serif;
+  font-size: 62.5%;
 
   --color-primary: #2E4057;
   --color-secondary: #048BA8;
   --color-accent: #F18F01;
+}
+
+body {
+    font-size: 1.5rem;
 }
 
 a {
