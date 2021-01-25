@@ -5,8 +5,14 @@ import Tooltip from 'react-tooltip';
 import styles from '../styles/Home.module.scss'
 
 import WorldMap from '../components/WorldMap';
+import { GetStaticProps } from 'next';
+import { fetchTopStories } from '../sourceFetching/topStories';
+import { CountriesNews } from '../types';
 
-export default function Home() {
+interface HomeProps {
+    news: CountriesNews;
+}
+export default function Home({ news }: HomeProps) {
 
     const [tooltipContent, setTooltipContent] = useState('');
 
@@ -17,7 +23,7 @@ export default function Home() {
             </Head>
 
             <div className={styles.container}>
-                <WorldMap setTooltipContent={setTooltipContent}/>
+                <WorldMap setTooltipContent={setTooltipContent} news={news}/>
                 <Tooltip
                     backgroundColor='var(--color-accent)'
                 >
@@ -26,4 +32,13 @@ export default function Home() {
             </div>
         </>
     )
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const news = await fetchTopStories();
+    return {
+        props: {
+            news,
+        },
+    };
 }

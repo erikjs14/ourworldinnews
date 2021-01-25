@@ -5,11 +5,13 @@ import {
     Geographies,
     Geography,
 } from 'react-simple-maps';
+import { CountriesNews } from '../types';
 
 interface WorldMapProps {
+    news: CountriesNews;
     setTooltipContent(content: string): void;
 }
-export default function WorldMap({ setTooltipContent }: WorldMapProps) {
+export default function WorldMap({ news, setTooltipContent }: WorldMapProps) {
     return (
         <ComposableMap 
             data-tip='' 
@@ -24,7 +26,9 @@ export default function WorldMap({ setTooltipContent }: WorldMapProps) {
                         key={geo.rsmKey}
                         geography={geo}
                         onMouseEnter={() => {
-                            setTooltipContent(geo.properties.NAME);
+                            if (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle) {
+                                setTooltipContent(geo.properties.NAME + ' - ' + news[geo.properties.ISO_A2.toLowerCase()].topArticle.title);
+                            }
                         }}
                         onMouseLeave={() => {
                             setTooltipContent('');
