@@ -40,7 +40,7 @@ export default function WorldMap({ news, setTooltipContent }: WorldMapProps) {
                         onMouseLeave={() => {
                             setTooltipContent('');
                         }}
-                        className={styles.country}
+                        className={styles.country + (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle ? ` ${styles.available}` : '')}
                     />
                 ))}
             </Geographies>

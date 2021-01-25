@@ -1,19 +1,29 @@
+@import './__variables';
+
 .world {
     max-height: 100%;
 }
 
 .country {
-    cursor: pointer;
-    fill: var(--color-primary);
     outline: none;
+    fill: darken($color-primary, 7.5%);
 
     transition: fill .15s ease-out,
         filter .2s ease-out; 
     &:hover {
-        fill: var(--color-secondary);
+        fill: darken($color-primary, 2.5%);
     }
 
     &:active {
         filter: brightness(90%);
+    }
+
+    &.available {
+        cursor: pointer;
+        fill: var(--color-primary);
+
+        &:hover {
+            fill: var(--color-secondary);
+        }
     }
 }
