@@ -4,6 +4,7 @@ import {
     ComposableMap,
     Geographies,
     Geography,
+    ZoomableGroup,
 } from 'react-simple-maps';
 import { CountriesNews } from '../types';
 import BubbleContent from './BubbleContent';
@@ -24,31 +25,33 @@ export default function WorldMap({ news, setTooltipContent, translateTo }: World
             viewBox='0 0 800 425' 
             className={styles.world}
         >
-            <Geographies geography={worldGeography}>
-                {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
-                    <Geography 
-                        key={geo.rsmKey}
-                        geography={geo}
-                        onMouseEnter={() => {
-                            if (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle) {
-                                setTooltipContent(
-                                    <BubbleContent
-                                        countryName={geo.properties.NAME}
-                                        title={
-                                            news[geo.properties.ISO_A2.toLowerCase()].topArticle.titleTranslated[translateTo] 
-                                            || news[geo.properties.ISO_A2.toLowerCase()].topArticle.title
-                                        }
-                                    />
-                                )
-                            }
-                        }}
-                        onMouseLeave={() => {
-                            setTooltipContent('');
-                        }}
-                        className={styles.country + (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle ? ` ${styles.available}` : '')}
-                    />
-                ))}
-            </Geographies>
+            <ZoomableGroup zoom={1}>
+                <Geographies geography={worldGeography}>
+                    {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
+                        <Geography 
+                            key={geo.rsmKey}
+                            geography={geo}
+                            onMouseEnter={() => {
+                                if (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle) {
+                                    setTooltipContent(
+                                        <BubbleContent
+                                            countryName={geo.properties.NAME}
+                                            title={
+                                                news[geo.properties.ISO_A2.toLowerCase()].topArticle.titleTranslated[translateTo] 
+                                                || news[geo.properties.ISO_A2.toLowerCase()].topArticle.title
+                                            }
+                                        />
+                                    )
+                                }
+                            }}
+                            onMouseLeave={() => {
+                                setTooltipContent('');
+                            }}
+                            className={styles.country + (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle ? ` ${styles.available}` : '')}
+                        />
+                    ))}
+                </Geographies>
+            </ZoomableGroup>
         </ComposableMap>
     )
 }
