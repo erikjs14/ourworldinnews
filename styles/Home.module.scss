@@ -1,23 +1,27 @@
-.container {
+.mapContainer {
     text-align: center;
+    overflow: hidden;
+    max-height: 100%;
+    max-width: 100%;
+}
 
-    .mapContainer {
-        height: 99vh;
+.leftAside {
+    padding: 4rem 2rem;
+    box-shadow: 3px 0 5px 3px rgba(0, 0, 0, .05), inset -1px 0 3px 0 rgba(#000, .03);
+
+    .intro {
+        margin: 5rem 0;
+
+        h3 {
+            font-size: 2.4rem;
+            line-height: 2.8rem;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.6rem;
+        }
     }
-
-    .left {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 16rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: stretch;
-    }
-
 }
 
 .tooltip {

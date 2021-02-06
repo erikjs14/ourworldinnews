@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { Layout } from 'antd';
 import Head from 'next/head'
 import Tooltip from 'react-tooltip';
 import countries from 'i18n-iso-countries';
@@ -13,6 +14,7 @@ import { CountryNews } from './../types.d';
 import { TRANSLATE_TO } from '../config/consts';
 import { translateTo } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
+import getMainLayout from './../layout/getMainLayout';
 
 interface HomeProps {
     news: CountriesNews;
@@ -28,19 +30,28 @@ export default function Home({ news }: HomeProps) {
                 <title>OurWorldInNews</title>
             </Head>
 
-            <div className={styles.container}>
+            <Layout.Sider 
+                width={300}
+                className={styles.leftAside}
+            >
 
-                <div className={styles.left}>
-                    <LangPicker
-                        langs={TRANSLATE_TO.map(iso => ({
-                            value: iso,
-                            label: iso.toUpperCase(),
-                        }))}
-                        value={newsLang}
-                        onChange={setNewsLang}
-                    />
+                <div className={styles.intro}>
+                    <h3>Hello there!</h3>
+                    <p>Try hovering the countries in the map and start discovering what's going on around the world.</p>
+                    <p>You can pick a language to have the texts translated.</p>
                 </div>
 
+                <LangPicker
+                    className={styles.langCard}
+                    langs={TRANSLATE_TO.map(iso => ({
+                        value: iso,
+                        label: iso.toUpperCase(),
+                    }))}
+                    value={newsLang}
+                    onChange={setNewsLang}
+                />
+            </Layout.Sider>
+            <Layout.Content style={{ backgroundColor: '#fff' }}>
                 <div className={styles.mapContainer}>
                     <WorldMap 
                         setTooltipContent={setTooltipContent} 
@@ -55,11 +66,12 @@ export default function Home({ news }: HomeProps) {
                         {tooltipContent}
                     </Tooltip>
                 </div>
+            </Layout.Content>
 
-            </div>
         </>
     )
 }
+Home.Layout = getMainLayout('home', false);
 
 export const getStaticProps: GetStaticProps = async (context) => {
     // fetch news
