@@ -13,6 +13,7 @@ export interface CountryNews {
         imgLink: string;
         published: string;
         originalSourceLink: string;
+        sourceDomain: string;
     } | null;
 }
 

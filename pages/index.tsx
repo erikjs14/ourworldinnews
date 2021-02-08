@@ -1,5 +1,6 @@
-import { ReactNode, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Tooltip } from 'antd';
+import moment from 'moment';
 import Head from 'next/head'
 import NewsTooltip from 'react-tooltip';
 import DragIndicator from '../assets/drag-indicator.svg';
@@ -16,14 +17,49 @@ import { TRANSLATE_TO } from '../config/consts';
 import { translateTo } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
+import BubbleContent from '../components/BubbleContent';
 
+export interface CountryHoveredInfo {
+    countryName: string;
+    isoA2: string;
+}
 interface HomeProps {
     news: CountriesNews;
+    availableCountries: Array<string>;
 }
-export default function Home({ news }: HomeProps) {
+export default function Home({ news, availableCountries }: HomeProps) {
 
-    const [tooltipContent, setTooltipContent] = useState<ReactNode>(null);
+    const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const [newsLang, setNewsLang] = useState(DONT_TRANSLATE_VAL);
+
+    // pre-fetch images of articles
+    useEffect(() => {
+        Object.values(news).forEach(n => {
+            new Image().src = n.topArticle.imgLink;
+        })
+    }, []);
+
+    const countryHoverHandler = (info: CountryHoveredInfo) => {
+        if (info) {
+            const topArt = news[info.isoA2].topArticle;
+            if (topArt) {
+                setTooltipContent(
+                    <BubbleContent
+                        title={
+                            topArt.titleTranslated?.[newsLang] 
+                                 || topArt.title
+                        }
+                        countryName={info.countryName}
+                        imgUrl={topArt.imgLink}
+                        sourceDomain={topArt.sourceDomain}
+                        time={moment(topArt.published)}
+                    />
+                )
+            }
+        } else {
+            setTooltipContent(null);
+        }
+    }
 
     return (
         <>
@@ -55,9 +91,8 @@ export default function Home({ news }: HomeProps) {
             <Layout.Content style={{ backgroundColor: '#fff' }}>
                 <div className={styles.mapContainer}>
                     <WorldMap 
-                        setTooltipContent={setTooltipContent} 
-                        news={news}
-                        translateTo={newsLang}
+                        setCountryHovered={countryHoverHandler} 
+                        available={availableCountries}
                     />
                     <NewsTooltip
                         backgroundColor='#eee'
@@ -97,11 +132,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
         });
     })
 
+    const availableCountries = {};
+    Object.keys(news).forEach(key => availableCountries[key] = true);
+
     // fs.writeFileSync('news.json', JSON.stringify(news));
 
     return {
         props: {
             news,
+            availableCountries,
         },
     };
 }

@@ -9,13 +9,13 @@ import {
 import { CountriesNews } from '../types';
 import BubbleContent from './BubbleContent';
 import { ReactNode } from 'react';
+import { CountryHoveredInfo } from '../pages';
 
 interface WorldMapProps {
-    news: CountriesNews;
-    setTooltipContent(content: ReactNode): void;
-    translateTo: string;
+    available: Array<string>;
+    setCountryHovered(content: CountryHoveredInfo | null): void;
 }
-export default function WorldMap({ news, setTooltipContent, translateTo }: WorldMapProps) {
+export default function WorldMap({ available, setCountryHovered }: WorldMapProps) {
     
     return (
         <ComposableMap 
@@ -32,22 +32,17 @@ export default function WorldMap({ news, setTooltipContent, translateTo }: World
                             key={geo.rsmKey}
                             geography={geo}
                             onMouseEnter={() => {
-                                if (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle) {
-                                    setTooltipContent(
-                                        <BubbleContent
-                                            countryName={geo.properties.NAME}
-                                            title={
-                                                news[geo.properties.ISO_A2.toLowerCase()].topArticle.titleTranslated[translateTo] 
-                                                || news[geo.properties.ISO_A2.toLowerCase()].topArticle.title
-                                            }
-                                        />
-                                    )
+                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
+                                    setCountryHovered({
+                                        countryName: geo.properties['NAME'],
+                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                    });
                                 }
                             }}
                             onMouseLeave={() => {
-                                setTooltipContent('');
+                                setCountryHovered(null);
                             }}
-                            className={styles.country + (news[geo.properties.ISO_A2.toLowerCase()]?.topArticle ? ` ${styles.available}` : '')}
+                            className={styles.country + (available[geo.properties['ISO_A2']?.toLowerCase()] ? ` ${styles.available}` : '')}
                         />
                     ))}
                 </Geographies>

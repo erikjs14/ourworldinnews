@@ -42,6 +42,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     imgLink: result.data.data[0].image_url,
                     originalSourceLink: result.data.data[0].url,
                     published: result.data.data[0].published_at,
+                    sourceDomain: result.data.data[0].source,
                 }
             };
             cache.put(isoA2, countryNews, TTL_NEWS);
@@ -52,7 +53,6 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
         }
 
     } catch (error) {
-        console.log(error);
         return {
             isoA2,
             countryName: countries.getName(isoA2, 'en', {select: 'official'}),
