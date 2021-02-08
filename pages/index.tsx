@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Layout, Tooltip } from 'antd';
+import Link from 'next/link';
 import moment from 'moment';
 import Head from 'next/head'
 import NewsTooltip from 'react-tooltip';
@@ -34,6 +35,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const [newsLang, setNewsLang] = useState(DONT_TRANSLATE_VAL);
+    const [siderCollapsed, setSiderCollapsed] = useState(false);
+
+    // if small screen, show sider briefly, then hide
+    useEffect(() => {
+        setTimeout(() => setSiderCollapsed(window.matchMedia('(max-width: 768px)').matches), 1000);
+    }, []);
 
     // pre-fetch images of articles
     useEffect(() => {
@@ -86,16 +93,32 @@ export default function Home({ news, availableCountries }: HomeProps) {
             <Layout.Sider 
                 width={300}
                 className={styles.leftAside}
+                collapsedWidth={0}
+                collapsible
+                collapsed={siderCollapsed}
+                onCollapse={(collapsed) => setSiderCollapsed(collapsed)}
+                zeroWidthTriggerStyle={{
+                    backgroundColor: 'var(--color-primary)',
+                }}
             >
+                <div className={styles.wrapper}>
 
-                <div className={styles.intro}>
+                {/* Mobile Menu */}
+                <nav>
+                    <a onClick={() => setSiderCollapsed(true)}>Home</a>
+                    <Link href='/about'>
+                        <a>About</a>
+                    </Link>
+                </nav>
+
+                <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
                     <h3>Hello there!</h3>
                     <p>Try hovering the countries in the map and start discovering what's going on around the world.</p>
                     <p>You can pick a language to have the texts translated.</p>
                 </div>
 
                 <LangPicker
-                    className={styles.langCard}
+                    className={styles.langCard + (siderCollapsed ? ' '+styles.hidden : '')}
                     langs={TRANSLATE_TO.map(iso => ({
                         value: iso,
                         label: iso.toUpperCase(),
@@ -103,6 +126,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                     value={newsLang}
                     onChange={setNewsLang}
                 />
+                </div>
             </Layout.Sider>
             <Layout.Content 
                 style={{ backgroundColor: '#fff' }}

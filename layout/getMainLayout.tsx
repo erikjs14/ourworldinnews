@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Layout, Row, Col } from 'antd';
+import styles from '../styles/Layout.module.scss';
 
 export default function MainLayout(
     currentPage: 'home' | 'about',
@@ -9,19 +10,19 @@ export default function MainLayout(
 
     const Header = () => (
         <Layout.Header
-            style={{ boxShadow: '0 5px 3px 0 rgba(0, 0, 0, .25)', zIndex: 100000 }}
+            className={styles.header}
         >
             <Row>
                 <Col flex='none'>
-                    <h1 style={{ color: '#fff', fontSize: '32px' }}>Our World In News</h1>
+                    <h1>Our World In News</h1>
                 </Col>
                 <Col flex='auto'>
-                    <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+                    <nav>
                         <Link href='/'>
-                            <a style={{ color: '#fff', marginLeft: '24px' }}>Home</a>
+                            <a>Home</a>
                         </Link>
                         <Link href='/about'>
-                            <a style={{ color: '#fff', marginLeft: '24px' }}>About</a>
+                            <a>About</a>
                         </Link>
                     </nav>
                 </Col>
@@ -38,7 +39,7 @@ export default function MainLayout(
     return ({children}) => (
         <Layout>
             <Header />
-            <Layout>
+            <Layout hasSider>
                 {children}
             </Layout>
             <Footer />

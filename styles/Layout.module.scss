@@ -1,0 +1,31 @@
+@import './_mixins';
+
+.header {
+    box-shadow: 0 5px 3px 0 rgba(0, 0, 0, .25);
+    z-index: 100000;
+
+    h1 {
+        font-size: 3.2rem;
+        color: #fff;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        a {
+            color: #fff;
+            margin-left: 2.4rem;
+
+            transition: color .2s;
+            &:hover {
+                color: #ddd !important;
+            }
+        }
+
+        @include respond(tab-port) {
+            display: none;
+        }
+    }
+}
