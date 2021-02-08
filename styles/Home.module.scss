@@ -1,8 +1,25 @@
 .mapContainer {
+    position: relative;
     text-align: center;
     overflow: hidden;
     max-height: 100%;
     max-width: 100%;
+
+    .dragIndicator,
+    .zoomIndicator {
+        fill: #aaa;
+        position: absolute;
+        bottom: 3rem;
+    }
+
+    .zoomIndicator {
+        right: 4rem;
+    }
+
+    .dragIndicator {
+        right: 7rem;
+    }
+
 }
 
 .leftAside {

@@ -1,8 +1,9 @@
 import { ReactNode, useState } from 'react';
-import { Layout } from 'antd';
+import { Layout, Tooltip } from 'antd';
 import Head from 'next/head'
-import Tooltip from 'react-tooltip';
-import countries from 'i18n-iso-countries';
+import NewsTooltip from 'react-tooltip';
+import DragIndicator from '../assets/drag-indicator.svg';
+import ZoomIndicator from '../assets/zoom-indicator.svg';
 
 import styles from '../styles/Home.module.scss'
 
@@ -58,12 +59,18 @@ export default function Home({ news }: HomeProps) {
                         news={news}
                         translateTo={newsLang}
                     />
-                    <Tooltip
+                    <NewsTooltip
                         backgroundColor='#eee'
                         textColor='#000'
                         className={styles.tooltip}
                     >
                         {tooltipContent}
+                    </NewsTooltip>
+                    <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
+                        <DragIndicator className={styles.dragIndicator} />
+                    </Tooltip>
+                    <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
+                        <ZoomIndicator className={styles.zoomIndicator} />
                     </Tooltip>
                 </div>
             </Layout.Content>
