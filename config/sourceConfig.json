@@ -48,31 +48,31 @@
     },
     "countryConfigs": {
         "us": {
-            "daysInPast": 0,
+            "daysInPast": 1,
             "additionalReqParams": {
                 "categories": "politics"
             }
         },
         "de": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "cn": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "fr": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "ro": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "au": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "br": {
-            "daysInPast": 0
+            "daysInPast": 1
         },
         "il": {
-            "daysInPast": 0
+            "daysInPast": 1
         }
     }
 }

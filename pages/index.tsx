@@ -170,18 +170,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
     });
 
     // translate
-    const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
-    const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
-    TRANSLATE_TO.forEach(async lang => {
-        const [translatedTitles, translatedTeasers] = await Promise.all([
-            translateTo(titles, lang),
-            translateTo(teasers, lang),
-        ]);
-        Object.keys(news).forEach((key, i) => {
-            news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
-            news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
-        });
-    })
+    if (Object.keys(news).length > 0) {
+        const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
+        const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
+        TRANSLATE_TO.forEach(async lang => {
+            const [translatedTitles, translatedTeasers] = await Promise.all([
+                translateTo(titles, lang),
+                translateTo(teasers, lang),
+            ]);
+            Object.keys(news).forEach((key, i) => {
+                news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
+                news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
+            });
+        })
+    }
 
     const availableCountries = {};
     Object.keys(news).forEach(key => availableCountries[key] = true);
