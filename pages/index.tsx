@@ -18,6 +18,7 @@ import { translateTo } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
+import { info } from 'console';
 
 export interface CountryHoveredInfo {
     countryName: string;
@@ -27,6 +28,8 @@ interface HomeProps {
     news: CountriesNews;
     availableCountries: Array<string>;
 }
+
+let currentIsoA2 = null;
 export default function Home({ news, availableCountries }: HomeProps) {
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
@@ -54,10 +57,18 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         sourceDomain={topArt.sourceDomain}
                         time={moment(topArt.published)}
                     />
-                )
+                );
+                currentIsoA2 = info.isoA2;
             }
         } else {
             setTooltipContent(null);
+            currentIsoA2 = null;
+        }
+    }
+
+    const clickHandler = () => {
+        if (tooltipContent) {
+            window.open(news[currentIsoA2].topArticle.originalSourceLink, '_blank');
         }
     }
 
@@ -88,7 +99,10 @@ export default function Home({ news, availableCountries }: HomeProps) {
                     onChange={setNewsLang}
                 />
             </Layout.Sider>
-            <Layout.Content style={{ backgroundColor: '#fff' }}>
+            <Layout.Content 
+                style={{ backgroundColor: '#fff' }}
+                onClick={clickHandler}
+            >
                 <div className={styles.mapContainer}>
                     <WorldMap 
                         setCountryHovered={countryHoverHandler} 
