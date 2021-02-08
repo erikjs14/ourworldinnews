@@ -18,7 +18,6 @@ import { translateTo } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
-import { info } from 'console';
 
 export interface CountryHoveredInfo {
     countryName: string;
@@ -29,7 +28,8 @@ interface HomeProps {
     availableCountries: Array<string>;
 }
 
-let currentIsoA2 = null;
+let newsTooltipShown = false; // set after timeout when tooltip is visible --> better handling on mobile devices
+let timeoutRef = null;
 export default function Home({ news, availableCountries }: HomeProps) {
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
@@ -58,18 +58,23 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         time={moment(topArt.published)}
                     />
                 );
-                currentIsoA2 = info.isoA2;
+                timeoutRef = setTimeout(() => newsTooltipShown = true, 250);
             }
         } else {
+            if (timeoutRef) clearTimeout(timeoutRef);
+            timeoutRef = null;
+            newsTooltipShown = false;
             setTooltipContent(null);
-            currentIsoA2 = null;
         }
     }
 
-    const clickHandler = () => {
-        if (tooltipContent) {
-            window.open(news[currentIsoA2].topArticle.originalSourceLink, '_blank');
-        }
+    const clickHandler = (isoA2: string, countryName: string) => {
+        if (news[isoA2]) {
+            // if touch-device -> open tooltip
+            if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
+                window.open(news[isoA2].topArticle.originalSourceLink, '_blank');
+            }            
+        } 
     }
 
     return (
@@ -101,12 +106,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
             </Layout.Sider>
             <Layout.Content 
                 style={{ backgroundColor: '#fff' }}
-                onClick={clickHandler}
             >
                 <div className={styles.mapContainer}>
                     <WorldMap 
                         setCountryHovered={countryHoverHandler} 
                         available={availableCountries}
+                        onCountryClicked={clickHandler}
                     />
                     <NewsTooltip
                         backgroundColor='#eee'

@@ -6,16 +6,14 @@ import {
     Geography,
     ZoomableGroup,
 } from 'react-simple-maps';
-import { CountriesNews } from '../types';
-import BubbleContent from './BubbleContent';
-import { ReactNode } from 'react';
 import { CountryHoveredInfo } from '../pages';
 
 interface WorldMapProps {
     available: Array<string>;
     setCountryHovered(content: CountryHoveredInfo | null): void;
+    onCountryClicked(isoA2: string, countryName: string): void;
 }
-export default function WorldMap({ available, setCountryHovered }: WorldMapProps) {
+export default function WorldMap({ available, setCountryHovered, onCountryClicked }: WorldMapProps) {
     
     return (
         <ComposableMap 
@@ -39,6 +37,7 @@ export default function WorldMap({ available, setCountryHovered }: WorldMapProps
                                     });
                                 }
                             }}
+                            onClick={() => onCountryClicked(geo.properties['ISO_A2']?.toLowerCase(), geo.properties['NAME'])}
                             onMouseLeave={() => {
                                 setCountryHovered(null);
                             }}
