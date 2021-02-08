@@ -24,6 +24,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     [source.params.linguistics.country.paramName]: isoA2.toLowerCase(),
                     [source.params.publishDate.publishedAfter.paramName]: getDateDiffInFormat(source.countryConfigs[isoA2]?.daysInPast + 1 || 1, source.params.publishDate.publishedAfter.format),
                     limit,
+                    ...(source.countryConfigs[isoA2]?.additionalReqParams || {}),
                 }
             }
         );

@@ -118,6 +118,14 @@ Home.Layout = getMainLayout('home', false);
 export const getStaticProps: GetStaticProps = async (context) => {
     // fetch news
     const news: CountriesNews = await fetchTopStories();
+
+    // sort out countries for which no article was returned
+    Object.keys(news).forEach(key => {
+        if (!news[key].topArticle) {
+            delete news[key];
+        }
+    });
+
     // translate
     const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
     const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
