@@ -1,5 +1,11 @@
 const { Translate } = require('@google-cloud/translate').v2;
-const translate = new Translate();
+const translate = new Translate({
+    credentials: {
+        project_id: process.env.GOOGLE_CREDENTIAL_PROJECT_ID,
+        private_key: process.env.GOOGLE_CREDENTIAL_PRIVATE_KEY,
+        client_email: process.env.GOOGLE_CREDENTIAL_CLIENT_EMAIL,
+    }
+});
 
 export const translateTo = async (texts: string[], toIsoA2: string): Promise<string[]> => {
     try {

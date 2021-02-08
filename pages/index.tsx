@@ -193,5 +193,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
             news,
             availableCountries,
         },
+        revalidate: 60 * 60 * 24, // once a day
     };
 }

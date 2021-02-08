@@ -35,5 +35,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-sourceConfig.json
 gcloudTranslateKey.json
