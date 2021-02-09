@@ -82,7 +82,6 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
 
     // if in dev -> write to file
     if (process.env.NEXT_MODE === 'dev') {
-        console.log('write to file');
         fs.writeFileSync('news.json', JSON.stringify(out));
     }
 
