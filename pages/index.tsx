@@ -173,7 +173,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     if (Object.keys(news).length > 0) {
         const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
         const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
-        TRANSLATE_TO.forEach(async lang => {
+        await Promise.all(TRANSLATE_TO.map(async lang => {
             const [translatedTitles, translatedTeasers] = await Promise.all([
                 translateTo(titles, lang),
                 translateTo(teasers, lang),
@@ -182,7 +182,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
                 news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
                 news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
             });
-        })
+        }));
     }
 
     const availableCountries = {};

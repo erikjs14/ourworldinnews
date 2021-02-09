@@ -47,31 +47,7 @@
         }
     },
     "countryConfigs": {
-        "us": {
-            "daysInPast": 1,
-            "additionalReqParams": {
-                "categories": "politics"
-            }
-        },
         "de": {
-            "daysInPast": 1
-        },
-        "cn": {
-            "daysInPast": 1
-        },
-        "fr": {
-            "daysInPast": 1
-        },
-        "ro": {
-            "daysInPast": 1
-        },
-        "au": {
-            "daysInPast": 1
-        },
-        "br": {
-            "daysInPast": 1
-        },
-        "il": {
             "daysInPast": 1
         }
     }
