@@ -6,6 +6,7 @@ import { GetTopStoriesResponse } from '../config/sourceConfigRestResponse';
 import countries from 'i18n-iso-countries';
 import cache from 'memory-cache';
 import { TTL_NEWS } from './../config/consts';
+const fs = require('fs');
 
 export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
     try {
@@ -63,11 +64,27 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
 }
 
 export const fetchTopStories = async (): Promise<CountriesNews> => {
+
+    // if in dev -> try to read from file
+    if (process.env.NEXT_MODE === 'dev') {
+        if (fs.existsSync('news.json')) {
+            console.log('read from file');
+            return JSON.parse(fs.readFileSync('news.json'));
+        }
+    }
+    
     const results: CountryNews[] = await Promise.all(
         Object.keys(source.countryConfigs).map(iso => fetchTopStoriesOf(iso))
     );
     
     const out: CountriesNews = {};
     results.forEach(cn => out[cn.isoA2] = cn);
+
+    // if in dev -> write to file
+    if (process.env.NEXT_MODE === 'dev') {
+        console.log('write to file');
+        fs.writeFileSync('news.json', JSON.stringify(out));
+    }
+
     return out;
 }
