@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Layout, Tooltip } from 'antd';
+import { Layout, Tooltip, Typography } from 'antd';
 import Link from 'next/link';
 import moment from 'moment';
 import Head from 'next/head'
@@ -19,6 +19,8 @@ import { translateTo } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
+
+const { Title, Paragraph } = Typography;
 
 export interface CountryHoveredInfo {
     countryName: string;
@@ -112,9 +114,9 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 </nav>
 
                 <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
-                    <h3>Hello there!</h3>
-                    <p>Try hovering the countries in the map and start discovering what's going on around the world.</p>
-                    <p>You can pick a language to have the texts translated.</p>
+                    <Title level={3}>Hello there!</Title>
+                    <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
+                    <Paragraph>You can pick a language to have the texts translated.</Paragraph>
                 </div>
 
                 <LangPicker
@@ -156,7 +158,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
         </>
     )
 }
-Home.Layout = getMainLayout('home', false);
+Home.Layout = getMainLayout('home', false, false);
 
 export const getStaticProps: GetStaticProps = async (context) => {
     // fetch news

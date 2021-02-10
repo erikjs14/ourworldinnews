@@ -5,7 +5,8 @@ import styles from '../styles/Layout.module.scss';
 
 export default function MainLayout(
     currentPage: 'home' | 'about',
-    showFooter: boolean
+    showFooter: boolean,
+    contentInContainer: boolean,
 ): React.ReactNode {
 
     const Header = () => (
@@ -39,8 +40,8 @@ export default function MainLayout(
     return ({children}) => (
         <Layout>
             <Header />
-            <Layout hasSider>
-                {children}
+            <Layout hasSider={currentPage === 'home'} className={contentInContainer ? styles.maxContainer : ''}>
+                    { children }
             </Layout>
             <Footer />
         </Layout>
