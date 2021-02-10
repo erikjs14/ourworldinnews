@@ -32,9 +32,31 @@
     }
 }
 
+.footer {
+    
+    h4 {
+        margin-bottom: 0;
+        display: inline-block;
+        user-select: none;
+        pointer-events: none;
+        text-align: right;
+        font-size: 3rem;
+        color: $color-primary;
+    }
+}
+
 .maxContainer {
     max-width: $max-container-width;
     margin: auto;
-    padding: 5rem 3rem;
-    @include respond(phone) { padding: 4rem 2rem; }
+    padding: 0 3rem;
+    @include respond(phone) { padding: 0 2rem; }
+}
+
+.contentPadding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    @include respond(phone) {
+        padding-top: 4rem;
+        padding-bottom: 4rem; 
+    }
 }
