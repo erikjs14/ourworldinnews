@@ -15,7 +15,7 @@ import { GetStaticProps } from 'next';
 import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
 import { CountryNews } from './../types.d';
-import { TRANSLATE_TO } from '../config/consts';
+import { TOP_NEWS_TTL, TRANSLATE_TO } from '../config/consts';
 import { translateTo, translateToAll } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
@@ -189,6 +189,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
             news,
             availableCountries,
         },
-        revalidate: 60 * 60 * 24, // once a day
+        revalidate: TOP_NEWS_TTL,
     };
 }

@@ -7,6 +7,7 @@ import countries from 'i18n-iso-countries';
 import cache from '../cache/cache';
 const fs = require('fs');
 import path from'path';
+import { TOP_NEWS_TTL } from '../config/consts';
 
 export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
     try {
@@ -49,7 +50,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     uuid,
                 }
             };
-            await cache.put(`top-${isoA2}`, countryNews);
+            await cache.put(`top-${isoA2}`, countryNews, TOP_NEWS_TTL * 1000);
             return countryNews;
 
         } else {

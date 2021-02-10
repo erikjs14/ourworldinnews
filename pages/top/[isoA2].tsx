@@ -53,6 +53,7 @@ export const  getStaticProps: GetStaticProps = async ({ params }) => {
 
     // article should be in cache by now
     let data = await cache.get(`top-${isoA2}`);
+    
     if (!data) {
 
         // if in dev -> read from file
