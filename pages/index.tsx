@@ -78,12 +78,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
         if (news[isoA2]) {
             // if touch-device -> open tooltip
             if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
-                router.push({
-                    pathname: `/top/${isoA2}`,
-                    query: {
-                        newsLang,
-                    }
-                });
+                router.push(`/top/${isoA2}`);
             }            
         } 
     }
