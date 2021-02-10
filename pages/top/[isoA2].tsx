@@ -1,10 +1,15 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import Head from 'next/head';
+import { Layout } from 'antd';
 import { TRANSLATE_TO } from "../../config/consts";
 import getMainLayout from "../../layout/getMainLayout";
 import { fetchTopStories } from "../../sourceFetching/topStories";
 import { translateToAll } from "../../sourceFetching/translate";
 import { CountriesNews, CountryNews, TranslatableArticle } from "../../types";
 import cache from '../../cache/cache';
+import layoutStyles from '../../styles/Layout.module.scss';
+import Sider from '../../components/Sider';
+import useNewsLang from './../../hooks/useNewsLang';
 
 interface TopArticleProps {
     countryName: string;
@@ -13,9 +18,32 @@ interface TopArticleProps {
 
 export default function TopArticle({ countryName, article }: TopArticleProps) {
 
+    const { newsLang, setNewsLang } = useNewsLang();
+
     return (
         <>
-            {countryName}
+            <Head>
+                <title>Top Article - {countryName}</title>
+            </Head>
+
+            <Layout hasSider>
+
+                <Sider
+                    initiallyCollapsed
+                    showSiderFor={0}
+                    newsLang={newsLang}
+                    setNewsLang={setNewsLang}
+                >
+                    {() => (
+                        <p>nothing</p>
+                    )}
+                </Sider>
+
+                <Layout.Content className={layoutStyles.maxContainer}>
+                    CONTENT
+                </Layout.Content>
+
+            </Layout>
         </>
     );
 }

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Layout, Tooltip, Typography } from 'antd';
-import Link from 'next/link';
 import moment from 'moment';
 import Head from 'next/head'
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import NewsTooltip from 'react-tooltip';
 import DragIndicator from '../assets/drag-indicator.svg';
 import ZoomIndicator from '../assets/zoom-indicator.svg';
@@ -16,10 +15,11 @@ import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
 import { CountryNews } from './../types.d';
 import { TOP_NEWS_TTL, TRANSLATE_TO } from '../config/consts';
-import { translateTo, translateToAll } from './../sourceFetching/translate';
-import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
+import { translateToAll } from './../sourceFetching/translate';
 import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
+import Sider from '../components/Sider';
+import useNewsLang from '../hooks/useNewsLang';
 
 const { Title, Paragraph } = Typography;
 
@@ -36,16 +36,10 @@ let newsTooltipShown = false; // set after timeout when tooltip is visible --> b
 let timeoutRef = null;
 export default function Home({ news, availableCountries }: HomeProps) {
 
-    const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
-    const [newsLang, setNewsLang] = useState(DONT_TRANSLATE_VAL);
-    const [siderCollapsed, setSiderCollapsed] = useState(false);
-    const [siderWidth, setSiderWidth] = useState(300);
+    const router = useRouter();
 
-    // if small screen, show sider briefly, then hide
-    useEffect(() => {
-        setTimeout(() => setSiderCollapsed(window.matchMedia('(max-width: 768px)').matches), 1000);
-        setTimeout(() => setSiderWidth(window.matchMedia('(max-width: 768px)').matches ? 250 : 300), 1200);
-    }, []);
+    const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
+    const { newsLang, setNewsLang } = useNewsLang();
 
     // pre-fetch images of articles
     useEffect(() => {
@@ -84,7 +78,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
         if (news[isoA2]) {
             // if touch-device -> open tooltip
             if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
-                router.push(`/top/${isoA2}`);
+                router.push({
+                    pathname: `/top/${isoA2}`,
+                    query: {
+                        newsLang,
+                    }
+                });
             }            
         } 
     }
@@ -95,44 +94,21 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 <title>OurWorldInNews</title>
             </Head>
 
-            <Layout.Sider 
-                width={siderWidth}
-                className={styles.leftAside}
-                collapsedWidth={0}
-                collapsible
-                collapsed={siderCollapsed}
-                onCollapse={(collapsed) => setSiderCollapsed(collapsed)}
-                zeroWidthTriggerStyle={{
-                    backgroundColor: 'var(--color-primary)',
-                }}
+            <Sider
+                newsLang={newsLang}
+                setNewsLang={setNewsLang}
+                initiallyCollapsed={false}
+                showSiderFor={1000}
             >
-                <div className={styles.wrapper}>
+                { (siderCollapsed) => (
+                    <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
+                        <Title level={3}>Hello there!</Title>
+                        <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
+                        <Paragraph>You can pick a language to have the texts translated.</Paragraph>
+                    </div>
+                )}
+            </Sider>
 
-                {/* Mobile Menu */}
-                <nav>
-                    <a onClick={() => setSiderCollapsed(true)}>Home</a>
-                    <Link href='/about'>
-                        <a>About</a>
-                    </Link>
-                </nav>
-
-                <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
-                    <Title level={3}>Hello there!</Title>
-                    <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
-                    <Paragraph>You can pick a language to have the texts translated.</Paragraph>
-                </div>
-
-                <LangPicker
-                    className={styles.langCard + (siderCollapsed ? ' '+styles.hidden : '')}
-                    langs={TRANSLATE_TO.map(iso => ({
-                        value: iso,
-                        label: iso.toUpperCase(),
-                    }))}
-                    value={newsLang}
-                    onChange={setNewsLang}
-                />
-                </div>
-            </Layout.Sider>
             <Layout.Content 
                 style={{ backgroundColor: '#fff' }}
             >
