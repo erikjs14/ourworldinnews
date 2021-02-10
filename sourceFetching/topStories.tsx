@@ -4,8 +4,7 @@ import { getDateDiffInFormat } from './../utils/timeUtils';
 import { CountriesNews, CountryNews } from '../types';
 import { GetTopStoriesResponse } from '../config/sourceConfigRestResponse';
 import countries from 'i18n-iso-countries';
-import cache from 'memory-cache';
-import { TTL_NEWS } from './../config/consts';
+import cache from '../cache/cache';
 const fs = require('fs');
 import path from'path';
 
@@ -13,7 +12,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
     try {
 
         // try to read from cache before making request
-        const cachedData: CountryNews = cache.get(`top-${isoA2}`) as (CountryNews | null);
+        const cachedData: CountryNews = await cache.get(`top-${isoA2}`);
         if (cachedData) {
             return cachedData;
         }
@@ -50,7 +49,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     uuid,
                 }
             };
-            cache.put(`top-${isoA2}`, countryNews, TTL_NEWS);
+            await cache.put(`top-${isoA2}`, countryNews);
             return countryNews;
 
         } else {

@@ -3,6 +3,7 @@ import { Layout, Tooltip, Typography } from 'antd';
 import Link from 'next/link';
 import moment from 'moment';
 import Head from 'next/head'
+import router from 'next/router';
 import NewsTooltip from 'react-tooltip';
 import DragIndicator from '../assets/drag-indicator.svg';
 import ZoomIndicator from '../assets/zoom-indicator.svg';
@@ -15,7 +16,7 @@ import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
 import { CountryNews } from './../types.d';
 import { TRANSLATE_TO } from '../config/consts';
-import { translateTo } from './../sourceFetching/translate';
+import { translateTo, translateToAll } from './../sourceFetching/translate';
 import LangPicker, { DONT_TRANSLATE_VAL } from '../components/LangPicker';
 import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
@@ -83,7 +84,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
         if (news[isoA2]) {
             // if touch-device -> open tooltip
             if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
-                window.open(news[isoA2].topArticle.originalSourceLink, '_blank');
+                router.push(`/top/${isoA2}`);
             }            
         } 
     }
@@ -175,18 +176,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     // translate
     if (Object.keys(news).length > 0) {
-        const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
-        const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
-        await Promise.all(TRANSLATE_TO.map(async lang => {
-            const [translatedTitles, translatedTeasers] = await Promise.all([
-                translateTo(titles, lang),
-                translateTo(teasers, lang),
-            ]);
-            Object.keys(news).forEach((key, i) => {
-                news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
-                news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
-            });
-        }));
+        await translateToAll(news, TRANSLATE_TO);
     }
 
     const availableCountries = {};

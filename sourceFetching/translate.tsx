@@ -1,3 +1,5 @@
+import { CountriesNews, CountryNews } from "../types";
+
 const { Translate } = require('@google-cloud/translate').v2;
 const translate = new Translate({
     credentials: {
@@ -18,4 +20,20 @@ export const translateTo = async (texts: string[], toIsoA2: string): Promise<str
         console.log(error);
         return texts;
     }
+}
+
+// !!! mutates news
+export const translateToAll = async (news: CountriesNews, langCodes: string[]) => {
+    const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
+    const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
+    await Promise.all(langCodes.map(async lang => {
+        const [translatedTitles, translatedTeasers] = await Promise.all([
+            translateTo(titles, lang),
+            translateTo(teasers, lang),
+        ]);
+        Object.keys(news).forEach((key, i) => {
+            news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
+            news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
+        });
+    }));
 }

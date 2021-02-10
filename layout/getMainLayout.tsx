@@ -5,7 +5,7 @@ import styles from '../styles/Layout.module.scss';
 const { Title, Text } = Typography;
 
 export default function MainLayout(
-    currentPage: 'home' | 'about',
+    currentPage: 'home' | 'about' | 'irrelevant',
     showFooter: boolean,
     contentInContainer: boolean,
 ): React.ReactNode {
@@ -59,6 +59,7 @@ export default function MainLayout(
             <Layout 
                 hasSider={currentPage === 'home'} 
                 className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
+                style={{ minHeight: 'calc(100vh - 64px - 132px)' }}
             >
                     { children }
             </Layout>
