@@ -7,12 +7,13 @@ import countries from 'i18n-iso-countries';
 import cache from 'memory-cache';
 import { TTL_NEWS } from './../config/consts';
 const fs = require('fs');
+import path from'path';
 
 export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
     try {
 
         // try to read from cache before making request
-        const cachedData: CountryNews = cache.get(isoA2) as (CountryNews | null);
+        const cachedData: CountryNews = cache.get(`top-${isoA2}`) as (CountryNews | null);
         if (cachedData) {
             return cachedData;
         }
@@ -33,6 +34,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
 
         if (result.data?.data?.length > 0) {
 
+            const uuid = result.data.data[0].uuid;
             const countryNews: CountryNews = {
                 isoA2,
                 countryName: countries.getName(isoA2, 'en', {select: 'official'}),
@@ -45,9 +47,10 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     originalSourceLink: result.data.data[0].url,
                     published: result.data.data[0].published_at,
                     sourceDomain: result.data.data[0].source,
+                    uuid,
                 }
             };
-            cache.put(isoA2, countryNews, TTL_NEWS);
+            cache.put(`top-${isoA2}`, countryNews, TTL_NEWS);
             return countryNews;
 
         } else {
@@ -67,7 +70,7 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
 
     // if in dev -> try to read from file
     if (process.env.NODE_ENV !== 'production') {
-        if (fs.existsSync('news.json')) {
+        if (fs.existsSync(path.join(process.cwd(), 'news.json'))) {
             console.log('read from file');
             return JSON.parse(fs.readFileSync('news.json'));
         }
@@ -82,7 +85,7 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
 
     // if in dev -> write to file
     if (process.env.NODE_ENV !== 'production') {
-        fs.writeFileSync('news.json', JSON.stringify(out));
+        fs.writeFileSync(path.join(process.cwd(), 'news.json'), JSON.stringify(out));
     }
 
     return out;

@@ -14,6 +14,7 @@ export interface CountryNews {
         published: string;
         originalSourceLink: string;
         sourceDomain: string;
+        uuid: string;
     } | null;
 }
 

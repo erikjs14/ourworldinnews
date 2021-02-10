@@ -13,7 +13,6 @@ export const translateTo = async (texts: string[], toIsoA2: string): Promise<str
         translations = Array.isArray(translations) ? translations : [translations];
         if (translations.length < 1) throw new Error('No translation found');
 
-        // take just the first translation
         return translations;
     } catch (error) {
         console.log(error);
