@@ -44,9 +44,11 @@ export default function Sider({ initiallyCollapsed, showSiderFor, newsLang, setN
 
                 {/* Mobile Menu */}
                 <nav>
-                    <a onClick={() => setSiderCollapsed(true)}>Home</a>
                     <Link href='/about'>
-                        <a>About</a>
+                        <a onClick={() => setSiderCollapsed(true)}>Home</a>
+                    </Link>
+                    <Link href='/about'>
+                        <a onClick={() => setSiderCollapsed(true)}>About</a>
                     </Link>
                 </nav>
 

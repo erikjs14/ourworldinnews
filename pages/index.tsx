@@ -13,7 +13,6 @@ import WorldMap from '../components/WorldMap';
 import { GetStaticProps } from 'next';
 import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
-import { CountryNews } from './../types.d';
 import { TOP_NEWS_TTL, TRANSLATE_TO } from '../config/consts';
 import { translateToAll } from './../sourceFetching/translate';
 import getMainLayout from './../layout/getMainLayout';

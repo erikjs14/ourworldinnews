@@ -7,7 +7,6 @@ import {
     ZoomableGroup,
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
-import { useEffect } from 'react';
 
 interface WorldMapProps {
     available: Array<string>;

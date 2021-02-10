@@ -10,6 +10,10 @@ import cache from '../../cache/cache';
 import layoutStyles from '../../styles/Layout.module.scss';
 import Sider from '../../components/Sider';
 import useNewsLang from './../../hooks/useNewsLang';
+import MiniMap from "../../components/MiniMap";
+import { useRouter } from 'next/router';
+import styles from '../../styles/Top.module.scss';
+import { useMemo } from "react";
 
 interface TopArticleProps {
     countryName: string;
@@ -18,7 +22,18 @@ interface TopArticleProps {
 
 export default function TopArticle({ countryName, article }: TopArticleProps) {
 
+    const router = useRouter();
+    const { isoA2 } = router.query;
+
     const { newsLang, setNewsLang } = useNewsLang();
+
+    const minimap = useMemo(() => (
+        <div className={styles.mapWrapper}>
+            <MiniMap
+                highlightCountry={isoA2 as string}
+            />
+        </div>
+    ), [isoA2]);
 
     return (
         <>
@@ -34,9 +49,7 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
                     newsLang={newsLang}
                     setNewsLang={setNewsLang}
                 >
-                    {() => (
-                        <p>nothing</p>
-                    )}
+                    {() => minimap}
                 </Sider>
 
                 <Layout.Content className={layoutStyles.maxContainer}>

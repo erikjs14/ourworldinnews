@@ -1,0 +1,19 @@
+@import './_variables';
+
+.world {
+
+    .country {
+        outline: none;
+        fill: darken($color-primary, 7.5%);
+
+        &.highlight {
+            fill: $color-secondary;
+        }
+    }
+
+    text {
+        font-size: 4rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+}
