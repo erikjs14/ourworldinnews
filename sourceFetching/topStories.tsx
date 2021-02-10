@@ -66,7 +66,7 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
 export const fetchTopStories = async (): Promise<CountriesNews> => {
 
     // if in dev -> try to read from file
-    if (process.env.NEXT_MODE === 'dev') {
+    if (process.env.NODE_ENV !== 'production') {
         if (fs.existsSync('news.json')) {
             console.log('read from file');
             return JSON.parse(fs.readFileSync('news.json'));
@@ -81,7 +81,7 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
     results.forEach(cn => out[cn.isoA2] = cn);
 
     // if in dev -> write to file
-    if (process.env.NEXT_MODE === 'dev') {
+    if (process.env.NODE_ENV !== 'production') {
         fs.writeFileSync('news.json', JSON.stringify(out));
     }
 
