@@ -38,3 +38,5 @@ yarn-error.log*
 gcloudTranslateKey.json
 
 news.json
+
+*.cache
