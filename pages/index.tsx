@@ -88,7 +88,6 @@ export default function Home({ news, availableCountries }: HomeProps) {
         } 
     }
 
-    console.log(siderWidth)
     return (
         <>
             <Head>
