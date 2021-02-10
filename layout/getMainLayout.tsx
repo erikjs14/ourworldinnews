@@ -35,8 +35,8 @@ export default function MainLayout(
     );
 
     const Footer = showFooter ? () => (
-        <Layout.Footer>
-            <div className={`${styles.footer} ${styles.maxContainer}`} >
+        <Layout.Footer className={`${styles.footer}`}>
+            <div className={`${styles.maxContainer}`} >
                 <Row align='middle'>
                     <Col span={12}>      
                         <Title level={4}>Our World <br/>In News</Title>

@@ -33,6 +33,9 @@
 }
 
 .footer {
+    @include respond(tab-port) { 
+        padding: 2rem 0;
+    }
     
     h4 {
         margin-bottom: 0;
@@ -41,6 +44,7 @@
         pointer-events: none;
         text-align: right;
         font-size: 3rem;
+        @include respond(phone) { font-size: 2rem; }
         color: $color-primary;
     }
 }
