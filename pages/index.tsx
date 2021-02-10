@@ -38,10 +38,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const [newsLang, setNewsLang] = useState(DONT_TRANSLATE_VAL);
     const [siderCollapsed, setSiderCollapsed] = useState(false);
+    const [siderWidth, setSiderWidth] = useState(300);
 
     // if small screen, show sider briefly, then hide
     useEffect(() => {
         setTimeout(() => setSiderCollapsed(window.matchMedia('(max-width: 768px)').matches), 1000);
+        setTimeout(() => setSiderWidth(window.matchMedia('(max-width: 768px)').matches ? 250 : 300), 1200);
     }, []);
 
     // pre-fetch images of articles
@@ -86,6 +88,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
         } 
     }
 
+    console.log(siderWidth)
     return (
         <>
             <Head>
@@ -93,7 +96,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
             </Head>
 
             <Layout.Sider 
-                width={300}
+                width={siderWidth}
                 className={styles.leftAside}
                 collapsedWidth={0}
                 collapsible

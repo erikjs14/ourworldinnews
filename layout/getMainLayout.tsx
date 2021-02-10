@@ -15,7 +15,9 @@ export default function MainLayout(
         >
             <Row>
                 <Col flex='none'>
-                    <h1>Our World In News</h1>
+                    <Link href='/'>
+                        <h1><a>Our World In News</a></h1>
+                    </Link>
                 </Col>
                 <Col flex='auto'>
                     <nav>

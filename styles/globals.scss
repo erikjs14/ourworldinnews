@@ -1,4 +1,5 @@
 @import './_variables';
+@import './_mixins';
 
 html,
 body {
@@ -30,6 +31,7 @@ a {
 
 main {
     padding: 5rem 3rem;
+    @include respond(phone) { padding: 4rem 2rem; }
 }
 
 /*

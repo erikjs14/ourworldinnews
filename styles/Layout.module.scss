@@ -3,10 +3,12 @@
 
 .header {
     box-shadow: 0 5px 3px 0 rgba(0, 0, 0, .25);
+    padding: 0 2rem;
     z-index: 100000;
 
     h1 {
         font-size: 3.2rem;
+        @include respond(phone) { font-size: 2rem; }
         color: #fff;
     }
 
@@ -18,11 +20,6 @@
         a {
             color: #fff;
             margin-left: 2.4rem;
-
-            transition: color .2s;
-            &:hover {
-                color: #ddd !important;
-            }
         }
 
         @include respond(tab-port) {

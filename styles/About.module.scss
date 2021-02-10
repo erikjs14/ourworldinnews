@@ -1,3 +1,5 @@
+@import './_mixins';
+
 .container {
 
     h1 {
@@ -9,6 +11,7 @@
 
         h3 {
             font-size: 2rem;
+            @include respond(phone) { font-size: 1.7rem; }
             margin-bottom: 0;
         }
 
