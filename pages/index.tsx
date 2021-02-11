@@ -19,6 +19,8 @@ import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
+import { motion } from 'framer-motion';
+import { appear, appearDown } from '../animation/general';
 
 const { Title, Paragraph } = Typography;
 
@@ -108,7 +110,10 @@ export default function Home({ news, availableCountries }: HomeProps) {
             <Layout.Content 
                 style={{ backgroundColor: '#fff' }}
             >
-                <div className={styles.mapContainer}>
+                <motion.div 
+                    initial='hidden' animate='visible' variants={appear}
+                    className={styles.mapContainer}
+                >
                     <WorldMap 
                         setCountryHovered={countryHoverHandler} 
                         available={availableCountries}
@@ -127,7 +132,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                     <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
                         <ZoomIndicator className={styles.zoomIndicator} />
                     </Tooltip>
-                </div>
+                </motion.div>
             </Layout.Content>
 
         </>
