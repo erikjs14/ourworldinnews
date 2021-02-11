@@ -8,6 +8,7 @@ import cache from '../cache/cache';
 const fs = require('fs');
 import path from'path';
 import { TOP_NEWS_TTL } from '../config/consts';
+import { toHttps } from '../utils/util';
 
 export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
     try {
@@ -43,14 +44,13 @@ export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promi
                     titleTranslated: {},
                     teaser: result.data.data[0].snippet,
                     teaserTranslated: {},
-                    imgLink: result.data.data[0].image_url,
+                    imgLink: toHttps(result.data.data[0].image_url),
                     originalSourceLink: result.data.data[0].url,
                     published: result.data.data[0].published_at,
                     sourceDomain: result.data.data[0].source,
                     uuid,
                 }
             };
-            await cache.put(`top-${isoA2}`, countryNews, TOP_NEWS_TTL * 1000);
             return countryNews;
 
         } else {
@@ -72,7 +72,11 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
     if (process.env.NODE_ENV !== 'production') {
         if (fs.existsSync(path.join(process.cwd(), 'news.json'))) {
             console.log('read from file');
-            return JSON.parse(fs.readFileSync('news.json'));
+            const data: CountriesNews = JSON.parse(fs.readFileSync('news.json'));
+            for (let entry of Object.entries(data)) {
+                await cache.put(`top-${entry[0]}`, entry[1], TOP_NEWS_TTL * 1000);
+            }
+            return data;
         }
     }
     
@@ -81,7 +85,10 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
     );
     
     const out: CountriesNews = {};
-    results.forEach(cn => out[cn.isoA2] = cn);
+    for (let cn of results) {
+        await cache.put(`top-${cn.isoA2}`, cn, TOP_NEWS_TTL * 1000);
+        out[cn.isoA2] = cn;
+    }
 
     // if in dev -> write to file
     if (process.env.NODE_ENV !== 'production') {

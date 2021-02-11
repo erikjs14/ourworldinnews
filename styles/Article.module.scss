@@ -1,0 +1,92 @@
+@import './_mixins';
+
+.wrapper {
+    overflow: hidden;
+    margin-bottom: 5rem;
+
+    .header {
+        position: relative;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+
+        img {
+            width: 100%;
+            min-height: 30rem;
+            max-height: 40rem;
+            object-fit: cover;
+        }
+
+        // img overlay
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(#000, 0.01), rgba(#000, .5), rgba(#000, 0.9));
+        }
+
+        h2 {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            width: 100%;
+            padding: 0 2rem;
+            text-align: left;
+            color: #fff;
+            font-size: 3rem;
+            @include respond(tab-port) { font-size: 1.8rem; }
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+    }
+
+    .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        @include respond(tab-port) { font-size: 1rem; }
+
+        .country {
+
+            &::before {
+                content: '📍 ';
+            }
+        }
+
+        .time {
+
+            &::before {
+                content: '🕑 ';
+            }
+        }
+    }
+
+    .teaser {
+        max-width: 60rem;
+        margin: 3rem auto;
+        font-size: 1.75rem;
+        @include respond(tab-port) { font-size: 1.5rem; }
+        line-height: 1.5;
+
+        p:last-of-type {
+            margin-top: 1rem;
+            font-size: .85em;
+            text-decoration: underline;
+        }
+    }
+
+    .source {
+        font-size: 1.3rem;
+        @include respond(tab-port) { font-size: 1.1rem; }
+
+        &::before {
+            content: '📰 ';
+        }
+    }
+}

@@ -52,6 +52,9 @@
             "additionalReqParams": {
                 "categories": "politics"
             }
+        },
+        "de": {
+            "daysInPast": 1
         }
     }
 }

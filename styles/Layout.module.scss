@@ -51,7 +51,7 @@
 
 .maxContainer {
     max-width: $max-container-width;
-    margin: auto;
+    margin: 0 auto;
     padding: 0 3rem;
     @include respond(phone) { padding: 0 2rem; }
 }

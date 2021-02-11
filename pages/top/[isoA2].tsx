@@ -1,10 +1,11 @@
+import Article from '../../components/Article';
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from 'next/head';
 import { Layout } from 'antd';
 import { TRANSLATE_TO } from "../../config/consts";
 import getMainLayout from "../../layout/getMainLayout";
 import { fetchTopStories } from "../../sourceFetching/topStories";
-import { translateToAll } from "../../sourceFetching/translate";
+import { translateOneToAll, translateToAll } from "../../sourceFetching/translate";
 import { CountriesNews, CountryNews, TranslatableArticle } from "../../types";
 import cache from '../../cache/cache';
 import layoutStyles from '../../styles/Layout.module.scss';
@@ -53,7 +54,11 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
                 </Sider>
 
                 <Layout.Content className={layoutStyles.maxContainer}>
-                    CONTENT
+                    <Article
+                        data={article}
+                        lang={newsLang}
+                        countryName={countryName}
+                    />
                 </Layout.Content>
 
             </Layout>
@@ -73,10 +78,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
             delete topStories[key];
         }
     });
-
-    if (Object.keys(topStories).length > 0) {
-        translateToAll(topStories, TRANSLATE_TO);
-    }
 
     const paths = Object.values(topStories).map(val => ({ params: { isoA2: val.isoA2} }));
 
@@ -111,6 +112,8 @@ export const  getStaticProps: GetStaticProps = async ({ params }) => {
             }
         }
     }
+
+    await translateOneToAll(data, TRANSLATE_TO);
 
     return {
         props: {

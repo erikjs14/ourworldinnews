@@ -23,6 +23,20 @@ export const translateTo = async (texts: string[], toIsoA2: string): Promise<str
 }
 
 // !!! mutates news
+export const translateOneToAll = async (news: CountryNews, langCodes: string[]) => {
+    if (news.topArticle?.title && news.topArticle?.teaser) {
+        await Promise.all(langCodes.map(async lang => {
+            const [translatedArticle, translatedTeaser] = await translateTo(
+                [news.topArticle.title, news.topArticle.teaser],
+                lang
+            );
+            news.topArticle.titleTranslated[lang] = translatedArticle;
+            news.topArticle.teaserTranslated[lang] = translatedTeaser;
+        }));
+    }
+}
+
+// !!! mutates news
 export const translateToAll = async (news: CountriesNews, langCodes: string[]) => {
     const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
     const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
