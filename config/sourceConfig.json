@@ -53,7 +53,157 @@
                 "categories": "politics"
             }
         },
-        "de": {
+        "ar": {
+            "daysInPast": 1
+        },
+        "am": {
+            "daysInPast": 1
+        },
+        "au": {
+            "daysInPast": 1
+        },
+        "at": {
+            "daysInPast": 1
+        },
+        "by": {
+            "daysInPast": 1
+        },
+        "be": {
+            "daysInPast": 1
+        },
+        "bo": {
+            "daysInPast": 1
+        },
+        "br": {
+            "daysInPast": 1
+        },
+        "bg": {
+            "daysInPast": 1
+        },
+        "ca": {
+            "daysInPast": 1
+        },
+        "cl": {
+            "daysInPast": 1
+        },
+        "cn": {
+            "daysInPast": 1
+        },
+        "co": {
+            "daysInPast": 1
+        },
+        "hr": {
+            "daysInPast": 1
+        },
+        "cz": {
+            "daysInPast": 1
+        },
+        "ec": {
+            "daysInPast": 1
+        },
+        "eg": {
+            "daysInPast": 1
+        },
+        "fr": {
+            "daysInPast": 1
+        },
+        "gr": {
+            "daysInPast": 1
+        },
+        "hn": {
+            "daysInPast": 1
+        },
+        "in": {
+            "daysInPast": 1
+        },
+        "id": {
+            "daysInPast": 1
+        },
+        "ir": {
+            "daysInPast": 1
+        },
+        "ie": {
+            "daysInPast": 1
+        },
+        "il": {
+            "daysInPast": 1
+        },
+        "it": {
+            "daysInPast": 1
+        },
+        "jp": {
+            "daysInPast": 1
+        },
+        "kr": {
+            "daysInPast": 1
+        },
+        "mx": {
+            "daysInPast": 1
+        },
+        "nl": {
+            "daysInPast": 1
+        },
+        "ni": {
+            "daysInPast": 1
+        },
+        "pk": {
+            "daysInPast": 1
+        },
+        "pa": {
+            "daysInPast": 1
+        },
+        "pe": {
+            "daysInPast": 1
+        },
+        "pl": {
+            "daysInPast": 1
+        },
+        "pt": {
+            "daysInPast": 1
+        },
+        "qa": {
+            "daysInPast": 1
+        },
+        "ro": {
+            "daysInPast": 1
+        },
+        "ru": {
+            "daysInPast": 1
+        },
+        "sa": {
+            "daysInPast": 1
+        },
+        "za": {
+            "daysInPast": 1
+        },
+        "es": {
+            "daysInPast": 1
+        },
+        "ch": {
+            "daysInPast": 1
+        },
+        "sy": {
+            "daysInPast": 1
+        },
+        "tw": {
+            "daysInPast": 1
+        },
+        "th": {
+            "daysInPast": 1
+        },
+        "tr": {
+            "daysInPast": 1
+        },
+        "ua": {
+            "daysInPast": 1
+        },
+        "gb": {
+            "daysInPast": 1
+        },
+        "uy": {
+            "daysInPast": 1
+        },
+        "ve": {
             "daysInPast": 1
         }
     }
