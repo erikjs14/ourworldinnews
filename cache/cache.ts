@@ -4,7 +4,6 @@ import path from 'path';
 import { promisify } from 'util';
 const read = promisify(fs.readFile);
 const write = promisify(fs.writeFile);
-const access = promisify(fs.access);
 
 class Cache<T extends Object> {
     file: string;
