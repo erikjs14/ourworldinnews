@@ -40,3 +40,5 @@ gcloudTranslateKey.json
 news.json
 
 *.cache
+
+prod_*

@@ -53,6 +53,9 @@
                 "categories": "politics"
             }
         },
+        "de": {
+            "daysInPast": 1
+        },
         "ar": {
             "daysInPast": 1
         },
