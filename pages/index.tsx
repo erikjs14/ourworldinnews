@@ -51,6 +51,8 @@ export default function Home({ news, availableCountries }: HomeProps) {
         if (info) {
             const topArt = news[info.isoA2].topArticle;
             if (topArt) {
+                // prefetch route
+                router.prefetch(`/top/${info.isoA2}`);
                 setTooltipContent(
                     <BubbleContent
                         title={
