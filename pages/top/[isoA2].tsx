@@ -14,7 +14,10 @@ import useNewsLang from './../../hooks/useNewsLang';
 import MiniMap from "../../components/MiniMap";
 import { useRouter } from 'next/router';
 import styles from '../../styles/Top.module.scss';
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
+import TopVariants from '../../animation/top';
+import { motion } from 'framer-motion';
+import RouteContext from '../../lib/RouteContext';
 
 interface TopArticleProps {
     countryName: string;
@@ -25,6 +28,7 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
 
     const router = useRouter();
     const { isoA2 } = router.query;
+    const oldRoute = useContext(RouteContext);
 
     const { newsLang, setNewsLang } = useNewsLang();
 
@@ -54,11 +58,13 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
                 </Sider>
 
                 <Layout.Content className={layoutStyles.maxContainer}>
-                    <Article
-                        data={article}
-                        lang={newsLang}
-                        countryName={countryName}
-                    />
+                    <motion.div initial='hidden' animate='visible' exit='exit' variants={TopVariants(oldRoute)}>
+                        <Article
+                            data={article}
+                            lang={newsLang}
+                            countryName={countryName}
+                        />
+                    </motion.div>
                 </Layout.Content>
 
             </Layout>

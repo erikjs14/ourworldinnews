@@ -20,7 +20,7 @@ export default function MiniMap({ highlightCountry }: MiniMapProps) {
 
     return (
         <ComposableMap
-            projectionConfig={{ scale: 200, center: highlightCoords.latlng.slice().reverse() as Point }} 
+            projectionConfig={{ scale: 200, center: highlightCoords?.latlng?.slice().reverse() as Point || undefined }} 
             projection='geoMercator' 
             viewBox='0 0 800 425'
             className={styles.world}
@@ -30,7 +30,7 @@ export default function MiniMap({ highlightCountry }: MiniMapProps) {
                     <Geography 
                         key={geo.rsmKey}
                         geography={geo}
-                        className={styles.country + (highlightCountry.toLowerCase() === geo.properties.ISO_A2.toLowerCase() ? ' '+styles.highlight : '')}
+                        className={styles.country + (highlightCountry && highlightCountry.toLowerCase() === geo.properties.ISO_A2.toLowerCase() ? ' '+styles.highlight : '')}
                     />
                 ))}
             </Geographies>

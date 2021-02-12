@@ -20,7 +20,9 @@ import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
 import { motion } from 'framer-motion';
-import { appear, appearDown } from '../animation/general';
+import { mapVariants } from '../animation/home';
+import { useContext } from 'react';
+import RouteContext from '../lib/RouteContext';
 
 const { Title, Paragraph } = Typography;
 
@@ -38,6 +40,7 @@ let timeoutRef = null;
 export default function Home({ news, availableCountries }: HomeProps) {
 
     const router = useRouter();
+    const oldRoute = useContext(RouteContext);
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
@@ -111,7 +114,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 style={{ backgroundColor: '#fff' }}
             >
                 <motion.div 
-                    initial='hidden' animate='visible' variants={appear}
+                    initial='hidden' animate='visible' exit='exit' variants={mapVariants(oldRoute)}
                     className={styles.mapContainer}
                 >
                     <WorldMap 
