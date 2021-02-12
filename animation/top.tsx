@@ -22,6 +22,13 @@ export const topVariants = (oldRoute: string | null): Variants => ({
     })(),
     exit: (route) => {
         switch (route) {
+            case '/about':
+                return {
+                    opacity: 0,
+                    transition: {
+                        duration: .2,
+                    }
+                }
             default: return undefined;
         }
     }

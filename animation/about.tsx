@@ -41,6 +41,13 @@ export const aboutVariants = (oldRoute: string | null): Variants => ({
                         ease: 'easeIn',
                     }
                 };
+            default: 
+                return {
+                    opacity: 0,
+                    transition: {
+                        duration: .2,
+                    }
+                }
         }
     }
 });
