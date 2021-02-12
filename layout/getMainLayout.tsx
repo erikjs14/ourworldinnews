@@ -40,16 +40,32 @@ export default function MainLayout(
                         <span></span>
                     </div>
                     <nav>
-                        { currentPage !== 'about' && (
-                            <Link href='/about'>
-                                <a>About</a>
-                            </Link>
-                        )}
-                        { currentPage !== 'home' && (
-                            <Link href='/'>
-                                <a>Home</a>
-                            </Link>
-                        )}
+                        <Link href='/about'>
+                            <a 
+                                className={currentPage === 'about' ? styles.disabled : ''}
+                                onClick={(e) => {
+                                    if (currentPage === 'about') {
+                                        e.preventDefault();
+                                        setMenuOpen(prev => !prev);
+                                    }
+                                }}
+                            >
+                                About
+                            </a>
+                        </Link>
+                        <Link href='/'>
+                            <a 
+                                className={currentPage === 'home' ? styles.disabled : ''}
+                                onClick={(e) => {
+                                    if (currentPage === 'home') {
+                                        e.preventDefault();
+                                        setMenuOpen(prev => !prev);
+                                    }
+                                }}
+                            >
+                                Home
+                            </a>
+                        </Link>
                     </nav>
                 </Col>
             </Row>
