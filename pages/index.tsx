@@ -24,6 +24,7 @@ import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
+import { isMobile } from '../utils/util';
 const { useGlobalState } = globalState;
 
 const { Title, Paragraph } = Typography;
@@ -88,6 +89,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
             if (timeoutRef) clearTimeout(timeoutRef);
             timeoutRef = null;
             setTooltipContent(null);
+            newsTooltipShown = false;
         }
     }
 
@@ -152,6 +154,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                             backgroundColor='#eee'
                             textColor='#000'
                             className={styles.tooltip}
+                            effect='float'
                         >
                             {tooltipContent}
                         </NewsTooltip>

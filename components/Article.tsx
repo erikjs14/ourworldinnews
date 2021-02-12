@@ -13,6 +13,14 @@ interface ArticleProps {
 
 export default function Article({ data, lang, countryName, variants, childrenVariants }: ArticleProps) {
 
+    if (!data) {
+        return (
+            <motion.div initial='hidden' animate='visible' exit='exit' variants={variants}>
+                <h2>Oops - This article does not exist</h2>
+            </motion.div>
+        )
+    }
+
     return (
         <motion.article 
             initial='hidden' animate='visible' exit='exit' variants={variants}

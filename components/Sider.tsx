@@ -7,6 +7,7 @@ import { TRANSLATE_TO } from "../config/consts";
 import { siderVariants, siderChildrenVariants } from './../animation/sider';
 import { motion } from "framer-motion";
 import { useRouter } from 'next/router';
+import { isMobile } from "../utils/util";
 
 interface SiderProps {
     collapsed: boolean;
@@ -26,11 +27,11 @@ export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig,
     // if big screen, show after timeout (if enabled)
     useEffect(() => {
         if (collapsed && slideInIfBig)
-            setTimeout(() => setCollapsed(!window.matchMedia('(min-width: 769px)').matches), 500);
+            setTimeout(() => setCollapsed(isMobile()), 500);
     }, []);
 
     useEffect(() => {
-        setSiderWidth(window.matchMedia('(max-width: 768px)').matches ? 250 : 300);
+        setSiderWidth(isMobile() ? 250 : 300);
     }, []);
 
     return (

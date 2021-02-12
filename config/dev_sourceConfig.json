@@ -1,0 +1,60 @@
+{
+    "baseUrl": "https://api.thenewsapi.com/v1/news",
+    "endpoints": {
+        "all": "/all",
+        "top": "/top",
+        "sources": "/sources"
+    },
+    "apiKey": {
+        "paramName": "api_token",
+        "key": "THE_NEWS_API_KEY"
+    },
+    "params": {
+        "linguistics": {
+            "language": {
+                "paramName": "language",
+                "values": ["ar", "bg", "bn", "cs", "da", "de", "el", "en", "es", "et", "fa", "fi", "fr", "he", "hi", "hr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt", "ro", "ru", "sk", "sv", "ta", "th", "tr", "uk", "vi", "zh"]
+            },
+            "country": {
+                "paramName": "locale",
+                "values": ["ar", "am", "au", "at", "by", "be", "bo", "br", "bg", "ca", "cl", "cn", "co", "hr", "cz", "ec", "eg", "fr", "de", "gr", "hn", "hk", "in", "id", "ir", "ie", "il", "it", "jp", "kr", "mx", "nl", "nz", "ni", "pk", "pa", "pe", "pl", "pt", "qa", "ro", "ru", "sa", "za", "es", "ch", "sy", "tw", "th", "tr", "ua", "gb", "us", "uy", "ve"]
+            }
+        },
+        "categories": {
+            "paramName": "categories",
+            "values": ["general", "science", "sports", "business", "health", "entertainment", "tech", "politics", "food", "travel"],
+            "excludeValuesParamName": "exclude_categories"
+        },
+        "sources": {
+            "domains": {
+                "paramName": "domains",
+                "excludeValuesParamName": "exclude_domains"
+            },
+            "sourceIds": {
+                "paramName": "source_ids",
+                "excludeValuesParamName": "exclude_source_ids"
+            }
+        },
+        "publishDate": {
+            "exactPublishDate": {
+                "paramName": "published_on",
+                "format": "YYYY-MM-DD"
+            },
+            "publishedAfter": {
+                "paramName": "published_after",
+                "format": "YYYY-MM-DD"
+            }
+        }
+    },
+    "countryConfigs": {
+        "us": {
+            "daysInPast": 1,
+            "additionalReqParams": {
+                "categories": "politics"
+            }
+        },
+        "de": {
+            "daysInPast": 1
+        }
+    }
+}
