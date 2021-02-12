@@ -5,6 +5,10 @@
     box-shadow: 0 5px 3px 0 rgba(0, 0, 0, .25);
     padding: 0 2rem;
     z-index: 100000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 
     h1 {
         font-size: 3.2rem;
@@ -16,7 +20,7 @@
         }
     }
 
-    nav {
+    .desktop nav {
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -25,9 +29,135 @@
             color: #fff;
             margin-left: 2.4rem;
         }
+    }
 
-        @include respond(tab-port) {
-            display: none;
+    .mobile.menu {
+        position: relative;
+        @include respond(tab-port) { display: flex; }
+        display: none;
+        justify-content: flex-end;
+        align-items: center;
+
+        .menuIcon {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            transform: rotate(0) scale(1);
+            transform-origin: center;
+            transition: transform .2s ease-out;
+
+            &:active {
+                transform: rotate(0) scale(.95);
+            }
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                background-color: rgba(#fff, 0);
+                width: 6rem;
+                height: 6rem;
+                border-radius: 50%;
+                transform: translate(-50%, -50%) scale(0.5);
+                transition: all .2s ease-out;
+            }
+
+            span {
+                background-color: #fff;
+                height: 1.5px;
+                width: 20px;
+                box-shadow: 0 0 3px 3px rgba(#000, .15);
+
+                opacity: 1;
+                visibility: visible;
+                transform: rotate(0) translateY(0);
+                transform-origin: center;
+
+                transition: all .2s ease-out;
+
+                &:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        $mobile-nav-size: 33rem;
+        nav {
+            position: absolute;
+            font-size: 2.5rem;
+            z-index: -1;
+            width: $mobile-nav-size;
+            height: $mobile-nav-size;
+            background-color: $color-primary;
+            padding-bottom: 3rem;
+            color: #fff;
+            line-height: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+            top: calc(32px - #{$mobile-nav-size / 2});
+            right: calc(10px - #{$mobile-nav-size / 2});
+
+            transform: rotate(-180deg);
+
+            transition: all .25s ease-out;
+
+            a {
+                border-radius: 1rem;
+
+                transition: all .1s ease-out;
+                &:active {
+                    background-color: rgba(#fff, .05);
+                }
+            }
+        }
+
+        &.open {
+            
+            .menuIcon {
+                transform: rotate(30deg) scale(1);
+
+                &:active { 
+                    transform: rotate(30deg) scale(.95);
+
+                    &::before {
+                        background-color: rgba(#fff, 0.4);
+                        width: 2rem;
+                        height: 2rem;
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+                }
+
+                span {
+                    box-shadow: 0 0 3px 3px rgba(#000, 0);
+
+                    &:nth-child(1) {
+                        transform: translateY(6.5px) rotate(-45deg);
+                    }
+                    &:nth-child(2) {
+                        opacity: 0;
+                        visibility: hidden;
+                    }
+                    &:nth-child(3) {
+                        transform: translateY(-6.5px) rotate(45deg);
+
+                    }
+                }
+            }
+
+            nav {
+                transform: rotate(30deg);
+                box-shadow: 0 0 3px 3px rgba(#000, .2);
+            }
         }
     }
 }
@@ -62,5 +192,18 @@
     @include respond(phone) {
         padding-top: 4rem;
         padding-bottom: 4rem; 
+    }
+}
+
+.desktop {
+    @include respond(tab-port) {
+        display: none;
+    }
+}
+
+.mobile {
+    display: none;
+    @include respond(tab-port) {
+        display: initial;
     }
 }

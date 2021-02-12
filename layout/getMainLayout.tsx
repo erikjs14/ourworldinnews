@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Layout, Row, Col, Typography, Space } from 'antd';
 import styles from '../styles/Layout.module.scss';
@@ -10,7 +10,7 @@ export default function MainLayout(
     contentInContainer: boolean,
 ): React.ReactNode {
 
-    const Header = () => (
+    const Header = ({ menuOpen, setMenuOpen }) => (
         <Layout.Header
             className={styles.header}
         >
@@ -20,7 +20,7 @@ export default function MainLayout(
                         <h1><a onClick={e => (currentPage === 'home') && e.preventDefault()}>Our World In News</a></h1>
                     </Link>
                 </Col>
-                <Col flex='auto'>
+                <Col flex='auto' className={styles.desktop}>
                     <nav>
                         <Link href='/'>
                             <a onClick={e => (currentPage === 'home') && e.preventDefault()}>Home</a>
@@ -28,6 +28,28 @@ export default function MainLayout(
                         <Link href='/about'>
                             <a onClick={e => (currentPage === 'about') && e.preventDefault()}>About</a>
                         </Link>
+                    </nav>
+                </Col>
+                <Col flex='auto' className={styles.mobile + ' ' + styles.menu + ' ' + (menuOpen ? styles.open : '')}>
+                    <div 
+                        onClick={() => setMenuOpen(prev => !prev)}
+                        className={styles.menuIcon}
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <nav>
+                        { currentPage !== 'about' && (
+                            <Link href='/about'>
+                                <a>About</a>
+                            </Link>
+                        )}
+                        { currentPage !== 'home' && (
+                            <Link href='/'>
+                                <a>Home</a>
+                            </Link>
+                        )}
                     </nav>
                 </Col>
             </Row>
@@ -53,17 +75,25 @@ export default function MainLayout(
         </Layout.Footer>
     ) : () => null;
 
-    return ({children}) => (
-        <Layout>
-            <Header />
-            <Layout 
-                hasSider={currentPage === 'home'} 
-                className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
-                style={{ minHeight: 'calc(100vh - 64px - 132px)' }}
-            >
-                    { children }
+    return ({children}) => {
+
+        const [menuOpen, setMenuOpen] = useState(false);
+
+        return (
+            <Layout>
+                <Header 
+                    menuOpen={menuOpen}
+                    setMenuOpen={setMenuOpen}
+                />
+                <Layout 
+                    hasSider={currentPage === 'home'} 
+                    className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
+                    style={{ minHeight: 'calc(100vh - 64px - 132px)', marginTop: '64px' }}
+                >
+                        { children }
+                </Layout>
+                <Footer />
             </Layout>
-            <Footer />
-        </Layout>
-    );
+        );
+    }
 }

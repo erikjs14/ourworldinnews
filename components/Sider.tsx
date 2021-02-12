@@ -1,12 +1,10 @@
 import { Layout } from "antd";
 import { ReactNode, useEffect, useState } from "react";
-import Link from 'next/link';
 import LangPicker from './LangPicker';
 import styles from '../styles/Sider.module.scss';
 import { TRANSLATE_TO } from "../config/consts";
 import { siderVariants, siderChildrenVariants } from './../animation/sider';
 import { motion } from "framer-motion";
-import { useRouter } from 'next/router';
 import { isMobile } from "../utils/util";
 
 interface SiderProps {
@@ -19,8 +17,6 @@ interface SiderProps {
     oldRoute: string;
 }
 export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig, newsLang, setNewsLang, children }: SiderProps) {
-
-    const router = useRouter();
 
     const [siderWidth, setSiderWidth] = useState(300);
 
@@ -50,24 +46,6 @@ export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig,
                 initial='hidden' animate='visible' exit='exit' variants={siderVariants(oldRoute)}
                 className={styles.wrapper}
             >
-
-                {/* Mobile Menu */}
-                <motion.div variants={siderChildrenVariants}>
-                    <nav>
-                        <Link href='/'>
-                            <a onClick={(e) => {
-                                setCollapsed(true);
-                                if (router.route === '/') e.preventDefault();
-                            }}>Home</a>
-                        </Link>
-                        <Link href='/about'>
-                            <a onClick={(e) => {
-                                setCollapsed(true);
-                                if (router.route === '/about') e.preventDefault();
-                            }}>About</a>
-                        </Link>
-                    </nav>
-                </motion.div>
 
                 <motion.div variants={siderChildrenVariants}>
                     {children(collapsed)}
