@@ -1,9 +1,11 @@
 import { Layout } from "antd";
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from 'next/link';
 import LangPicker from './LangPicker';
 import styles from '../styles/Sider.module.scss';
 import { TRANSLATE_TO } from "../config/consts";
+import { siderVariants, siderChildrenVariants } from './../animation/sider';
+import { motion } from "framer-motion";
 
 interface SiderProps {
     collapsed: boolean;
@@ -12,9 +14,9 @@ interface SiderProps {
     newsLang: string;
     setNewsLang(lang: string): void;
     children?: (siderCollapsed: boolean) => ReactNode;
+    oldRoute: string;
 }
-
-export default function Sider({ collapsed, setCollapsed, slideInIfBig, newsLang, setNewsLang, children }: SiderProps) {
+export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig, newsLang, setNewsLang, children }: SiderProps) {
 
     const [siderWidth, setSiderWidth] = useState(300);
 
@@ -40,30 +42,39 @@ export default function Sider({ collapsed, setCollapsed, slideInIfBig, newsLang,
                 backgroundColor: 'var(--color-primary)',
             }}
         >
-            <div className={styles.wrapper}>
+            <motion.div
+                initial='hidden' animate='visible' exit='exit' variants={siderVariants(oldRoute)}
+                className={styles.wrapper}
+            >
 
                 {/* Mobile Menu */}
-                <nav>
-                    <Link href='/about'>
-                        <a onClick={() => setCollapsed(true)}>Home</a>
-                    </Link>
-                    <Link href='/about'>
-                        <a onClick={() => setCollapsed(true)}>About</a>
-                    </Link>
-                </nav>
+                <motion.div variants={siderChildrenVariants}>
+                    <nav>
+                        <Link href='/about'>
+                            <a onClick={() => setCollapsed(true)}>Home</a>
+                        </Link>
+                        <Link href='/about'>
+                            <a onClick={() => setCollapsed(true)}>About</a>
+                        </Link>
+                    </nav>
+                </motion.div>
 
-                {children(collapsed)}
+                <motion.div variants={siderChildrenVariants}>
+                    {children(collapsed)}
+                </motion.div>
 
-                <LangPicker
-                    className={styles.langCard + (collapsed ? ' '+styles.hidden : '')}
-                    langs={TRANSLATE_TO.map(iso => ({
-                        value: iso,
-                        label: iso.toUpperCase(),
-                    }))}
-                    value={newsLang}
-                    onChange={setNewsLang}
-                />
-            </div>
+                <motion.div variants={siderChildrenVariants}>
+                    <LangPicker
+                        className={styles.langCard + (collapsed ? ' '+styles.hidden : '')}
+                        langs={TRANSLATE_TO.map(iso => ({
+                            value: iso,
+                            label: iso.toUpperCase(),
+                        }))}
+                        value={newsLang}
+                        onChange={setNewsLang}
+                    />
+                </motion.div>
+            </motion.div>
         </Layout.Sider>
     );
 }

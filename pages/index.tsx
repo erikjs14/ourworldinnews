@@ -20,7 +20,7 @@ import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
 import { motion } from 'framer-motion';
-import { mapVariants } from '../animation/home';
+import { homeVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
@@ -101,7 +101,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
             </Head>
 
             <motion.div 
-                initial='hidden' animate='visible' exit='exit' variants={mapVariants(oldRoute)}
+                initial='hidden' animate='visible' exit='exit' variants={homeVariants(oldRoute)}
                 className={styles.wrapper}
             >
                 <Sider
@@ -110,6 +110,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                     collapsed={siderCollapsed}
                     setCollapsed={setSiderCollapsed}
                     slideInIfBig={!clientRouted}
+                    oldRoute={oldRoute}
                 >
                     { (siderCollapsed) => (
                         <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>

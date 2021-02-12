@@ -1,6 +1,6 @@
 import { Variant, Variants } from "framer-motion"
 
-const variants = (oldRoute: string | null): Variants => ({
+export const aboutVariants = (oldRoute: string | null): Variants => ({
     hidden: (function(): Variant {
         switch (oldRoute) {
             case '/':
@@ -9,7 +9,7 @@ const variants = (oldRoute: string | null): Variants => ({
                 };
             default:
                 return {
-                    y: 0,
+                    y: -10,
                     opacity: 0,
                 }
         }
@@ -28,8 +28,6 @@ const variants = (oldRoute: string | null): Variants => ({
                 return {
                     y: 0,
                     opacity: 1,
-                    animationDuration: '1s',
-                    animationTimingFunction: 'ease-out',
                 }
         }
     })(),
@@ -46,5 +44,3 @@ const variants = (oldRoute: string | null): Variants => ({
         }
     }
 });
-
-export default variants;

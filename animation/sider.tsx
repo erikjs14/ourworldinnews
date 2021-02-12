@@ -1,11 +1,11 @@
 import { Variant, Variants } from "framer-motion";
 
-export const homeVariants = (oldRoute: string | null): Variants => ({
+export const siderVariants = (oldRoute: string | null): Variants => ({
     hidden: (function(): Variant {
         switch (oldRoute) {
             case '/about':
                 return {
-                    y: '-100%',
+
                 }
             default:
                 return {
@@ -18,32 +18,36 @@ export const homeVariants = (oldRoute: string | null): Variants => ({
         switch (oldRoute) {
             case '/about':
                 return {
-                    y: 0,
-                    transition: {
-                        duration: .3,
-                        ease: 'easeOut',
-                    }
+                    
                 }
             default:
                 return {
                     y: 0,
                     opacity: 1,
                     transition: {
-                        delay: .8,
+                        duration: .5,
+                        delay: 1,
+                        staggerChildren: .5,
+                        delayChildren: .5,
                     }
                 }
         }
     })(),
     exit: (route) => {
         switch (route) {
-            case '/about':
+            default:
                 return {
-                    y: '-100%',
-                    transition: {
-                        duration: .3,
-                        ease: 'easeIn',
-                    }
-                };
+
+                }
         }
     }
 });
+
+export const siderChildrenVariants: Variants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+    }
+}

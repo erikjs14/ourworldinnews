@@ -1,11 +1,10 @@
 import { Variant, Variants } from "framer-motion"
 
-const variants = (oldRoute: string | null): Variants => ({
+export const topVariants = (oldRoute: string | null): Variants => ({
     hidden: (function(): Variant {
         switch (oldRoute) {
             default:
                 return {
-                    y: 0,
                     opacity: 0,
                 }
         }
@@ -14,22 +13,30 @@ const variants = (oldRoute: string | null): Variants => ({
         switch (oldRoute) {
             default:
                 return {
-                    y: 0,
                     opacity: 1,
-                    animationDuration: '1s',
-                    animationTimingFunction: 'ease-out',
+                    transition: {
+                        staggerChildren: .2,
+                    }
                 }
         }
     })(),
     exit: (route) => {
         switch (route) {
-            case '/about':
-                return {
-                    y: 0,
-                    opacity: 0,
-                };
+            default: 
+            return {
+
+            }
         }
     }
 });
 
-export default variants;
+export const topChildrenVariants = {
+    hidden: {
+        y: -5,
+        opacity: 0,
+    },
+    visible: {
+        y: 0,
+        opacity: 1,
+    }
+}

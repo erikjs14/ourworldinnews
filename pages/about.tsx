@@ -6,7 +6,7 @@ import Head from 'next/head';
 import faq from '../config/faqConfig';
 import styles from '../styles/About.module.scss';
 import { motion } from 'framer-motion';
-import aboutVariants from '../animation/about';
+import { aboutVariants } from '../animation/about';
 import { useContext, useEffect } from "react";
 import RouteContext from "../lib/RouteContext";
 
