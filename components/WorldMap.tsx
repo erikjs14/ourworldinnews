@@ -8,6 +8,7 @@ import {
     ZoomableGroup,
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
+import { isMobile } from '../utils/util';
 
 interface WorldMapProps {
     available: Array<string>;
@@ -31,6 +32,7 @@ export default function WorldMap({ available, setCountryHovered, onCountryClicke
                 onMoveEnd={onZoomEnd}
                 center={coordinates}
                 zoom={zoom}
+                maxZoom={isMobile() ? 50 : 30}
             >
                 <Geographies geography={worldGeography}>
                     {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
