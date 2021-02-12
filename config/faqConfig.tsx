@@ -36,6 +36,6 @@ export default [
     },
     {
         question: "How does this work?",
-        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a>. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
+        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a> and by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
     },
 ]
