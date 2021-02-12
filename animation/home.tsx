@@ -3,6 +3,10 @@ import { Variant, Variants } from "framer-motion";
 export const mapVariants = (oldRoute: string | null): Variants => ({
     hidden: (function(): Variant {
         switch (oldRoute) {
+            case '/about':
+                return {
+                    y: '-100%',
+                }
             default:
                 return {
 
@@ -11,6 +15,14 @@ export const mapVariants = (oldRoute: string | null): Variants => ({
     })(),
     visible: (function(): Variant {
         switch (oldRoute) {
+            case '/about':
+                return {
+                    y: 0,
+                    transition: {
+                        duration: .3,
+                        ease: 'easeOut',
+                    }
+                }
             default:
                 return {
 
@@ -23,7 +35,7 @@ export const mapVariants = (oldRoute: string | null): Variants => ({
                 return {
                     y: '-100%',
                     transition: {
-                        duration: .5,
+                        duration: .3,
                         ease: 'easeIn',
                     }
                 };

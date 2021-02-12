@@ -100,50 +100,53 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 <title>OurWorldInNews</title>
             </Head>
 
-            <Sider
-                newsLang={newsLang}
-                setNewsLang={setNewsLang}
-                collapsed={siderCollapsed}
-                setCollapsed={setSiderCollapsed}
-                slideInIfBig={!clientRouted}
+            <motion.div 
+                initial='hidden' animate='visible' exit='exit' variants={mapVariants(oldRoute)}
+                className={styles.wrapper}
             >
-                { (siderCollapsed) => (
-                    <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
-                        <Title level={3}>Hello there!</Title>
-                        <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
-                        <Paragraph>You can pick a language to have the texts translated.</Paragraph>
-                    </div>
-                )}
-            </Sider>
-
-            <Layout.Content 
-                style={{ backgroundColor: '#fff' }}
-            >
-                <motion.div 
-                    initial='hidden' animate='visible' exit='exit' variants={mapVariants(oldRoute)}
-                    className={styles.mapContainer}
+                <Sider
+                    newsLang={newsLang}
+                    setNewsLang={setNewsLang}
+                    collapsed={siderCollapsed}
+                    setCollapsed={setSiderCollapsed}
+                    slideInIfBig={!clientRouted}
                 >
-                    <WorldMap 
-                        setCountryHovered={countryHoverHandler} 
-                        available={availableCountries}
-                        onCountryClicked={clickHandler}
-                    />
-                    <NewsTooltip
-                        backgroundColor='#eee'
-                        textColor='#000'
-                        className={styles.tooltip}
-                    >
-                        {tooltipContent}
-                    </NewsTooltip>
-                    <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
-                        <DragIndicator className={styles.dragIndicator} />
-                    </Tooltip>
-                    <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
-                        <ZoomIndicator className={styles.zoomIndicator} />
-                    </Tooltip>
-                </motion.div>
-            </Layout.Content>
+                    { (siderCollapsed) => (
+                        <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
+                            <Title level={3}>Hello there!</Title>
+                            <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
+                            <Paragraph>You can pick a language to have the texts translated.</Paragraph>
+                        </div>
+                    )}
+                </Sider>
 
+                <Layout.Content 
+                    style={{ backgroundColor: '#fff' }}
+                >
+                    <div
+                        className={styles.mapContainer}
+                    >
+                        <WorldMap 
+                            setCountryHovered={countryHoverHandler} 
+                            available={availableCountries}
+                            onCountryClicked={clickHandler}
+                        />
+                        <NewsTooltip
+                            backgroundColor='#eee'
+                            textColor='#000'
+                            className={styles.tooltip}
+                        >
+                            {tooltipContent}
+                        </NewsTooltip>
+                        <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
+                            <DragIndicator className={styles.dragIndicator} />
+                        </Tooltip>
+                        <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
+                            <ZoomIndicator className={styles.zoomIndicator} />
+                        </Tooltip>
+                    </div>
+                </Layout.Content>
+            </motion.div>
         </>
     )
 }

@@ -21,7 +21,7 @@ const variants = (oldRoute: string | null): Variants => ({
                     y: 0,
                     transition: {
                         ease: 'easeOut',
-                        duration: .5,
+                        duration: .3,
                     }
                 }
             default:
@@ -34,11 +34,14 @@ const variants = (oldRoute: string | null): Variants => ({
         }
     })(),
     exit: (route) => {
-        console.log(route)
         switch (route) {
             case '/':
                 return {
-                    y: 800,
+                    y: '100%',
+                    transition: {
+                        duration: .3,
+                        ease: 'easeIn',
+                    }
                 };
         }
     }

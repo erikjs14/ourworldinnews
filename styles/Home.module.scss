@@ -1,6 +1,11 @@
 @import './_variables';
 @import './_mixins';
 
+.wrapper {
+    height: 100%;
+    display: flex;
+}
+
 .mapContainer {
     position: relative;
     text-align: center;
