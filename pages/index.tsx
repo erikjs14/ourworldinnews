@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Layout, Tooltip, Typography } from 'antd';
+import { Layout, Tooltip, Typography, Card } from 'antd';
 import moment from 'moment';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import NewsTooltip from 'react-tooltip';
 import DragIndicator from '../assets/drag-indicator.svg';
 import ZoomIndicator from '../assets/zoom-indicator.svg';
+import PinchIndicator from '../assets/zoom-in.svg';
 
 import styles from '../styles/Home.module.scss'
 
@@ -19,7 +20,7 @@ import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
@@ -53,6 +54,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
     const [siderCollapsed, setSiderCollapsed] = useGlobalState('siderCollapsed');
     const [clientRouted] = useGlobalState('clientRouted');
     const [zoomState, setZoomState] = useGlobalState('mapZoomState');
+    const [mobileNoteHidden, setMobileNoteHidden] = useGlobalState('mobileNoteHidden');
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
@@ -124,7 +126,9 @@ export default function Home({ news, availableCountries }: HomeProps) {
                     { (siderCollapsed) => (
                         <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
                             <Title level={3}>Hello there!</Title>
-                            <Paragraph>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
+                            <Paragraph className={styles.desktop}>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
+                            <Paragraph className={styles.mobile}>Try clicking on the countries and start discovering what's going on around the world.</Paragraph>
+                            <Paragraph>Unfortunately, no data is available for the dark-colored countries.</Paragraph>
                             <Paragraph>You can pick a language to have the texts translated.</Paragraph>
                         </div>
                     )}
@@ -137,6 +141,33 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         variants={mapVariants(oldRoute)}
                         className={styles.mapContainer}
                     >
+                        <AnimatePresence>
+                            {!mobileNoteHidden && (
+                                <motion.div
+                                    exit={{
+                                        opacity: 0,
+                                        transition: {
+                                            duration: .3,
+                                        }
+                                    }}
+                                    className={styles.mobileNote + ' ' + styles.mobile}
+                                >
+                                        <Card
+                                            bodyStyle={{ padding: '1.5rem' }}
+                                        >
+                                            <a 
+                                                className={styles.close}
+                                                onClick={() => setMobileNoteHidden(true)}
+                                            >
+                                                x
+                                            </a>
+                                            <Title level={4}>Hi there!</Title>
+                                            <Paragraph>Start exploring by zooming, dragging and clicking countries!</Paragraph>
+                                        </Card>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
                         <WorldMap 
                             setCountryHovered={countryHoverHandler} 
                             available={availableCountries}
@@ -158,12 +189,19 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         >
                             {tooltipContent}
                         </NewsTooltip>
-                        <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
-                            <DragIndicator className={styles.dragIndicator} />
-                        </Tooltip>
-                        <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
-                            <ZoomIndicator className={styles.zoomIndicator} />
-                        </Tooltip>
+
+                        <div className={styles.indicators}>
+                            <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
+                                <DragIndicator />
+                            </Tooltip>
+                            <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
+                                <ZoomIndicator className={styles.desktop} />
+                            </Tooltip>
+                            <Tooltip title='Pinch to zoom' mouseEnterDelay={0.3} placement='topLeft'>
+                                <PinchIndicator className={styles.mobile} />
+                            </Tooltip>
+                        </div>
+
                     </motion.div>
                 </Layout.Content>
             </motion.div>

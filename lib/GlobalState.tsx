@@ -8,6 +8,7 @@ interface GlobalState {
         coordinates: Point;
         zoom: number;
     };
+    mobileNoteHidden: boolean;
 }
 const initialState: GlobalState = {
     siderCollapsed: true,
@@ -15,6 +16,7 @@ const initialState: GlobalState = {
     mapZoomState: {
         coordinates: [0, 0],
         zoom: 1,
-    }
+    },
+    mobileNoteHidden: false,
 };
 export default createGlobalState(initialState);

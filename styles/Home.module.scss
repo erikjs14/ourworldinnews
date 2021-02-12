@@ -2,6 +2,7 @@
 @import './_mixins';
 
 .wrapper {
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
@@ -13,6 +14,35 @@
     overflow: hidden;
     max-height: 100%;
     max-width: 100%;
+
+    .mobileNote {
+        position: absolute;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70vw;
+        opacity: .95;
+
+        .close {
+            position: absolute;
+            top: -1rem;
+            right: 0;
+            font-size: 1.5rem;
+            padding: 1.5rem;
+        }
+    }
+
+    .indicators {
+        position: fixed;
+        bottom: var(--indicator-pad-bottom);
+        right: 3rem;
+        display: flex;
+
+        svg {
+            fill: #aaa;
+            margin-left: 1em;
+        }
+    }
 
     .dragIndicator,
     .zoomIndicator {
@@ -109,5 +139,18 @@
     .sourceDomain {
         text-align: right;
         font-size: 1.1rem;
+    }
+}
+
+.desktop {
+    @include respond(tab-port) {
+        display: none;
+    }
+}
+
+.mobile {
+    display: none;
+    @include respond(tab-port) {
+        display: initial;
     }
 }
