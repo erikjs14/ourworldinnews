@@ -44,6 +44,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            z-index: 20;
             
             transform: rotate(0) scale(1);
             transform-origin: center;
@@ -90,7 +91,7 @@
         nav {
             position: absolute;
             font-size: 2.5rem;
-            z-index: -1;
+            z-index: 10;
             width: $mobile-nav-size;
             height: $mobile-nav-size;
             background-color: $color-primary;
