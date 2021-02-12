@@ -25,10 +25,10 @@ export const siderVariants = (oldRoute: string | null): Variants => ({
                     y: 0,
                     opacity: 1,
                     transition: {
-                        duration: .5,
-                        delay: 1,
-                        staggerChildren: .5,
-                        delayChildren: .5,
+                        duration: .3,
+                        delay: .5,
+                        staggerChildren: .3,
+                        delayChildren: .3,
                     }
                 }
         }
@@ -39,7 +39,7 @@ export const siderVariants = (oldRoute: string | null): Variants => ({
                 return {
                     opacity: 0,
                     transition: {
-                        duration: .2,
+                        duration: .1,
                     }
                 }
         }

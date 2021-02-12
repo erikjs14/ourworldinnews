@@ -15,7 +15,7 @@ export const topVariants = (oldRoute: string | null): Variants => ({
                 return {
                     opacity: 1,
                     transition: {
-                        staggerChildren: .2,
+                        staggerChildren: .1,
                     }
                 }
         }
@@ -26,7 +26,7 @@ export const topVariants = (oldRoute: string | null): Variants => ({
                 return {
                     opacity: 0,
                     transition: {
-                        duration: .2,
+                        duration: .1,
                     }
                 }
             default: return undefined;
@@ -46,7 +46,7 @@ export const topChildrenVariants: Variants = {
     exit: {
         opacity: 0,
         transition: {
-            duration: .2,
+            duration: .1,
         }
     }
 }

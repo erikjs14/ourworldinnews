@@ -23,7 +23,7 @@ export const homeVariants = (oldRoute: string | null): Variants => ({
                 return {
                     y: 0,
                     transition: {
-                        duration: .3,
+                        duration: .2,
                         ease: 'easeOut',
                     }
                 }
@@ -46,7 +46,7 @@ export const homeVariants = (oldRoute: string | null): Variants => ({
                 return {
                     y: '-100%',
                     transition: {
-                        duration: .3,
+                        duration: .2,
                         ease: 'easeIn',
                     }
                 };
@@ -76,7 +76,7 @@ export const mapVariants = (oldRoute: string | null): Variants => ({
                     opacity: 1,
                     y: 0,
                     transition: {
-                        duration: .2,
+                        duration: .1,
                     }
                 };
             }
@@ -89,7 +89,7 @@ export const mapVariants = (oldRoute: string | null): Variants => ({
                 return {
                     opacity: 0,
                     transition: {
-                        duration: .2,
+                        duration: .1,
                     }
                 }
             default: return undefined;

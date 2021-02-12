@@ -21,7 +21,7 @@ export const aboutVariants = (oldRoute: string | null): Variants => ({
                     y: 0,
                     transition: {
                         ease: 'easeOut',
-                        duration: .3,
+                        duration: .2,
                     }
                 }
             default:
@@ -37,7 +37,7 @@ export const aboutVariants = (oldRoute: string | null): Variants => ({
                 return {
                     y: '100%',
                     transition: {
-                        duration: .3,
+                        duration: .2,
                         ease: 'easeIn',
                     }
                 };
@@ -45,7 +45,7 @@ export const aboutVariants = (oldRoute: string | null): Variants => ({
                 return {
                     opacity: 0,
                     transition: {
-                        duration: .2,
+                        duration: .1,
                     }
                 }
         }
