@@ -50,34 +50,29 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
                 <title>Top Article - {countryName}</title>
             </Head>
 
-            {/* <motion.div 
-                initial='hidden' animate='visible' exit='exit' variants={topVariants(oldRoute)}
-                className={styles.wrapper}
-            > */}
-                <Layout hasSider>
+            <Layout hasSider>
 
-                    <Sider
-                        collapsed={siderCollapsed}
-                        setCollapsed={setSiderCollapsed}
-                        newsLang={newsLang}
-                        setNewsLang={setNewsLang}
-                        oldRoute={oldRoute}
-                    >
-                        {() => minimap}
-                    </Sider>
+                <Sider
+                    collapsed={siderCollapsed}
+                    setCollapsed={setSiderCollapsed}
+                    newsLang={newsLang}
+                    setNewsLang={setNewsLang}
+                    oldRoute={oldRoute}
+                >
+                    {() => minimap}
+                </Sider>
 
-                    <Layout.Content className={layoutStyles.maxContainer}>
-                            <Article
-                                data={article}
-                                lang={newsLang}
-                                countryName={countryName}
-                                variants={topVariants(oldRoute)}
-                                childrenVariants={topChildrenVariants}
-                            />
-                    </Layout.Content>
+                <Layout.Content className={layoutStyles.maxContainer}>
+                        <Article
+                            data={article}
+                            lang={newsLang}
+                            countryName={countryName}
+                            variants={topVariants(oldRoute)}
+                            childrenVariants={topChildrenVariants}
+                        />
+                </Layout.Content>
 
-                </Layout>
-            {/* </motion.div> */}
+            </Layout>
         </>
     );
 }

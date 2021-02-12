@@ -22,15 +22,12 @@ export const topVariants = (oldRoute: string | null): Variants => ({
     })(),
     exit: (route) => {
         switch (route) {
-            default: 
-            return {
-
-            }
+            default: return undefined;
         }
     }
 });
 
-export const topChildrenVariants = {
+export const topChildrenVariants: Variants = {
     hidden: {
         y: -5,
         opacity: 0,
@@ -38,5 +35,11 @@ export const topChildrenVariants = {
     visible: {
         y: 0,
         opacity: 1,
+    },
+    exit: {
+        opacity: 0,
+        transition: {
+            duration: .2,
+        }
     }
 }

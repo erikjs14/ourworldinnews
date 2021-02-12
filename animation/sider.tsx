@@ -37,7 +37,10 @@ export const siderVariants = (oldRoute: string | null): Variants => ({
         switch (route) {
             default:
                 return {
-
+                    opacity: 0,
+                    transition: {
+                        duration: .2,
+                    }
                 }
         }
     }

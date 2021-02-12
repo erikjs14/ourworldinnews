@@ -63,7 +63,7 @@ export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig,
                     {children(collapsed)}
                 </motion.div>
 
-                <motion.div variants={siderChildrenVariants}>
+                <motion.div variants={siderChildrenVariants} layoutId='iddd'>
                     <LangPicker
                         className={styles.langCard + (collapsed ? ' '+styles.hidden : '')}
                         langs={TRANSLATE_TO.map(iso => ({

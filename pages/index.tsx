@@ -20,7 +20,7 @@ import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
 import { motion } from 'framer-motion';
-import { homeVariants } from '../animation/home';
+import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
@@ -124,7 +124,8 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 <Layout.Content 
                     style={{ backgroundColor: '#fff' }}
                 >
-                    <div
+                    <motion.div
+                        variants={mapVariants(oldRoute)}
                         className={styles.mapContainer}
                     >
                         <WorldMap 
@@ -145,7 +146,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
                             <ZoomIndicator className={styles.zoomIndicator} />
                         </Tooltip>
-                    </div>
+                    </motion.div>
                 </Layout.Content>
             </motion.div>
         </>

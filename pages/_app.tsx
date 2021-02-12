@@ -2,7 +2,7 @@ import '../styles/antd-custom.less';
 import '../styles/globals.scss';
 import React, { ComponentType, useEffect } from 'react';
 import Head from 'next/head';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, AnimateSharedLayout } from 'framer-motion';
 import { RouteContextProvider } from '../lib/RouteContext';
 import globalState from '../lib/GlobalState';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
@@ -30,11 +30,13 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             </Head>
             <RouteContextProvider>
-                <AnimatePresence exitBeforeEnter custom={router.route} >
-                    <Layout key={router.route}>
-                        <Component {...pageProps} />
-                    </Layout>
-                </AnimatePresence>
+                <AnimateSharedLayout>
+                    <AnimatePresence exitBeforeEnter custom={router.route} >
+                        <Layout key={router.route}>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </AnimatePresence>
+                </AnimateSharedLayout>
             </RouteContextProvider>            
         </>
     );
