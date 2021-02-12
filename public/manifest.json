@@ -1,0 +1,10 @@
+{
+    "short_name": "OWIN",
+    "name": "Our World In News",
+    "start_url": "/?source=pwa",
+    "background_color": "#048BA8",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#048BA8",
+    "description": "Overview of the top news articles from around the world.",
+  }
