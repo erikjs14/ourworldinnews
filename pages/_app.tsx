@@ -1,11 +1,24 @@
 import '../styles/antd-custom.less';
 import '../styles/globals.scss';
-import React from 'react';
+import React, { ComponentType, useEffect } from 'react';
 import Head from 'next/head';
 import { AnimatePresence } from 'framer-motion';
 import { RouteContextProvider } from '../lib/RouteContext';
+import globalState from '../lib/GlobalState';
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+const { useGlobalState } = globalState;
 
-function OurWorlInNews({ Component, pageProps, router }) {
+interface CustomAppProps extends AppProps {
+    Component: any; // ToDo
+}
+function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
+
+    const setClientRouted = useGlobalState('clientRouted')[1];
+    useEffect(() => {
+        const handler = () => setClientRouted(true);
+        router.events.on('routeChangeComplete', handler);
+        () => router.events.off('routeChangeComplete', handler);
+    }, []);
 
     const Layout = Component.Layout ? Component.Layout : React.Fragment;
 

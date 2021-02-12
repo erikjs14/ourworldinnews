@@ -6,26 +6,26 @@ import styles from '../styles/Sider.module.scss';
 import { TRANSLATE_TO } from "../config/consts";
 
 interface SiderProps {
-    initiallyCollapsed: boolean;
-    showSiderFor: number;
+    collapsed: boolean;
+    setCollapsed(val: boolean): void;
+    slideInIfBig?: boolean;
     newsLang: string;
     setNewsLang(lang: string): void;
     children?: (siderCollapsed: boolean) => ReactNode;
 }
 
-export default function Sider({ initiallyCollapsed, showSiderFor, newsLang, setNewsLang, children }: SiderProps) {
+export default function Sider({ collapsed, setCollapsed, slideInIfBig, newsLang, setNewsLang, children }: SiderProps) {
 
-    const [siderCollapsed, setSiderCollapsed] = useState(initiallyCollapsed);
     const [siderWidth, setSiderWidth] = useState(300);
 
-    // if small screen, show sider briefly, then hide (if enabled)
+    // if big screen, show after timeout (if enabled)
     useEffect(() => {
-        if (showSiderFor > 0)
-            setTimeout(() => setSiderCollapsed(window.matchMedia('(max-width: 768px)').matches), showSiderFor);
+        if (collapsed && slideInIfBig)
+            setTimeout(() => setCollapsed(!window.matchMedia('(min-width: 769px)').matches), 500);
     }, []);
 
     useEffect(() => {
-        setTimeout(() => setSiderWidth(window.matchMedia('(max-width: 768px)').matches ? 250 : 300), showSiderFor);
+        setSiderWidth(window.matchMedia('(max-width: 768px)').matches ? 250 : 300);
     }, []);
 
     return (
@@ -34,8 +34,8 @@ export default function Sider({ initiallyCollapsed, showSiderFor, newsLang, setN
             className={styles.sider}
             collapsedWidth={0}
             collapsible
-            collapsed={siderCollapsed}
-            onCollapse={(collapsed) => setSiderCollapsed(collapsed)}
+            collapsed={collapsed}
+            onCollapse={(collapsed) => setCollapsed(collapsed)}
             zeroWidthTriggerStyle={{
                 backgroundColor: 'var(--color-primary)',
             }}
@@ -45,17 +45,17 @@ export default function Sider({ initiallyCollapsed, showSiderFor, newsLang, setN
                 {/* Mobile Menu */}
                 <nav>
                     <Link href='/about'>
-                        <a onClick={() => setSiderCollapsed(true)}>Home</a>
+                        <a onClick={() => setCollapsed(true)}>Home</a>
                     </Link>
                     <Link href='/about'>
-                        <a onClick={() => setSiderCollapsed(true)}>About</a>
+                        <a onClick={() => setCollapsed(true)}>About</a>
                     </Link>
                 </nav>
 
-                {children(siderCollapsed)}
+                {children(collapsed)}
 
                 <LangPicker
-                    className={styles.langCard + (siderCollapsed ? ' '+styles.hidden : '')}
+                    className={styles.langCard + (collapsed ? ' '+styles.hidden : '')}
                     langs={TRANSLATE_TO.map(iso => ({
                         value: iso,
                         label: iso.toUpperCase(),

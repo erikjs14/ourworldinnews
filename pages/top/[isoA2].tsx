@@ -14,10 +14,12 @@ import useNewsLang from './../../hooks/useNewsLang';
 import MiniMap from "../../components/MiniMap";
 import { useRouter } from 'next/router';
 import styles from '../../styles/Top.module.scss';
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import TopVariants from '../../animation/top';
 import { motion } from 'framer-motion';
 import RouteContext from '../../lib/RouteContext';
+import globalState from '../../lib/GlobalState' ;
+const { useGlobalState } = globalState;
 
 interface TopArticleProps {
     countryName: string;
@@ -31,6 +33,8 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
     const oldRoute = useContext(RouteContext);
 
     const { newsLang, setNewsLang } = useNewsLang();
+    
+    const [siderCollapsed, setSiderCollapsed] = useGlobalState('siderCollapsed');
 
     const minimap = useMemo(() => (
         <div className={styles.mapWrapper}>
@@ -49,8 +53,8 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
             <Layout hasSider>
 
                 <Sider
-                    initiallyCollapsed
-                    showSiderFor={0}
+                    collapsed={siderCollapsed}
+                    setCollapsed={setSiderCollapsed}
                     newsLang={newsLang}
                     setNewsLang={setNewsLang}
                 >

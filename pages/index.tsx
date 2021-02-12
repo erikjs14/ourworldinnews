@@ -23,6 +23,8 @@ import { motion } from 'framer-motion';
 import { mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
+import globalState from '../lib/GlobalState' ;
+const { useGlobalState } = globalState;
 
 const { Title, Paragraph } = Typography;
 
@@ -41,6 +43,9 @@ export default function Home({ news, availableCountries }: HomeProps) {
 
     const router = useRouter();
     const oldRoute = useContext(RouteContext);
+
+    const [siderCollapsed, setSiderCollapsed] = useGlobalState('siderCollapsed');
+    const [clientRouted] = useGlobalState('clientRouted');
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
@@ -98,8 +103,9 @@ export default function Home({ news, availableCountries }: HomeProps) {
             <Sider
                 newsLang={newsLang}
                 setNewsLang={setNewsLang}
-                initiallyCollapsed={false}
-                showSiderFor={1000}
+                collapsed={siderCollapsed}
+                setCollapsed={setSiderCollapsed}
+                slideInIfBig={!clientRouted}
             >
                 { (siderCollapsed) => (
                     <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
