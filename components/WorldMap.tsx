@@ -50,6 +50,14 @@ export default function WorldMap({ available, setCountryHovered, onCountryClicke
                                 setCountryHovered(null);
                             }}
                             className={styles.country + (available[geo.properties['ISO_A2']?.toLowerCase()] ? ` ${styles.available}` : '')}
+                            onTouchStartCapture={() => {
+                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
+                                    setCountryHovered({
+                                        countryName: geo.properties['NAME'],
+                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                    });
+                                }
+                            }}
                         />
                     ))}
                 </Geographies>

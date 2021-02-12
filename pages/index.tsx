@@ -41,6 +41,11 @@ let newsTooltipShown = false; // set after timeout when tooltip is visible --> b
 let timeoutRef = null;
 export default function Home({ news, availableCountries }: HomeProps) {
 
+    // reset news tooltip state for mobile handling
+    useEffect(() => {
+        newsTooltipShown = false;
+    }, []);
+
     const router = useRouter();
     const oldRoute = useContext(RouteContext);
 
@@ -76,12 +81,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         time={moment(topArt.published)}
                     />
                 );
-                timeoutRef = setTimeout(() => newsTooltipShown = true, 250);
+                // prevent mouseenter and click being fired when clicking on mobile
+                timeoutRef = setTimeout(() => newsTooltipShown = true, 150);
             }
         } else {
             if (timeoutRef) clearTimeout(timeoutRef);
             timeoutRef = null;
-            newsTooltipShown = false;
             setTooltipContent(null);
         }
     }
@@ -91,6 +96,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
             // if touch-device -> open tooltip
             if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
                 router.push(`/top/${isoA2}`);
+                newsTooltipShown = false;
             }            
         } 
     }

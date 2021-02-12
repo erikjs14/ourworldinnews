@@ -10,8 +10,6 @@ export default function useRouteHistory() {
 
     useEffect(() => {
         const handler = (url: string) => {
-            console.log(url)
-            console.log(routes.old, routes.new)
             setRoutes(prev => ({
                 old: prev.new,
                 new: url,

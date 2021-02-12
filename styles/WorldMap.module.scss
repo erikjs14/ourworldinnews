@@ -1,4 +1,5 @@
 @import './__variables';
+@import './__mixins';
 
 .world {
     height: calc(99vh - 64px);
@@ -9,6 +10,12 @@
 
 .country {
     outline: none;
+    stroke: rgba(#fff, .1);
+    stroke-width: .01px;
+    @include respond(tab-port) { 
+        stroke-width: .02px; 
+        stroke: rgba(#fff, .6);
+    }
     fill: darken($color-primary, 7.5%);
 
     transition: fill .15s ease-out,
