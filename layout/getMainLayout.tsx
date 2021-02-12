@@ -16,17 +16,17 @@ export default function MainLayout(
         >
             <Row>
                 <Col flex='none'>
-                    <Link href='/'>
-                        <h1><a>Our World In News</a></h1>
+                    <Link href='/' >
+                        <h1><a onClick={e => (currentPage === 'home') && e.preventDefault()}>Our World In News</a></h1>
                     </Link>
                 </Col>
                 <Col flex='auto'>
                     <nav>
                         <Link href='/'>
-                            <a>Home</a>
+                            <a onClick={e => (currentPage === 'home') && e.preventDefault()}>Home</a>
                         </Link>
                         <Link href='/about'>
-                            <a>About</a>
+                            <a onClick={e => (currentPage === 'about') && e.preventDefault()}>About</a>
                         </Link>
                     </nav>
                 </Col>
