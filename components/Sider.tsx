@@ -6,6 +6,7 @@ import { TRANSLATE_TO } from "../config/consts";
 import { siderVariants, siderChildrenVariants } from './../animation/sider';
 import { motion } from "framer-motion";
 import { isMobile } from "../utils/util";
+import LanguageIcon from '../assets/language.svg';
 
 interface SiderProps {
     collapsed: boolean;
@@ -39,8 +40,12 @@ export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig,
             collapsed={collapsed}
             onCollapse={(collapsed) => setCollapsed(collapsed)}
             zeroWidthTriggerStyle={{
-                backgroundColor: 'var(--color-primary)',
+                backgroundColor: 'var(--color-accent)',
+                fill: '#fff',
+                display: 'grid',
+                placeItems: 'center',
             }}
+            trigger={<LanguageIcon />}
         >
             <motion.div
                 initial='hidden' animate='visible' exit='exit' variants={siderVariants(oldRoute)}

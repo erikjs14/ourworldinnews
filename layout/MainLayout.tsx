@@ -106,7 +106,7 @@ export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayou
             <AnimatePresence exitBeforeEnter custom={router.route} >
                 <Layout 
                     key={router.route}
-                    hasSider={currentRoute === '/'} 
+                    hasSider={currentRoute === '/' || currentRoute === '/about'} 
                     className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
                     style={{ minHeight: 'calc(100vh - 64px - 132px)', marginTop: '64px' }}
                 >
