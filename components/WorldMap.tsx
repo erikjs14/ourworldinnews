@@ -4,6 +4,7 @@ import {
     ComposableMap,
     Geographies,
     Geography,
+    Point,
     ZoomableGroup,
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
@@ -12,8 +13,11 @@ interface WorldMapProps {
     available: Array<string>;
     setCountryHovered(content: CountryHoveredInfo | null): void;
     onCountryClicked(isoA2: string, countryName: string): void;
+    zoom: number;
+    coordinates: Point;
+    onZoomEnd(props: any): void;
 }
-export default function WorldMap({ available, setCountryHovered, onCountryClicked }: WorldMapProps) {
+export default function WorldMap({ available, setCountryHovered, onCountryClicked, zoom, coordinates, onZoomEnd }: WorldMapProps) {
     
     return (
         <ComposableMap 
@@ -23,7 +27,11 @@ export default function WorldMap({ available, setCountryHovered, onCountryClicke
             viewBox='0 0 800 425' 
             className={styles.world}
         >
-            <ZoomableGroup zoom={1}>
+            <ZoomableGroup
+                onMoveEnd={onZoomEnd}
+                center={coordinates}
+                zoom={zoom}
+            >
                 <Geographies geography={worldGeography}>
                     {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
                         <Geography 

@@ -46,6 +46,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
 
     const [siderCollapsed, setSiderCollapsed] = useGlobalState('siderCollapsed');
     const [clientRouted] = useGlobalState('clientRouted');
+    const [zoomState, setZoomState] = useGlobalState('mapZoomState');
 
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
@@ -132,6 +133,14 @@ export default function Home({ news, availableCountries }: HomeProps) {
                             setCountryHovered={countryHoverHandler} 
                             available={availableCountries}
                             onCountryClicked={clickHandler}
+                            zoom={zoomState.zoom}
+                            coordinates={zoomState.coordinates}
+                            onZoomEnd={pos => {
+                                setZoomState({
+                                    coordinates: pos.coordinates,
+                                    zoom: pos.zoom
+                                });
+                            }}
                         />
                         <NewsTooltip
                             backgroundColor='#eee'
