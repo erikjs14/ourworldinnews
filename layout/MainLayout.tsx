@@ -16,7 +16,7 @@ export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayou
 
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const Header = useMemo(() => ({ menuOpen, setMenuOpen }) => (
+    const Header = useMemo(() => (
         <Layout.Header
             className={styles.header}
         >
@@ -76,7 +76,7 @@ export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayou
                 </Col>
             </Row>
         </Layout.Header>
-    ), [currentRoute]);
+    ), [currentRoute, menuOpen, setMenuOpen]);
 
     const Footer = showFooter ? () => (
         <Layout.Footer className={`${styles.footer}`}>
@@ -99,14 +99,11 @@ export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayou
 
     return (
         <Layout>
-            <Header
-                menuOpen={menuOpen}
-                setMenuOpen={setMenuOpen}
-            />
+            { Header }
             <AnimatePresence exitBeforeEnter custom={router.route} >
                 <Layout 
                     key={router.route}
-                    hasSider={currentRoute === '/' || currentRoute === '/about'} 
+                    hasSider={currentRoute === '/' || /\/top\/[a-z]{2}$/.test(currentRoute)} 
                     className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
                     style={{ minHeight: 'calc(100vh - 64px - 132px)', marginTop: '64px' }}
                 >
