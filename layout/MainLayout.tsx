@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Layout, Row, Col, Typography, Space } from 'antd';
 import styles from '../styles/Layout.module.scss';
+import { AnimatePresence } from 'framer-motion';
+import { Router } from 'next/router';
 const { Title, Text } = Typography;
 
-export default function MainLayout(
-    currentPage: 'home' | 'about' | 'irrelevant',
-    showFooter: boolean,
-    contentInContainer: boolean,
-): React.ReactNode {
+interface MainLayoutProps {
+    currentRoute: string;
+    showFooter: boolean;
+    contentInContainer: boolean;
+    router: Router;
+}
+export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayout({ currentRoute, showFooter, contentInContainer, router, children}: PropsWithChildren<MainLayoutProps>) {
 
-    const Header = ({ menuOpen, setMenuOpen }) => (
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const Header = useMemo(() => ({ menuOpen, setMenuOpen }) => (
         <Layout.Header
             className={styles.header}
         >
             <Row>
                 <Col flex='none'>
                     <Link href='/' >
-                        <h1><a onClick={e => (currentPage === 'home') && e.preventDefault()}>Our World In News</a></h1>
+                        <h1><a onClick={e => (currentRoute === '/') && e.preventDefault()}>Our World In News</a></h1>
                     </Link>
                 </Col>
                 <Col flex='auto' className={styles.desktop}>
                     <nav>
                         <Link href='/'>
-                            <a onClick={e => (currentPage === 'home') && e.preventDefault()}>Home</a>
+                            <a onClick={e => (currentRoute === '/') && e.preventDefault()}>Home</a>
                         </Link>
                         <Link href='/about'>
-                            <a onClick={e => (currentPage === 'about') && e.preventDefault()}>About</a>
+                            <a onClick={e => (currentRoute === '/about') && e.preventDefault()}>About</a>
                         </Link>
                     </nav>
                 </Col>
@@ -42,12 +48,12 @@ export default function MainLayout(
                     <nav>
                         <Link href='/about'>
                             <a 
-                                className={currentPage === 'about' ? styles.disabled : ''}
+                                className={currentRoute === 'about' ? styles.disabled : ''}
                                 onClick={(e) => {
-                                    if (currentPage === 'about') {
+                                    if (currentRoute === 'about') {
                                         e.preventDefault();
-                                        setMenuOpen(prev => !prev);
                                     }
+                                    setMenuOpen(prev => !prev);
                                 }}
                             >
                                 About
@@ -55,12 +61,12 @@ export default function MainLayout(
                         </Link>
                         <Link href='/'>
                             <a 
-                                className={currentPage === 'home' ? styles.disabled : ''}
+                                className={currentRoute === '/' ? styles.disabled : ''}
                                 onClick={(e) => {
-                                    if (currentPage === 'home') {
+                                    if (currentRoute === '/') {
                                         e.preventDefault();
-                                        setMenuOpen(prev => !prev);
                                     }
+                                    setMenuOpen(prev => !prev);
                                 }}
                             >
                                 Home
@@ -70,7 +76,7 @@ export default function MainLayout(
                 </Col>
             </Row>
         </Layout.Header>
-    );
+    ), [currentRoute]);
 
     const Footer = showFooter ? () => (
         <Layout.Footer className={`${styles.footer}`}>
@@ -91,25 +97,23 @@ export default function MainLayout(
         </Layout.Footer>
     ) : () => null;
 
-    return ({children}) => {
-
-        const [menuOpen, setMenuOpen] = useState(false);
-
-        return (
-            <Layout>
-                <Header 
-                    menuOpen={menuOpen}
-                    setMenuOpen={setMenuOpen}
-                />
+    return (
+        <Layout>
+            <Header
+                menuOpen={menuOpen}
+                setMenuOpen={setMenuOpen}
+            />
+            <AnimatePresence exitBeforeEnter custom={router.route} >
                 <Layout 
-                    hasSider={currentPage === 'home'} 
+                    key={router.route}
+                    hasSider={currentRoute === '/'} 
                     className={contentInContainer ? `${styles.maxContainer} ${styles.contentPadding}` : ''}
                     style={{ minHeight: 'calc(100vh - 64px - 132px)', marginTop: '64px' }}
                 >
                         { children }
                 </Layout>
                 <Footer />
-            </Layout>
-        );
-    }
-}
+            </AnimatePresence>
+        </Layout>
+    );
+});

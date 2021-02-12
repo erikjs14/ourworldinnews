@@ -16,7 +16,6 @@ import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
 import { TOP_NEWS_TTL, TRANSLATE_TO } from '../config/consts';
 import { translateToAll } from './../sourceFetching/translate';
-import getMainLayout from './../layout/getMainLayout';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
@@ -25,7 +24,6 @@ import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
-import { isMobile } from '../utils/util';
 const { useGlobalState } = globalState;
 
 const { Title, Paragraph } = Typography;
@@ -208,7 +206,6 @@ export default function Home({ news, availableCountries }: HomeProps) {
         </>
     )
 }
-Home.Layout = getMainLayout('home', false, false);
 
 export const getStaticProps: GetStaticProps = async (context) => {
     // fetch news

@@ -7,9 +7,10 @@ import { RouteContextProvider } from '../lib/RouteContext';
 import globalState from '../lib/GlobalState';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 const { useGlobalState } = globalState;
+import Layout from '../layout/MainLayout';
 
 interface CustomAppProps extends AppProps {
-    Component: any; // ToDo
+    Component: any;
 }
 function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
 
@@ -20,7 +21,6 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
         () => router.events.off('routeChangeComplete', handler);
     }, []);
 
-    const Layout = Component.Layout ? Component.Layout : React.Fragment;
 
     return (
         <>
@@ -30,13 +30,14 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             </Head>
             <RouteContextProvider>
-                <AnimateSharedLayout>
-                    <AnimatePresence exitBeforeEnter custom={router.route} >
-                        <Layout key={router.route}>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </AnimatePresence>
-                </AnimateSharedLayout>
+                    <Layout
+                        currentRoute={router.route}
+                        contentInContainer={Component.contentInContainer}
+                        showFooter={Component.showFooter}
+                        router={router}
+                    >
+                        <Component {...pageProps} />
+                    </Layout>
             </RouteContextProvider>            
         </>
     );

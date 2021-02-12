@@ -1,4 +1,3 @@
-import getMainLayout from "../layout/getMainLayout";
 import { Layout, Typography, Collapse } from 'antd';
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -7,7 +6,7 @@ import faq from '../config/faqConfig';
 import styles from '../styles/About.module.scss';
 import { motion } from 'framer-motion';
 import { aboutVariants } from '../animation/about';
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import RouteContext from "../lib/RouteContext";
 
 interface AboutProps {
@@ -48,4 +47,5 @@ export default function About({ }) {
         </>
     );
 }
-About.Layout = getMainLayout('about', true, true);
+About.contentInContainer = true;
+About.showFooter = true;

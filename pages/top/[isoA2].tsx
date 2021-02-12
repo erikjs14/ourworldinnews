@@ -3,7 +3,6 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Head from 'next/head';
 import { Layout } from 'antd';
 import { TRANSLATE_TO } from "../../config/consts";
-import getMainLayout from "../../layout/getMainLayout";
 import { fetchTopStories } from "../../sourceFetching/topStories";
 import { translateOneToAll, translateToAll } from "../../sourceFetching/translate";
 import { CountriesNews, CountryNews, TranslatableArticle } from "../../types";
@@ -16,7 +15,6 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/Top.module.scss';
 import { useContext, useMemo } from "react";
 import { topVariants, topChildrenVariants } from '../../animation/top';
-import { motion } from 'framer-motion';
 import RouteContext from '../../lib/RouteContext';
 import globalState from '../../lib/GlobalState' ;
 const { useGlobalState } = globalState;
@@ -76,7 +74,7 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
         </>
     );
 }
-TopArticle.Layout = getMainLayout('irrelevant', true, false);
+TopArticle.showFooter = true;
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
