@@ -7,6 +7,7 @@ import { siderVariants, siderChildrenVariants } from './../animation/sider';
 import { motion } from "framer-motion";
 import { isMobile } from "../utils/util";
 import LanguageIcon from '../assets/language.svg';
+import DarkModeToggle from './DarkModeToggle';
 
 interface SiderProps {
     collapsed: boolean;
@@ -40,13 +41,18 @@ export default function Sider({ oldRoute, collapsed, setCollapsed, slideInIfBig,
             collapsed={collapsed}
             onCollapse={(collapsed) => setCollapsed(collapsed)}
             zeroWidthTriggerStyle={{
-                backgroundColor: 'var(--color-accent)',
+                backgroundColor: 'var(--sider-trigger-color)',
                 fill: '#fff',
                 display: 'grid',
                 placeItems: 'center',
             }}
             trigger={<LanguageIcon />}
         >
+
+            <DarkModeToggle 
+                className={styles.darkModeToggle}
+            />
+
             <motion.div
                 initial='hidden' animate='visible' exit='exit' variants={siderVariants(oldRoute)}
                 className={styles.wrapper}

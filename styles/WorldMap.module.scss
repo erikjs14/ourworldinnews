@@ -1,4 +1,3 @@
-@import './__variables';
 @import './__mixins';
 
 .world {
@@ -10,17 +9,16 @@
 
 .country {
     outline: none;
-    stroke: rgba(#fff, .1);
+    stroke: var(--worldmap-country-stroke-color);
     stroke-width: .03px;
     @include respond(tab-port) { 
-        stroke: rgba(#fff, .6);
+        stroke: var(--worldmap-country-stroke-color-mobile);
     }
-    fill: darken($color-primary, 7.5%);
+    fill: var(--worldmap-country-fill);
 
-    transition: fill .15s ease-out,
-        filter .2s ease-out; 
+    transition: all .2s;
     &:hover {
-        fill: darken($color-primary, 2.5%);
+        fill: var(--worldmap-country-fill-hover);
     }
 
     &:active {
@@ -29,10 +27,10 @@
 
     &.available {
         cursor: pointer;
-        fill: var(--color-primary);
+        fill: var(--worldmap-country-highlight-fill);
 
         &:hover {
-            fill: var(--color-secondary);
+            fill: var(--worldmap-country-highlight-fill-hover);
         }
     }
 }

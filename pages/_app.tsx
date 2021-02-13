@@ -1,5 +1,6 @@
 import '../styles/antd-custom.less';
 import '../styles/globals.scss';
+import '../styles/variables.scss';
 import React, { ComponentType, useEffect } from 'react';
 import Head from 'next/head';
 import { AnimatePresence, AnimateSharedLayout } from 'framer-motion';

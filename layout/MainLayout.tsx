@@ -4,6 +4,7 @@ import { Layout, Row, Col, Typography, Space } from 'antd';
 import styles from '../styles/Layout.module.scss';
 import { AnimatePresence } from 'framer-motion';
 import { Router } from 'next/router';
+import DarkModeToggle from '../components/DarkModeToggle';
 const { Title, Text } = Typography;
 
 interface MainLayoutProps {

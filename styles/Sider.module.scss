@@ -1,65 +1,31 @@
 @import './_mixins';
-@import './_variables';
 
 .sider {
+    z-index: 10;
+    background-color: var(--sider-bg-color);
     padding: 4rem 0;
-    box-shadow: 3px 0 5px 3px rgba(0, 0, 0, .05), inset -1px 0 3px 0 rgba(#000, .03);
+    padding-top: 5rem;
+    box-shadow: var(--sider-box-shadow);
+    transition: all .2s, background-color var(--transition-theme-time), box-shadow var(--transition-theme-time);
 
     .wrapper {
         max-height: calc(100vh - 64px - 8rem);
         overflow-y: auto;
     }
 
-    nav {
-        display: none;
-        @include respond(tab-port) { display: block; }
-
-        margin: 1rem 3rem 4rem;
-
-        a {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-size: 2.5rem;
-            line-height: 1em;
-            color: $color-primary;
-            font-weight: 600;
-            letter-spacing: 2px;
-
-            &::before,
-            &::after {
-                content: '';
-                display: block;
-                height: 2px;
-                width: 4rem;
-                background-color: $color-primary;
-            }
-
-            &::before {
-                border-top-left-radius: 2px;
-                border-bottom-left-radius: 2px;
-                margin-right: 1rem;
-            }
-
-            &::after {
-                border-top-right-radius: 2px;
-                border-bottom-right-radius: 2px;
-                margin-left: 1rem;
-            }
-
-            &:not(:last-child) {
-                margin-bottom: 1.5rem;
-            }
-        }
+    div,
+    span {
+        color: var(--color-text);
+        transition: color var(--transition-theme-time);
     }
 
     .langCard {
+        background-color: var(--color-bg-ligher);
+        border: var(--lang-picker-border);
         margin: 0 2rem;
         max-height: 100rem;
 
-        transition: all .2s ease-out .2s;
+        transition: all .3s ease-out .2s, background-color var(--transition-theme-time), border var(--transition-theme-time);
         &.hidden {
             opacity: 0;
             visibility: hidden;
@@ -68,5 +34,11 @@
 
             transition: all .1s;
         }
+    }
+
+    .darkModeToggle {
+        position: absolute !important;
+        top: 2rem;
+        right: 2.5rem;
     }
 }

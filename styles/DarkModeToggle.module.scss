@@ -1,0 +1,86 @@
+.wrapper {
+    position: relative;
+    cursor: pointer;
+
+    $size: 2rem;
+    width: $size;
+    height: $size;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: #{$size / 2.1} #{$size / 10} 0 0 var(--toggle-moon-color);
+    transform: translate(-#{$size / 2.1}, -#{$size / 10}) rotate(45deg);
+    transition: all .3s ease-in-out !important;
+
+    $frac: #{$size / 4};
+    span {
+        position: absolute;
+        background: var(--toggle-sun-color);
+        width: $frac;
+        height: $frac;
+        border-radius: 50%;
+
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all .3s ease-in-out;
+
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &.dark {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        background: var(--toggle-sun-color);
+        transform: translate(0, 0) rotate(0);
+
+        span {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(0, 0);
+    
+            &:nth-child(1) {
+                top: unset;
+                left: 50%;
+                transform: translate(-50%, 0);
+                bottom: calc(-#{$frac} - .3rem);
+            }
+            &:nth-child(2) {
+                top: unset;
+                left: calc(-#{$frac} + .15rem);
+                bottom: calc(-#{$frac} + .15rem);
+            }
+            &:nth-child(3) {
+                left: calc(-#{$frac} - .3rem);
+                transform: translate(0, -50%);
+                top: 50%;
+            }
+            &:nth-child(4) {
+                left: calc(-#{$frac} + .15rem);
+                top: calc(-#{$frac} + .15rem);
+            }
+            &:nth-child(5) {
+                left: 50%;
+                transform: translate(-50%, 0);
+                top: calc(-#{$frac} - .3rem);
+            }
+            &:nth-child(6) {
+                left: unset;
+                right: calc(-#{$frac} + .15rem);
+                top: calc(-#{$frac} + .15rem);
+            }
+            &:nth-child(7) {
+                left: unset;
+                right: calc(-#{$frac} - .3rem);
+                transform: translate(0, -50%);
+                top: 50%;
+            }
+            &:nth-child(8) {
+                left: unset;
+                top: unset;
+                right: calc(-#{$frac} + .15rem);
+                bottom: calc(-#{$frac} + .15rem);
+            }
+        }
+        
+    }
+}

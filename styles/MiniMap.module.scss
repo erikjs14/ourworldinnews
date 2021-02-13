@@ -1,14 +1,13 @@
-@import './_variables';
-
 .world {
-    margin-bottom: 2rem;
+    margin: 2rem 0;
 
     .country {
         outline: none;
-        fill: darken($color-primary, 7.5%);
+        fill: var(--minimap-country-fill);
+        transition: fill var(--transition-theme-time);
 
         &.highlight {
-            fill: $color-secondary;
+            fill: var(--minimap-country-highlight-fill);
         }
     }
 
@@ -17,7 +16,8 @@
         font-weight: 800;
         letter-spacing: 1px;
         &::selection {
-            background: $color-primary;
+            background: var(--minimap-text-selection-color);
+            transition: background var(--transition-theme-time);
         }
     }
 }

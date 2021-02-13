@@ -3,16 +3,24 @@
 .container {
 
     h1 {
+        color: var(--color-text);
+        transition: color var(--transition-theme-time);
         margin-bottom: 3rem;
     }
 
     .panel {
         
-
         h3 {
+            color: var(--color-text);
+            transition: color var(--transition-theme-time);
             font-size: 2rem;
             @include respond(phone) { font-size: 1.7rem; }
             margin-bottom: 0;
+        }
+
+        div {
+            color: var(--color-text);
+            transition: color var(--transition-theme-time);
         }
 
         // select arrow

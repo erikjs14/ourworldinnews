@@ -1,0 +1,109 @@
+:root {
+    //global colors
+    --color-primary: #030852;
+    --color-primary-lighter: #061178;
+    --color-secondary: #1d39c4;
+    --color-secondary-lighter: #2f54eb;
+    --color-accent: #fa8c16;
+    --color-accent-lighter: #ffa940;
+    --color-accent-darker:  #ad4e00;
+    --color-bg: #fff;
+    --color-text: #000;
+    --color-text-selection: var(--color-accent);
+    --color-link: var(--color-secondary);
+    --color-link-hover: var(--color-primary);
+    --antd-border-color: #d9d9d9;
+
+    // layout
+    --max-container-width: 80rem;
+    --header-box-shadow: 0 5px 3px 0 rgba(0, 0, 0, .25);
+    --header-color-text: #fff;
+    --header-burger-click-response-color: #fff;
+    --header-burger-color: #fff;
+    --header-burger-box-shadow: 0 0 3px 3px rgba(#000, .15);
+    --header-bg-color: var(--color-primary);
+    --header-link-bg-color: rgba(#fff, .05);
+    --header-link-disabled-color: #aaa;
+    --header-burger-box-shadow-active: 0 0 3px 3px rgba(#000, 0);
+    --header-mobile-nav-open-box-shadow: 0 0 3px 3px rgba(#000, .2);
+    --footer-h-text-color: var(--color-primary);
+    --footer-bg-color: #f0f2f5;
+
+    // pages
+    --home-indicator-fill-color: #aaa;
+
+    // components
+    --article-img-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, .5), rgba(0, 0, 0, 0.9));
+    --article-heading-color: #fff;
+
+    --minimap-country-fill: var(--color-primary);
+    --minimap-country-highlight-fill: var(--color-secondary);
+    --minimap-text-selection-color: var(--color-primary);
+
+    --worldmap-country-stroke-color: rgba(255, 255, 255, .1);
+    --worldmap-country-stroke-color-mobile:rgba(255, 255, 255, .6);
+    --worldmap-country-fill: #262626;
+    --worldmap-country-fill-hover: #434343;
+    --worldmap-country-highlight-fill: var(--color-secondary);
+    --worldmap-country-highlight-fill-hover: var(--color-secondary-lighter);
+
+    --sider-bg-color: #fff;
+    --sider-box-shadow: 3px 0 5px 3px rgba(0, 0, 0, .05);
+    --sider-trigger-color: var(--color-accent);
+    
+    --indicator-pad-bottom: 3rem;
+
+    --lang-picker-border: 1px solid #f0f0f0;
+
+    --tooltip-color-bg: #fff;
+
+    --toggle-moon-color: #262626;
+    --toggle-sun-color: radial-gradient(#fa8c16, #ffa940);
+
+    --transition-theme-time: .3s;
+}
+
+
+:root[data-theme="dark"] {
+    --color-bg: #1f1f1f;
+    --color-bg-ligher: #262626;
+    --color-text: #f3f3f3;
+
+    //global colors
+    --color-text-selection: var(--color-accent);
+    --color-link: var(--color-accent);
+    --color-link-hover: var(--color-accent-lighter);
+    --antd-border-color: rgba(255, 255, 255, .05);
+
+    // layout
+    --header-box-shadow: 0 5px 3px 0 rgba(255, 255, 255, .05);
+    --header-color-text: #f0f0f0;
+    --header-mobile-nav-open-box-shadow: 0 0 3px 3px rgba(255, 255, 255, .1);
+    --footer-h-text-color: var(--color-secondary-lighter);
+    --footer-bg-color: #262626;
+
+    // pages
+    --home-indicator-fill-color: #777;
+
+    // components
+    --article-img-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, .7), rgba(0, 0, 0, 0.95));
+    --article-heading-color: var(--color-text);
+
+    --minimap-country-fill: var(--color-secondary);
+    --minimap-country-highlight-fill: var(--color-secondary-lighter);
+
+    --worldmap-country-stroke-color: rgba(255, 255, 255, .5);
+    --worldmap-country-stroke-color-mobile:rgba(255, 255, 255, .3);
+    --worldmap-country-fill: #353535;
+    --worldmap-country-fill-hover: #434343;
+    --worldmap-country-highlight-fill: var(--color-secondary);
+    --worldmap-country-highlight-fill-hover: var(--color-secondary-lighter);
+
+    --sider-bg-color: var(--color-bg-ligher);
+    --sider-box-shadow: 3px 0 5px 3px rgba(255, 255, 255, .05);
+    --sider-trigger-color: var(--color-accent-darker);
+
+    --lang-picker-border: 1px solid rgba(255, 255, 255, .03);
+
+    --tooltip-color-bg: var(--color-bg);
+}

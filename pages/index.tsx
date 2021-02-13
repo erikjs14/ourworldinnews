@@ -167,7 +167,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                 </Sider>
 
                 <Layout.Content 
-                    style={{ backgroundColor: '#fff' }}
+                    style={{ backgroundColor: 'var(--color-bg)' }}
                 >
                     <motion.div
                         variants={mapVariants(oldRoute)}
@@ -185,7 +185,13 @@ export default function Home({ news, availableCountries }: HomeProps) {
                                     className={styles.mobileNote + ' ' + styles.mobile}
                                 >
                                         <Card
-                                            bodyStyle={{ padding: '1.5rem' }}
+                                            bodyStyle={{ 
+                                                padding: '1.5rem' ,
+                                                backgroundColor: 'var(--tooltip-color-bg)',
+                                                color: 'var(--color-text)',
+                                                border: 'none',
+                                                transition: 'background-color var(--transition-theme-time), color var(--transition-theme-time)',
+                                            }}
                                         >
                                             <a 
                                                 className={styles.close}
@@ -196,8 +202,8 @@ export default function Home({ news, availableCountries }: HomeProps) {
                                             >
                                                 x
                                             </a>
-                                            <Title level={4}>Hi there!</Title>
-                                            <Paragraph>Start exploring by zooming, dragging and clicking countries! Open the sider to select a language.</Paragraph>
+                                            <Title style={{ letterSpacing: '1px', color: 'var(--color-text)' }} level={4}>Hi there!</Title>
+                                            <Paragraph style={{ color: 'var(--color-text)' }}>Start exploring by zooming, dragging and clicking countries! Open the sider to select a language.</Paragraph>
                                         </Card>
                                 </motion.div>
                             )}
@@ -221,8 +227,6 @@ export default function Home({ news, availableCountries }: HomeProps) {
                             }}
                         />
                         <NewsTooltip
-                            backgroundColor='#eee'
-                            textColor='#000'
                             className={styles.tooltip}
                             effect='float'
                         >
