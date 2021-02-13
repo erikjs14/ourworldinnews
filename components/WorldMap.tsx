@@ -12,13 +12,17 @@ import { isMobile } from '../utils/util';
 
 interface WorldMapProps {
     available: Array<string>;
-    setCountryHovered(content: CountryHoveredInfo | null): void;
-    onCountryClicked(isoA2: string, countryName: string): void;
+    onMouseEnter(content: CountryHoveredInfo | null): void;
+    onMouseLeave(content: CountryHoveredInfo | null): void;
+    onTouchStart(content: CountryHoveredInfo | null): void;
+    onTouchEnd(content: CountryHoveredInfo | null): void;
+    onBlur(content: CountryHoveredInfo | null): void;
+    onCountryClicked(content: CountryHoveredInfo | null): void;
     zoom: number;
     coordinates: Point;
     onZoomEnd(props: any): void;
 }
-export default function WorldMap({ available, setCountryHovered, onCountryClicked, zoom, coordinates, onZoomEnd }: WorldMapProps) {
+export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouchStart, onTouchEnd, onCountryClicked, zoom, coordinates, onZoomEnd, onBlur }: WorldMapProps) {
     
     return (
         <ComposableMap 
@@ -41,24 +45,62 @@ export default function WorldMap({ available, setCountryHovered, onCountryClicke
                             geography={geo}
                             onMouseEnter={() => {
                                 if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
-                                    setCountryHovered({
+                                    onMouseEnter({
                                         countryName: geo.properties['NAME'],
                                         isoA2: geo.properties['ISO_A2'].toLowerCase(),
                                     });
+                                } else {
+                                    onMouseEnter(null);
                                 }
                             }}
-                            onClick={() => onCountryClicked(geo.properties['ISO_A2']?.toLowerCase(), geo.properties['NAME'])}
+                            onClick={() => onCountryClicked({
+                                isoA2: geo.properties['ISO_A2']?.toLowerCase(), 
+                                countryName: geo.properties['NAME'],
+                            })}
                             onMouseLeave={() => {
-                                setCountryHovered(null);
+                                onMouseLeave({
+                                    countryName: geo.properties['NAME'],
+                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                });
                             }}
                             className={styles.country + (available[geo.properties['ISO_A2']?.toLowerCase()] ? ` ${styles.available}` : '')}
                             onTouchStartCapture={() => {
                                 if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
-                                    setCountryHovered({
+                                    onTouchStart({
                                         countryName: geo.properties['NAME'],
                                         isoA2: geo.properties['ISO_A2'].toLowerCase(),
                                     });
+                                } else {
+                                    onTouchStart(null);
                                 }
+                            }}
+                            onTouchStart={() => {
+                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
+                                    onTouchStart({
+                                        countryName: geo.properties['NAME'],
+                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                    });
+                                } else {
+                                    onTouchStart(null);
+                                }
+                            }}
+                            onTouchEndCapture={() => {
+                                onTouchEnd({
+                                    countryName: geo.properties['NAME'],
+                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                });
+                            }}
+                            onTouchEnd={() => {
+                                onTouchEnd({
+                                    countryName: geo.properties['NAME'],
+                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                });
+                            }}
+                            onBlur={() => {
+                                onBlur({
+                                    countryName: geo.properties['NAME'],
+                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
+                                });
                             }}
                         />
                     ))}

@@ -11,9 +11,8 @@
 .country {
     outline: none;
     stroke: rgba(#fff, .1);
-    stroke-width: .01px;
+    stroke-width: .03px;
     @include respond(tab-port) { 
-        stroke-width: .02px; 
         stroke: rgba(#fff, .6);
     }
     fill: darken($color-primary, 7.5%);

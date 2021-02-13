@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Layout, Tooltip, Typography, Card } from 'antd';
 import moment from 'moment';
 import Head from 'next/head'
@@ -37,13 +37,11 @@ interface HomeProps {
     availableCountries: Array<string>;
 }
 
-let newsTooltipShown = false; // set after timeout when tooltip is visible --> better handling on mobile devices
-let timeoutRef = null;
+let selectedCountry = '';
 export default function Home({ news, availableCountries }: HomeProps) {
 
-    // reset news tooltip state for mobile handling
     useEffect(() => {
-        newsTooltipShown = false;
+        selectedCountry = '';
     }, []);
 
     const router = useRouter();
@@ -57,6 +55,10 @@ export default function Home({ news, availableCountries }: HomeProps) {
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
 
+    const [ isTouch, setIsTouch ] = useState(null);
+
+    useEffect(() => setIsTouch('ontouchstart' in  window || 'ontouchstart' in document.documentElement), []);
+
     // pre-fetch images of articles
     useEffect(() => {
         Object.values(news).forEach(n => {
@@ -64,9 +66,9 @@ export default function Home({ news, availableCountries }: HomeProps) {
         })
     }, []);
 
-    const countryHoverHandler = (info: CountryHoveredInfo) => {
+    const showArticleTooltipHandler = (info: CountryHoveredInfo) => {
         if (info) {
-            const topArt = news[info.isoA2].topArticle;
+            const topArt = news[info.isoA2]?.topArticle;
             if (topArt) {
                 // prefetch route
                 router.prefetch(`/top/${info.isoA2}`);
@@ -82,25 +84,61 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         time={moment(topArt.published)}
                     />
                 );
-                // prevent mouseenter and click being fired when clicking on mobile
-                timeoutRef = setTimeout(() => newsTooltipShown = true, 150);
             }
-        } else {
-            if (timeoutRef) clearTimeout(timeoutRef);
-            timeoutRef = null;
-            setTooltipContent(null);
-            newsTooltipShown = false;
         }
     }
 
-    const clickHandler = (isoA2: string, countryName: string) => {
-        if (news[isoA2]) {
-            // if touch-device -> open tooltip
-            if (!('ontouchstart' in document.documentElement) || newsTooltipShown) {
-                router.push(`/top/${isoA2}`);
-                newsTooltipShown = false;
-            }            
+    const resetTooltip = () => {
+        setTooltipContent(null);
+    }
+
+    const openArticleHandler = (info: CountryHoveredInfo) => {
+        if (news[info.isoA2]) {
+            router.push(`/top/${info.isoA2}`);
         } 
+    }
+
+    const onTouchStartHandler = (info: CountryHoveredInfo) => {
+        
+    }
+
+    const onTouchEndHandler = (info: CountryHoveredInfo) => {
+        if (selectedCountry === info.isoA2) {
+            openArticleHandler(info);
+        } else {
+            showArticleTooltipHandler(info);
+            selectedCountry = info.isoA2;
+        }
+        // setTimeout(() => alert('touch end'), 1000);
+        // if (touching && info && tooltipHasContent !== info.isoA2) {
+        //     showArticleTooltipHandler(info);
+        // } else if (touching && info && tooltipHasContent === info.isoA2) {
+        //     openArticleHandler(info);
+        //     tooltipHasContent = '';
+        // } else {
+        //     resetTooltip();
+        //     tooltipHasContent = '';
+        // }
+        // touching = false;
+    }
+
+    const onMouseEnterHandler = (info: CountryHoveredInfo) => {
+        if (!isTouch) showArticleTooltipHandler(info);
+    }
+
+    const onClickHandler = (info: CountryHoveredInfo) => {
+        if (!isTouch) openArticleHandler(info);
+    }
+
+    const onMouseLeaveHandler = (info: CountryHoveredInfo) => {
+        if (!isTouch) resetTooltip();
+    }
+
+    const onBlurHandler = (info: CountryHoveredInfo) => {
+        if (isTouch && selectedCountry === info.isoA2) {
+            resetTooltip();
+            selectedCountry = '';
+        }
     }
 
     return (
@@ -167,9 +205,13 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         </AnimatePresence>
 
                         <WorldMap 
-                            setCountryHovered={countryHoverHandler} 
+                            onTouchStart={onTouchStartHandler}
+                            onMouseEnter={onMouseEnterHandler}
+                            onCountryClicked={onClickHandler}
+                            onMouseLeave={onMouseLeaveHandler}
+                            onTouchEnd={onTouchEndHandler}
+                            onBlur={onBlurHandler}
                             available={availableCountries}
-                            onCountryClicked={clickHandler}
                             zoom={zoomState.zoom}
                             coordinates={zoomState.coordinates}
                             onZoomEnd={pos => {

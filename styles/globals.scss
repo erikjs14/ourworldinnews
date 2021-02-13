@@ -31,6 +31,10 @@ a {
   box-sizing: border-box;
 }
 
+::selection {
+    background: var(--color-accent);
+}
+
 /*
 color pallet
 #F18F01

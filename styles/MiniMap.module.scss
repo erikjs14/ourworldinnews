@@ -13,8 +13,11 @@
     }
 
     text {
-        font-size: 4rem;
-        font-weight: 600;
+        font-size: 5rem;
+        font-weight: 800;
         letter-spacing: 1px;
+        &::selection {
+            background: $color-primary;
+        }
     }
 }
