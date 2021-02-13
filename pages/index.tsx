@@ -52,6 +52,11 @@ export default function Home({ news, availableCountries }: HomeProps) {
     const [zoomState, setZoomState] = useGlobalState('mapZoomState');
     const [mobileNoteHidden, setMobileNoteHidden] = useGlobalState('mobileNoteHidden');
 
+    useEffect(() => {
+        const mnh = sessionStorage.getItem('mobileNoteHidden');
+        if (mnh) setMobileNoteHidden(true);
+    }, []);
+
     const [tooltipContent, setTooltipContent] = useState<React.ReactNode>(null);
     const { newsLang, setNewsLang } = useNewsLang();
 
@@ -90,6 +95,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
 
     const resetTooltip = () => {
         setTooltipContent(null);
+        selectedCountry = '';
     }
 
     const openArticleHandler = (info: CountryHoveredInfo) => {
@@ -99,7 +105,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
     }
 
     const onTouchStartHandler = (info: CountryHoveredInfo) => {
-        
+        if (!info) resetTooltip();
     }
 
     const onTouchEndHandler = (info: CountryHoveredInfo) => {
@@ -109,20 +115,10 @@ export default function Home({ news, availableCountries }: HomeProps) {
             showArticleTooltipHandler(info);
             selectedCountry = info.isoA2;
         }
-        // setTimeout(() => alert('touch end'), 1000);
-        // if (touching && info && tooltipHasContent !== info.isoA2) {
-        //     showArticleTooltipHandler(info);
-        // } else if (touching && info && tooltipHasContent === info.isoA2) {
-        //     openArticleHandler(info);
-        //     tooltipHasContent = '';
-        // } else {
-        //     resetTooltip();
-        //     tooltipHasContent = '';
-        // }
-        // touching = false;
     }
 
     const onMouseEnterHandler = (info: CountryHoveredInfo) => {
+        if (!info) resetTooltip();
         if (!isTouch) showArticleTooltipHandler(info);
     }
 
@@ -163,7 +159,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
                         <div className={styles.intro + (siderCollapsed ? ' '+styles.hidden : '')}>
                             <Title level={3}>Hello there!</Title>
                             <Paragraph className={styles.desktop}>Try hovering the countries in the map and start discovering what's going on around the world.</Paragraph>
-                            <Paragraph className={styles.mobile}>Try clicking on the countries and start discovering what's going on around the world.</Paragraph>
+                            <Paragraph className={styles.mobile}>Try clicking on the countries and start discovering what's going on around the world. Click again to open the article.</Paragraph>
                             <Paragraph>Unfortunately, no data is available for the dark-colored countries.</Paragraph>
                             <Paragraph>You can pick a language to have the texts translated.</Paragraph>
                         </div>
@@ -193,12 +189,15 @@ export default function Home({ news, availableCountries }: HomeProps) {
                                         >
                                             <a 
                                                 className={styles.close}
-                                                onClick={() => setMobileNoteHidden(true)}
+                                                onClick={() => {
+                                                    setMobileNoteHidden(true);
+                                                    sessionStorage.setItem('mobileNoteHidden', 'true');
+                                                }}
                                             >
                                                 x
                                             </a>
                                             <Title level={4}>Hi there!</Title>
-                                            <Paragraph>Start exploring by zooming, dragging and clicking countries!</Paragraph>
+                                            <Paragraph>Start exploring by zooming, dragging and clicking countries! Open the sider to select a language.</Paragraph>
                                         </Card>
                                 </motion.div>
                             )}

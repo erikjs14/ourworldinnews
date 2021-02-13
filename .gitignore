@@ -42,3 +42,4 @@ news.json
 *.cache
 
 prod_*
+dev_*

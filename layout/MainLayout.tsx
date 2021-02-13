@@ -48,7 +48,7 @@ export default React.memo<PropsWithChildren<MainLayoutProps>>(function MainLayou
                     <nav>
                         <Link href='/about'>
                             <a 
-                                className={currentRoute === 'about' ? styles.disabled : ''}
+                                className={currentRoute === '/about' ? styles.disabled : ''}
                                 onClick={(e) => {
                                     if (currentRoute === 'about') {
                                         e.preventDefault();
