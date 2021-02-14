@@ -35,7 +35,7 @@ export default function Article({ data, lang, countryName, variants, childrenVar
                 <div className={styles.time}>{moment(data.published).format('lll')}</div>
             </motion.div>
             <motion.div className={styles.teaser} variants={childrenVariants}>
-                {data.teaserTranslated[lang] || data.teaser}
+                {data.teaserTranslated[lang]?.split('\n').map(s => <p>{s}</p>) || data.teaser.split('\n').map(s => <p>{s}</p>)}
                 <p><a href={data.originalSourceLink} target='_blank'>Read the full article..</a></p>
             </motion.div>
             <motion.p className={styles.source} variants={childrenVariants}>

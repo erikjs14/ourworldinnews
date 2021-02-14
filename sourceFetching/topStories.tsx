@@ -1,69 +1,85 @@
-import source from '../config/sourceConfig.json';
+import sourcesConfig from '../config/sourceConfig.json';
 import axios from 'axios';
 import { getDateDiffInFormat } from './../utils/timeUtils';
 import { CountriesNews, CountryNews } from '../types';
-import { GetTopStoriesResponse } from '../config/sourceConfigRestResponse';
 import countries from 'i18n-iso-countries';
 import cache from '../cache/cache';
 const fs = require('fs');
 import path from'path';
 import { TOP_NEWS_TTL } from '../config/consts';
 import { toHttps } from '../utils/util';
+import { accessViaDot } from './../utils/util';
 
-export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
+const rawFetchFromSource = async (isoA2: string, limit: number, api: keyof typeof sourcesConfig.sources) => {
+
+    const source = sourcesConfig.sources[api];
     try {
-
-        // try to read from cache before making request
-        const cachedData: CountryNews = await cache.get(`top-${isoA2}`);
-        if (cachedData) {
-            return cachedData;
-        }
-
-        const result = await axios.get<GetTopStoriesResponse>(
+        const result = await axios.get(
             source.baseUrl + source.endpoints.top,
             {
                 params: {
                     [source.apiKey.paramName]: process.env[source.apiKey.key],
                     [source.params.linguistics.country.paramName]: isoA2.toLowerCase(),
-                    [source.params.publishDate.publishedAfter.paramName]: getDateDiffInFormat(source.countryConfigs[isoA2]?.daysInPast + 1 || 1, source.params.publishDate.publishedAfter.format),
-                    limit,
-                    ...(source.countryConfigs[isoA2]?.additionalReqParams || {}),
+                    [source.params.publishDate?.publishedAfter.paramName]:  source.params.publishDate ? getDateDiffInFormat(sourcesConfig.countryConfigs[isoA2]?.daysInPast + 1 || 1, source.params.publishDate.publishedAfter.format) : undefined,
+                    [source.params.pagination.limitParamName]: limit,
+                    ...(sourcesConfig.countryConfigs[isoA2]?.additionalReqParams || {}),
                 }
             }
         );
-        if (result.status !== 200) throw Error('Response status code was not 200.');
+        if (result.status !== 200) return null;
 
-        if (result.data?.data?.length > 0) {
+        const articles = result.data?.[source.responseMap.articles]
+        if (articles?.length > 0) {
+            const map = source.responseMap.articleMap;
 
-            const uuid = result.data.data[0].uuid;
+            const uuid = map.uuid ? articles[map.uuid] : null;
+            const article = articles[0];
             const countryNews: CountryNews = {
                 isoA2,
                 countryName: countries.getName(isoA2, 'en', {select: 'official'}),
                 topArticle: {
-                    title: result.data.data[0].title,
+                    title: article[map.title],
                     titleTranslated: {},
-                    teaser: result.data.data[0].snippet,
+                    teaser: map.teaser.map(p => article[p]).join(' '),
                     teaserTranslated: {},
-                    imgLink: toHttps(result.data.data[0].image_url),
-                    originalSourceLink: result.data.data[0].url,
-                    published: result.data.data[0].published_at,
-                    sourceDomain: result.data.data[0].source,
+                    imgLink: toHttps(article[map.imgLink]),
+                    originalSourceLink: article[map.originalSourceLink],
+                    published: article[map.published],
+                    sourceDomain: accessViaDot(article, map.sourceDomain),
                     uuid,
                 }
             };
             return countryNews;
 
         } else {
-            throw Error('No data returned.');
+            return null;
         }
-
+    
     } catch (error) {
-        return {
-            isoA2,
-            countryName: countries.getName(isoA2, 'en', {select: 'official'}),
-            topArticle: null,
-        };
+        return null;
     }
+}
+
+export const fetchTopStoriesOf = async (isoA2: string, limit: number = 1): Promise<CountryNews> => {
+
+    // try to read from cache before making request
+    const cachedData: CountryNews = await cache.get(`top-${isoA2}`);
+    if (cachedData) {
+        return cachedData;
+    }
+
+    let countryNews = null;
+    for (let api of sourcesConfig.sourcePriority) {
+        countryNews = await rawFetchFromSource(isoA2, limit, api as keyof typeof sourcesConfig.sources);
+        if (countryNews) return countryNews;
+    }
+
+    return {
+        isoA2,
+        countryName: countries.getName(isoA2, 'en', {select: 'official'}),
+        topArticle: null,
+    };
+
 }
 
 export const fetchTopStories = async (): Promise<CountriesNews> => {
@@ -81,7 +97,7 @@ export const fetchTopStories = async (): Promise<CountriesNews> => {
     }
     
     const results: CountryNews[] = await Promise.all(
-        Object.keys(source.countryConfigs).map(iso => fetchTopStoriesOf(iso))
+        Object.keys(sourcesConfig.countryConfigs).map(iso => fetchTopStoriesOf(iso))
     );
     
     const out: CountriesNews = {};
