@@ -3,7 +3,7 @@
     --color-primary: #030852;
     --color-primary-lighter: #061178;
     --color-secondary: #1d39c4;
-    --color-secondary-lighter: #2f54eb;
+    --color-secondary-lighter: #365BED;
     --color-accent: #fa8c16;
     --color-accent-lighter: #ffa940;
     --color-accent-darker:  #ad4e00;
@@ -92,8 +92,8 @@
     --minimap-country-fill: var(--color-secondary);
     --minimap-country-highlight-fill: var(--color-secondary-lighter);
 
-    --worldmap-country-stroke-color: rgba(255, 255, 255, .5);
-    --worldmap-country-stroke-color-mobile:rgba(255, 255, 255, .3);
+    --worldmap-country-stroke-color: rgba(255, 255, 255, .8);
+    --worldmap-country-stroke-color-mobile:rgba(255, 255, 255, .8);
     --worldmap-country-fill: #353535;
     --worldmap-country-fill-hover: #434343;
     --worldmap-country-highlight-fill: var(--color-secondary);

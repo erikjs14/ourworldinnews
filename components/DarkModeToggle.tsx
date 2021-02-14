@@ -26,9 +26,10 @@ export default function DarkModeToggle({ className }: DarkModeToggleProps) {
     }
 
     return (
+        <div onClick={toggle} className={className + ' ' + styles.wrapper}>
         <div 
-            onClick={toggle}
-            className={className + ' ' + styles.wrapper + ' ' + styles[mode]}
+            
+            className={styles.toggle + ' ' + styles[mode]}
         >
             <span></span>
             <span></span>
@@ -38,6 +39,7 @@ export default function DarkModeToggle({ className }: DarkModeToggleProps) {
             <span></span>
             <span></span>
             <span></span>
+        </div>
         </div>
     );
 
