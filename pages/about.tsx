@@ -20,7 +20,7 @@ export default function About({ }) {
     return (
         <>
             <Head>
-                <title>OWIN - About</title>
+                <title>About</title>
             </Head>
 
             <Layout.Content

@@ -279,7 +279,8 @@
         "us": {
             "daysInPast": 1,
             "additionalReqParams": {
-                "categories": "politics"
+                "categories": "politics",
+                "exclude_domains": "foxnews.com"
             }
         },
         "uy": {

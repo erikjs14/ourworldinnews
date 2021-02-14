@@ -26,6 +26,9 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
     return (
         <>
             <Head>
+                <link rel="icon" href="/icon-192x192.png" />
+                <link rel="shortcut icon" type="image/png" href="/icon-192x192.png" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" as="style" /> 
                 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet" /> 
                 <link rel="manifest" href="/manifest.json" />

@@ -40,7 +40,7 @@ const rawFetchFromSource = async (isoA2: string, limit: number, api: keyof typeo
                 topArticle: {
                     title: article[map.title],
                     titleTranslated: {},
-                    teaser: map.teaser.map(p => article[p]).join(' '),
+                    teaser: map.teaser.map(p => article[p]).join(' \n '),
                     teaserTranslated: {},
                     imgLink: toHttps(article[map.imgLink]),
                     originalSourceLink: article[map.originalSourceLink],

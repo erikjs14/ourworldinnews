@@ -2,9 +2,18 @@
     "short_name": "OWIN",
     "name": "Our World In News",
     "start_url": "/?source=pwa",
-    "background_color": "#048BA8",
+    "background_color": "#fff",
     "display": "standalone",
     "scope": "/",
     "theme_color": "#048BA8",
     "description": "Overview of the top news articles from around the world.",
+    "icons": [{
+        "src": "/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }, {
+        "src": "/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
   }
