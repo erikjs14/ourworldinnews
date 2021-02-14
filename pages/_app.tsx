@@ -26,7 +26,7 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
     return (
         <>
             <Head>
-                <link rel="canonical" href="https://www.our-world-in-news.org" />
+                <link rel="canonical" href="https://our-world-in-news.org" />
                 <link rel="icon" href="/icon-192x192.png" />
                 <link rel="shortcut icon" type="image/png" href="/icon-192x192.png" />
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
