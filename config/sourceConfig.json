@@ -123,31 +123,22 @@
     },
     "sourcePriority": ["thenewsapi", "newsapi"],
     "countryConfigs": {
-        "us": {
-            "daysInPast": 1,
-            "additionalReqParams": {
-                "categories": "politics"
-            }
-        },
-        "de": {
+        "am": {
             "daysInPast": 1
         },
         "ar": {
             "daysInPast": 1
         },
-        "am": {
+        "at": {
             "daysInPast": 1
         },
         "au": {
             "daysInPast": 1
         },
-        "at": {
-            "daysInPast": 1
-        },
-        "by": {
-            "daysInPast": 1
-        },
         "be": {
+            "daysInPast": 1
+        },
+        "bg": {
             "daysInPast": 1
         },
         "bo": {
@@ -156,10 +147,13 @@
         "br": {
             "daysInPast": 1
         },
-        "bg": {
+        "by": {
             "daysInPast": 1
         },
         "ca": {
+            "daysInPast": 1
+        },
+        "ch": {
             "daysInPast": 1
         },
         "cl": {
@@ -171,10 +165,10 @@
         "co": {
             "daysInPast": 1
         },
-        "hr": {
+        "cz": {
             "daysInPast": 1
         },
-        "cz": {
+        "de": {
             "daysInPast": 1
         },
         "ec": {
@@ -183,28 +177,40 @@
         "eg": {
             "daysInPast": 1
         },
+        "es": {
+            "daysInPast": 1
+        },
         "fr": {
+            "daysInPast": 1
+        },
+        "gb": {
             "daysInPast": 1
         },
         "gr": {
             "daysInPast": 1
         },
+        "hk": {
+            "daysInPast": 1
+        },
         "hn": {
             "daysInPast": 1
         },
-        "in": {
+        "hr": {
             "daysInPast": 1
         },
         "id": {
-            "daysInPast": 1
-        },
-        "ir": {
             "daysInPast": 1
         },
         "ie": {
             "daysInPast": 1
         },
         "il": {
+            "daysInPast": 1
+        },
+        "in": {
+            "daysInPast": 1
+        },
+        "ir": {
             "daysInPast": 1
         },
         "it": {
@@ -219,19 +225,22 @@
         "mx": {
             "daysInPast": 1
         },
-        "nl": {
-            "daysInPast": 1
-        },
         "ni": {
             "daysInPast": 1
         },
-        "pk": {
+        "nl": {
+            "daysInPast": 1
+        },
+        "nz": {
             "daysInPast": 1
         },
         "pa": {
             "daysInPast": 1
         },
         "pe": {
+            "daysInPast": 1
+        },
+        "pk": {
             "daysInPast": 1
         },
         "pl": {
@@ -252,19 +261,7 @@
         "sa": {
             "daysInPast": 1
         },
-        "za": {
-            "daysInPast": 1
-        },
-        "es": {
-            "daysInPast": 1
-        },
-        "ch": {
-            "daysInPast": 1
-        },
         "sy": {
-            "daysInPast": 1
-        },
-        "tw": {
             "daysInPast": 1
         },
         "th": {
@@ -273,16 +270,70 @@
         "tr": {
             "daysInPast": 1
         },
+        "tw": {
+            "daysInPast": 1
+        },
         "ua": {
             "daysInPast": 1
         },
-        "gb": {
-            "daysInPast": 1
+        "us": {
+            "daysInPast": 1,
+            "additionalReqParams": {
+                "categories": "politics"
+            }
         },
         "uy": {
             "daysInPast": 1
         },
         "ve": {
+            "daysInPast": 1
+        },
+        "za": {
+            "daysInPast": 1
+        },
+        "ae": {
+            "daysInPast": 1
+        },
+        "cu": {
+            "daysInPast": 1
+        },
+        "hu": {
+            "daysInPast": 1
+        },
+        "lt": {
+            "daysInPast": 1
+        },
+        "lv": {
+            "daysInPast": 1
+        },
+        "ma": {
+            "daysInPast": 1
+        },
+        "my": {
+            "daysInPast": 1
+        },
+        "ng": {
+            "daysInPast": 1
+        },
+        "no": {
+            "daysInPast": 1
+        },
+        "ph": {
+            "daysInPast": 1
+        },
+        "rs": {
+            "daysInPast": 1
+        },
+        "se": {
+            "daysInPast": 1
+        },
+        "sg": {
+            "daysInPast": 1
+        },
+        "si": {
+            "daysInPast": 1
+        },
+        "sk": {
             "daysInPast": 1
         }
     }
