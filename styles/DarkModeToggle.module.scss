@@ -28,7 +28,7 @@
         visibility: hidden;
     }
 
-    &.dark {
+    &.light {
         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
         background: var(--toggle-sun-color);
         transform: translate(0, 0) rotate(0);
