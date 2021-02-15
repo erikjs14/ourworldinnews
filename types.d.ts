@@ -11,12 +11,12 @@ export interface TranslatableArticle {
     published: string;
     originalSourceLink: string;
     sourceDomain: string;
-    uuid: string;
 }
 
 export interface CountryNews {
     isoA2: string;
     countryName: string;
+    expAt: number;
     topArticle: TranslatableArticle | null;
 }
 

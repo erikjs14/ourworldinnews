@@ -8,3 +8,6 @@ export const toHttps = (link: string): string => link?.replace('http://', 'https
 export const isMobile = () => typeof window !== 'undefined' && window?.matchMedia('(max-width: 768px)').matches;
 
 export const accessViaDot = (obj: Object, path: string) => path.split('.').reduce((o, i) => o[i], obj);
+
+// checks if expired
+export const isValid = (timestamp: number) => timestamp >= new Date().getTime();

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Tooltip, Typography, Card } from 'antd';
 import moment from 'moment';
 import Head from 'next/head'
@@ -11,10 +11,11 @@ import PinchIndicator from '../assets/zoom-in.svg';
 import styles from '../styles/Home.module.scss'
 
 import WorldMap from '../components/WorldMap';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import { fetchTopStories } from '../sourceFetching/topStories';
 import { CountriesNews } from '../types';
-import { TOP_NEWS_TTL, TRANSLATE_TO } from '../config/consts';
+import { TRANSLATE_TO } from '../config/consts';
+import sourcesConfig from '../config/sourceConfig.json';
 import { translateToAll } from './../sourceFetching/translate';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
@@ -24,6 +25,7 @@ import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
+import { fbGetTopArticle, fbGetTopArticles, fbSaveTopArticles } from './../sourceFetching/firebase';
 const { useGlobalState } = globalState;
 
 const { Title, Paragraph } = Typography;
@@ -100,7 +102,12 @@ export default function Home({ news, availableCountries }: HomeProps) {
 
     const openArticleHandler = (info: CountryHoveredInfo) => {
         if (news[info.isoA2]) {
-            router.push(`/top/${info.isoA2}`);
+            router.push({
+                pathname: `/top/${info.isoA2}`,
+                query: {
+                    nf: true,
+                },
+            });
         } 
     }
 
@@ -252,32 +259,52 @@ export default function Home({ news, availableCountries }: HomeProps) {
     )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-    // fetch news
-    const news: CountriesNews = await fetchTopStories();
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+    // fetch data from firebase
+    const cachedNews = await fbGetTopArticles(Object.keys(sourcesConfig.countryConfigs));
+
+    // filter countries not returned by firebase
+    const toFetch = Object.keys(sourcesConfig.countryConfigs).filter(k => !cachedNews[k]);
+
+    // fetch non-cached data from news apis
+    const newNews = await fetchTopStories(toFetch);
 
     // sort out countries for which no article was returned
-    Object.keys(news).forEach(key => {
-        if (!news[key].topArticle) {
-            delete news[key];
+    Object.keys(cachedNews).forEach(key => {
+        if (!cachedNews[key].topArticle) {
+            delete cachedNews[key];
+        }
+    });
+    Object.keys(newNews).forEach(key => {
+        if (!newNews[key].topArticle) {
+            delete newNews[key];
         }
     });
 
-    // translate
-    if (Object.keys(news).length > 0) {
-        await translateToAll(news, TRANSLATE_TO);
+    // translate new data
+    if (Object.keys(newNews).length > 0) {
+        await translateToAll(newNews, TRANSLATE_TO);
     }
 
+    // merge with cached data
+    const news = {
+        ...cachedNews,
+        ...newNews,
+    };
+
+    // save new data to firebase
+    await fbSaveTopArticles(newNews);
+
+    // set available countries object
     const availableCountries = {};
     Object.keys(news).forEach(key => availableCountries[key] = true);
 
-    // fs.writeFileSync('news.json', JSON.stringify(news));
-
+    // return props
     return {
         props: {
             news,
             availableCountries,
         },
-        revalidate: TOP_NEWS_TTL,
     };
 }

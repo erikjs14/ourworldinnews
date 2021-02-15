@@ -16,7 +16,14 @@ export default function Article({ data, lang, countryName, variants, childrenVar
     if (!data) {
         return (
             <motion.div initial='hidden' animate='visible' exit='exit' variants={variants}>
-                <h2>Oops - This article does not exist</h2>
+                <h2
+                    style={{
+                        textAlign: 'center',
+                        marginTop: '20rem',
+                    }}
+                >
+                    Oops - This article does not exist
+                </h2>
             </motion.div>
         )
     }
@@ -35,7 +42,7 @@ export default function Article({ data, lang, countryName, variants, childrenVar
                 <div className={styles.time}>{moment(data.published).format('lll')}</div>
             </motion.div>
             <motion.div className={styles.teaser} variants={childrenVariants}>
-                {data.teaserTranslated[lang]?.split('\n').map(s => <p>{s}</p>) || data.teaser.split('\n').map(s => <p>{s}</p>)}
+                {data.teaserTranslated[lang]?.split('\n').map((s, i) => <p key={i}>{s}</p>) || data.teaser.split('\n').map(s => <p>{s}</p>)}
                 <p><a href={data.originalSourceLink} target='_blank'>Read the full article..</a></p>
             </motion.div>
             <motion.p className={styles.source} variants={childrenVariants}>

@@ -12,15 +12,15 @@ export default [
     },
     {
         question: "How often are news updated?",
-        answer: <Paragraph>Currently, once a day.</Paragraph>,
+        answer: <Paragraph>Currently, twice a day.</Paragraph>,
     },
     {
         question: "What are the sources?",
-        answer: <Paragraph>The news are fetched once a day by querying the API from <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a>.<br /> Top stories are selected by them and exposed via the API. They offer differing amounts of news sites where data is fetched from for all 55 countries they offer.</Paragraph>,
+        answer: <Paragraph>The news are fetched twice a day by querying the API from <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> and <a href="https://newsapi.org" target='_blank'>newsapi.org</a>.<br /> Top stories are selected by them and exposed via the API. They offer differing amounts of news sites where data is fetched from for more than 70 countries they offer together.</Paragraph>,
     },
     {
         question: "How are the countries selected that are included?",
-        answer: <Paragraph>News are fetched from the API of <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a>. It currently includes 55 countries.</Paragraph>,
+        answer: <Paragraph>News are fetched from the APIs of <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> and <a href="https://newsapi.org" target='_blank'>newsapi.org</a>. Both together currently include more than 70 countries countries.</Paragraph>,
     },
     {
         question: "How is the text translated?",
@@ -28,14 +28,14 @@ export default [
     },
     {
         question: "Why are some news not directly related to the country they are associated with?",
-        answer: <Paragraph>The selection of the one top story currently solely relies on the top result provided by <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a>.<br /> This may later be enhanced using semantic interpretation.</Paragraph>,
+        answer: <Paragraph>The selection of the one top story currently solely relies on the top result provided by <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> and <a href="https://newsapi.org" target='_blank'>newsapi.org</a>.<br /> This may later be enhanced using semantic interpretation.</Paragraph>,
     },
     {
         question: "Why is not the entire article text shown and translated?",
-        answer: <Paragraph>Unfortunately, folks over at <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> only include a snippet of the first 60 characters for each article.</Paragraph>,
+        answer: <Paragraph>Unfortunately, the APIs only include a snippet of the first few sentences for each article. That's all I got currently.</Paragraph>,
     },
     {
         question: "How does this work?",
-        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a> and by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
+        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a> and by <a href="https://www.flaticon.com/authors/pixel-perfect" target="_blank" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a>. Translations are performed by <a href="https://cloud.google.com/translate" target="_blank">Google Cloud Translations</a>. <a href="https://firebase.google.com/" target="_blank">Google Cloud Firebase</a> is used for caching the API responses. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
     },
 ]

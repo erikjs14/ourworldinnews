@@ -1,12 +1,11 @@
 import Article from '../../components/Article';
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from 'next/head';
 import { Layout } from 'antd';
 import { TRANSLATE_TO } from "../../config/consts";
-import { fetchTopStories } from "../../sourceFetching/topStories";
-import { translateOneToAll, translateToAll } from "../../sourceFetching/translate";
-import { CountriesNews, CountryNews, TranslatableArticle } from "../../types";
-import cache from '../../cache/cache';
+import { fetchTopStoriesOf } from "../../sourceFetching/topStories";
+import { translateOneToAll } from "../../sourceFetching/translate";
+import { TranslatableArticle } from "../../types";
 import layoutStyles from '../../styles/Layout.module.scss';
 import Sider from '../../components/Sider';
 import useNewsLang from './../../hooks/useNewsLang';
@@ -17,6 +16,7 @@ import { useContext, useMemo } from "react";
 import { topVariants, topChildrenVariants } from '../../animation/top';
 import RouteContext from '../../lib/RouteContext';
 import globalState from '../../lib/GlobalState' ;
+import { fbGetTopArticle, fbSaveTopArticle } from '../../sourceFetching/firebase';
 const { useGlobalState } = globalState;
 
 interface TopArticleProps {
@@ -76,58 +76,30 @@ export default function TopArticle({ countryName, article }: TopArticleProps) {
 }
 TopArticle.showFooter = true;
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const  getServerSideProps: GetServerSideProps = async ({ params, query }) => {
 
-    // get top stories (either fetch or read from cache if already fetched by index.tsx)
-    const topStories: CountriesNews = await fetchTopStories();
+    // fetch country data from firebase (force if nf query param is set)
+    // forcing prevents this site showing a different article when coming from index.tsx
+    let news = await fbGetTopArticle(params.isoA2 as string, query.nf === 'true');
 
-    // sort out countries for which no article was returned
-    Object.keys(topStories).forEach(key => {
-        if (!topStories[key].topArticle) {
-            delete topStories[key];
-        }
-    });
+    // if not cached by fb -> fetch from api
+    if (!news) {
+        news = await fetchTopStoriesOf(params.isoA2 as string);
 
-    const paths = Object.values(topStories).map(val => ({ params: { isoA2: val.isoA2} }));
+        if (news.topArticle) {
+            // translate
+            await translateOneToAll(news, TRANSLATE_TO);
 
-    return {
-        paths,
-        fallback: true,
-    }
-
-
-}
-
-export const  getStaticProps: GetStaticProps = async ({ params }) => {
-
-    const isoA2 = params.isoA2 as string;
-
-    // article should be in cache by now
-    let data = await cache.get(`top-${isoA2}`);
-    
-    if (!data) {
-
-        // if in dev -> read from file
-        if (process.env.NODE_ENV !== 'production') {
-            const allStories = await fetchTopStories() as (CountryNews);
-            if (allStories && allStories[isoA2]) {
-                data = allStories[isoA2];
-            }
-        }
-
-        if (!data) {
-            return {
-                notFound: true,
-            }
+            // save to fb
+            await fbSaveTopArticle(params.isoA2 as string, news);
         }
     }
 
-    await translateOneToAll(data, TRANSLATE_TO);
-
+    // return props
     return {
         props: {
-            countryName: data.countryName,
-            article: data.topArticle,       
+            countryName: news.countryName,
+            article: news.topArticle,       
         },
     }
 
