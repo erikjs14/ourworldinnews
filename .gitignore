@@ -37,6 +37,7 @@ yarn-error.log*
 
 gcloudTranslateKey.json
 firebase_credentials.json
+sa_credentials.json
 
 news.json
 

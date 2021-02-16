@@ -1089,6 +1089,13 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.3.tgz#f934b5cdc939e3c7039ff62b9caaf59a9d89e3a8"
   integrity sha512-d4VSA86eL/AFTe5xtyZX+ePUjE8dIFu2T8zmdeNBSa5/kNgXPCx/o/wbFNHAGLJdGnk1vddRuMESD9HbOC8irw==
 
+"@google-cloud/secret-manager@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/secret-manager/-/secret-manager-3.4.0.tgz#a3ee40845f2c1bef8ab6f80cfe964bc0948dd238"
+  integrity sha512-GH1YUeELu310TVY/Mmler8ND2ZG10wBo6nr5cOwr+vgA+uEKbw/6v4ns5ETO4lLfFRWHQxWxvBEtuwTmubYTmQ==
+  dependencies:
+    google-gax "^2.9.2"
+
 "@google-cloud/storage@^5.3.0":
   version "5.7.4"
   resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.7.4.tgz#de79c569a2b296e7c85d9141812fbe107a66c1ef"

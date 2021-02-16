@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@google-cloud/secret-manager": "^3.4.0",
     "@google-cloud/translate": "^6.1.0",
     "@svgr/webpack": "^5.5.0",
     "@types/memory-cache": "^0.2.1",

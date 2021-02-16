@@ -1,11 +1,10 @@
 import { CountriesNews, CountryNews } from "../types";
-
 const { Translate } = require('@google-cloud/translate').v2;
+
 const translate = new Translate({
     credentials: {
-        project_id: process.env.GOOGLE_TRANSLATE_CREDENTIAL_PROJECT_ID,
-        private_key: process.env.GOOGLE_TRANSLATE_CREDENTIAL_PRIVATE_KEY.replace(/\\n/g, '\n'),
-        client_email: process.env.GOOGLE_TRANSLATE_CREDENTIAL_CLIENT_EMAIL,
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+        private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
     }
 });
 
