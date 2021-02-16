@@ -282,6 +282,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     });
 
+    // translate new data
+    if (Object.keys(newNews).length > 0) {
+        await translateToAll(newNews, TRANSLATE_TO);
+    }
+
     // if not all countries are returned by fetchTopStories (e.g. api limit reached for some reason)
     // refetch them from cache
     const unfetched = toFetch.filter(iso => !newNews[iso]);
@@ -291,11 +296,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             ...newNews,
             ...refetchedNews,
         };
-    }
-
-    // translate new data
-    if (Object.keys(newNews).length > 0) {
-        await translateToAll(newNews, TRANSLATE_TO);
     }
 
     // merge with cached data

@@ -89,9 +89,7 @@ export const  getServerSideProps: GetServerSideProps = async ({ params, query })
         // if not returned, in case of api limit, force fetch from cache
         if (!news?.topArticle && query.nf !== 'true') {
             news = await fbGetTopArticle(params.isoA2 as string, true);
-        }
-
-        if (news?.topArticle) {
+        } else if (news?.topArticle) {
             // translate
             await translateOneToAll(news, TRANSLATE_TO);
 
@@ -103,8 +101,8 @@ export const  getServerSideProps: GetServerSideProps = async ({ params, query })
     // return props
     return {
         props: {
-            countryName: news.countryName,
-            article: news.topArticle,       
+            countryName: news?.countryName || null,
+            article: news?.topArticle || null,       
         },
     }
 
