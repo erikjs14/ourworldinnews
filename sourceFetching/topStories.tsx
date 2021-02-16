@@ -39,7 +39,7 @@ const rawFetchFromSource = async (isoA2: string, api: keyof typeof sourcesConfig
                     titleTranslated: {},
                     teaser: map.teaser.map(p => article[p]).join(' \n '),
                     teaserTranslated: {},
-                    imgLink: toHttps(article[map.imgLink]),
+                    imgLink: toHttps(article[map.imgLink]) || null,
                     originalSourceLink: article[map.originalSourceLink],
                     published: article[map.published],
                     sourceDomain: accessViaDot(article, map.sourceDomain),

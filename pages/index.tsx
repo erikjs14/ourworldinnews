@@ -268,7 +268,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const toFetch = Object.keys(sourcesConfig.countryConfigs).filter(k => !cachedNews[k]);
 
     // fetch non-cached data from news apis
-    const newNews = await fetchTopStories(toFetch);
+    let newNews = await fetchTopStories(toFetch);
 
     // sort out countries for which no article was returned
     Object.keys(cachedNews).forEach(key => {
@@ -281,6 +281,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             delete newNews[key];
         }
     });
+
+    // if not all countries are returned by fetchTopStories (e.g. api limit reached for some reason)
+    // refetch them from cache
+    const unfetched = toFetch.filter(iso => !newNews[iso]);
+    if (unfetched.length > 0) {
+        const refetchedNews = await fbGetTopArticles(unfetched, true);
+        newNews = {
+            ...newNews,
+            ...refetchedNews,
+        };
+    }
 
     // translate new data
     if (Object.keys(newNews).length > 0) {

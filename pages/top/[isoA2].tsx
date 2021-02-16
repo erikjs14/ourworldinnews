@@ -86,7 +86,12 @@ export const  getServerSideProps: GetServerSideProps = async ({ params, query })
     if (!news) {
         news = await fetchTopStoriesOf(params.isoA2 as string);
 
-        if (news.topArticle) {
+        // if not returned, in case of api limit, force fetch from cache
+        if (!news?.topArticle && query.nf !== 'true') {
+            news = await fbGetTopArticle(params.isoA2 as string, true);
+        }
+
+        if (news?.topArticle) {
             // translate
             await translateOneToAll(news, TRANSLATE_TO);
 

@@ -45,7 +45,7 @@ export const fbGetTopArticle = async (isoA2: string, ignoreTtl: boolean = false)
     }
 }
 
-export const fbGetTopArticles = async (countryCodes: string[]): Promise<CountriesNews> => {
+export const fbGetTopArticles = async (countryCodes: string[], ignoreTtl: boolean = false): Promise<CountriesNews> => {
     const db = await getDb();
     try {
         const snap = await db.collection(COL_REF_TOP_ARTICLE).get();
@@ -55,7 +55,7 @@ export const fbGetTopArticles = async (countryCodes: string[]): Promise<Countrie
             const news: CountriesNews = {};
             snap.forEach(doc => {
                 const newsData = doc.data() as CountryNews;
-                if (countryCodes.includes(newsData.isoA2) && isValid(newsData.expAt)) {
+                if (countryCodes.includes(newsData.isoA2) && (ignoreTtl || isValid(newsData.expAt))) {
                     news[newsData.isoA2] = newsData;
                 }
             });
