@@ -4,7 +4,7 @@ const { Translate } = require('@google-cloud/translate').v2;
 const translate = new Translate({
     credentials: {
         client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+        private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n'),
     }
 });
 
