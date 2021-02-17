@@ -1,6 +1,7 @@
 import '../styles/antd-custom.less';
 import '../styles/globals.scss';
 import '../styles/variables.scss';
+import '../styles/nprogress.scss';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { RouteContextProvider } from '../lib/RouteContext';
@@ -8,6 +9,14 @@ import globalState from '../lib/GlobalState';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 const { useGlobalState } = globalState;
 import Layout from '../layout/MainLayout';
+
+import NProgress from 'nprogress';
+import Router from 'next/router';
+NProgress.configure({ showSpinner: false });
+
+Router.events.on('routeChangeStart', () => NProgress.start()); 
+Router.events.on('routeChangeComplete', () => NProgress.done()); 
+Router.events.on('routeChangeError', () => NProgress.done());
 
 interface CustomAppProps extends AppProps {
     Component: any;
@@ -44,7 +53,7 @@ function OurWorlInNews({ Component, pageProps, router }: CustomAppProps) {
                     >
                         <Component {...pageProps} />
                     </Layout>
-            </RouteContextProvider>            
+            </RouteContextProvider>
         </>
     );
 }

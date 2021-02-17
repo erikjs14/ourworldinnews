@@ -25,6 +25,10 @@ a {
   box-sizing: border-box;
 }
 
+.testClass {
+    display: none;
+}
+
 ::selection {
     background: var(--color-text-selection);
 }
