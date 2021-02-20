@@ -79,6 +79,7 @@
 
 .tooltip {
     max-width: 30rem;
+    @include respond(phone) { max-width: 20rem; }
     opacity: 0.975 !important;
     background-color: var(--tooltip-color-bg) !important;
 
@@ -123,6 +124,7 @@
     .title {
         text-align: center;
         font-size: 1.9rem;
+        @include respond(phone) { font-size: 1.5rem; }
         line-height: 1.5em;
         letter-spacing: .25px;
         font-weight: 900;

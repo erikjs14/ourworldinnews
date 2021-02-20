@@ -9,14 +9,14 @@ import {
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
 import { getIff, isMobile } from '../utils/util';
-import { useEffect, useState } from 'react';
+import { Touch, useEffect, useState } from 'react';
 
 interface WorldMapProps {
     available: { [key: string]: any };
     onMouseEnter(content: CountryHoveredInfo | null): void;
     onMouseLeave(content: CountryHoveredInfo | null): void;
-    onTouchStart(content: CountryHoveredInfo | null): void;
-    onTouchEnd(content: CountryHoveredInfo | null): void;
+    onTouchStart(content: CountryHoveredInfo | null, touch: Touch): void;
+    onTouchEnd(content: CountryHoveredInfo | null, touch: Touch): void;
     onBlur(content: CountryHoveredInfo | null): void;
     onCountryClicked(content: CountryHoveredInfo | null): void;
     zoom: number;
@@ -75,37 +75,45 @@ export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouc
                                 + getIff(available[geo.properties['ISO_A2']?.toLowerCase()], ` ${styles.available}`)
                                 + getIff(slowFade, ` ${styles.slowFade}`)
                             }
-                            onTouchStartCapture={() => {
+                            onTouchStartCapture={(event) => {
                                 if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
                                     onTouchStart({
                                         countryName: geo.properties['NAME'],
                                         isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                    });
+                                    },
+                                        event.touches[0]
+                                    );
                                 } else {
-                                    onTouchStart(null);
+                                    onTouchStart(null, event.touches[0]);
                                 }
                             }}
-                            onTouchStart={() => {
+                            onTouchStart={(event) => {
                                 if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
                                     onTouchStart({
                                         countryName: geo.properties['NAME'],
                                         isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                    });
+                                    },
+                                        event.touches[0]
+                                    );
                                 } else {
-                                    onTouchStart(null);
+                                    onTouchStart(null, event.touches[0]);
                                 }
                             }}
-                            onTouchEndCapture={() => {
+                            onTouchEndCapture={(event) => {
                                 onTouchEnd({
                                     countryName: geo.properties['NAME'],
                                     isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                });
+                                },
+                                    event.changedTouches[0]
+                                );
                             }}
-                            onTouchEnd={() => {
+                            onTouchEnd={(event) => {
                                 onTouchEnd({
                                     countryName: geo.properties['NAME'],
                                     isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                });
+                                },
+                                    event.changedTouches[0]
+                                );
                             }}
                             onBlur={() => {
                                 onBlur({

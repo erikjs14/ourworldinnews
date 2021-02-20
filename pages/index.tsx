@@ -23,7 +23,7 @@ import useTopArticles from './../hooks/useTopArticles';
 import { CountryNews } from '../types';
 const { useGlobalState } = globalState;
 import FetchStateIndicator from '../components/FetchStateIndicator';
-import sourcesConfig from '../config/sourceConfig.json';
+import { isDrag } from '../utils/util';
 
 const { Title, Paragraph } = Typography;
 
@@ -33,6 +33,7 @@ export interface CountryHoveredInfo {
 }
 
 let selectedCountry = '';
+let touchStart: Touch | null = null;
 export default function Home() {
 
     const { news, isLoading, isError } = useTopArticles();
@@ -99,16 +100,19 @@ export default function Home() {
         } 
     }
 
-    const onTouchStartHandler = (info: CountryHoveredInfo) => {
+    const onTouchStartHandler = (info: CountryHoveredInfo, touch: Touch) => {
         if (!info) resetTooltip();
+        if (touch) touchStart = touch;
     }
 
-    const onTouchEndHandler = (info: CountryHoveredInfo) => {
-        if (selectedCountry === info.isoA2) {
-            openArticleHandler(info);
-        } else {
-            showArticleTooltipHandler(info);
-            selectedCountry = info.isoA2;
+    const onTouchEndHandler = (info: CountryHoveredInfo, touch: Touch) => {
+        if (!isDrag(touchStart, touch)) {
+            if (selectedCountry === info.isoA2) {
+                openArticleHandler(info);
+            } else {
+                showArticleTooltipHandler(info);
+                selectedCountry = info.isoA2;
+            }
         }
     }
 
