@@ -8,7 +8,8 @@ import {
     ZoomableGroup,
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
-import { isMobile } from '../utils/util';
+import { getIff, isMobile } from '../utils/util';
+import { useEffect, useState } from 'react';
 
 interface WorldMapProps {
     available: { [key: string]: any };
@@ -21,8 +22,14 @@ interface WorldMapProps {
     zoom: number;
     coordinates: Point;
     onZoomEnd(props: any): void;
+    loading: boolean;
 }
-export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouchStart, onTouchEnd, onCountryClicked, zoom, coordinates, onZoomEnd, onBlur }: WorldMapProps) {
+export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouchStart, onTouchEnd, onCountryClicked, zoom, coordinates, onZoomEnd, onBlur, loading }: WorldMapProps) {
+
+    const [slowFade, setSlowFade] = useState(true);
+    useEffect(() => {
+        if (!loading) setTimeout(() => setSlowFade(false), 2000);
+    }, [loading]);
     
     return (
         <ComposableMap 
@@ -63,7 +70,11 @@ export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouc
                                     isoA2: geo.properties['ISO_A2'].toLowerCase(),
                                 });
                             }}
-                            className={styles.country + (available[geo.properties['ISO_A2']?.toLowerCase()] ? ` ${styles.available}` : '')}
+                            className={
+                                styles.country 
+                                + getIff(available[geo.properties['ISO_A2']?.toLowerCase()], ` ${styles.available}`)
+                                + getIff(slowFade, ` ${styles.slowFade}`)
+                            }
                             onTouchStartCapture={() => {
                                 if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
                                     onTouchStart({

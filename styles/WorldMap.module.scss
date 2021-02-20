@@ -25,7 +25,6 @@
         filter: brightness(90%);
     }
 
-    transition: fill 1.5s ease-out;
     &.available {
         cursor: pointer;
         fill: var(--worldmap-country-highlight-fill);
@@ -33,5 +32,9 @@
         &:hover {
             fill: var(--worldmap-country-highlight-fill-hover);
         }
+    }
+
+    &.slowFade {
+        transition: fill 1.5s ease-out;
     }
 }
