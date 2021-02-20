@@ -50,7 +50,7 @@ export default function Home() {
     const [mobileNoteHidden, setMobileNoteHidden] = useGlobalState('mobileNoteHidden');
 
     useEffect(() => {
-        const mnh = sessionStorage.getItem('mobileNoteHidden');
+        const mnh = localStorage.getItem('mobileNoteHidden');
         if (mnh) setMobileNoteHidden(true);
     }, []);
 
@@ -185,8 +185,17 @@ export default function Home() {
                         className={styles.mapContainer}
                     >
                         <AnimatePresence>
-                            {!mobileNoteHidden && (
+                            {!mobileNoteHidden && !isLoading && (
                                 <motion.div
+                                    initial={{
+                                        opacity: 0,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        transition: {
+                                            delay: 1,
+                                        }
+                                    }}
                                     exit={{
                                         opacity: 0,
                                         transition: {
@@ -208,7 +217,7 @@ export default function Home() {
                                                 className={styles.close}
                                                 onClick={() => {
                                                     setMobileNoteHidden(true);
-                                                    sessionStorage.setItem('mobileNoteHidden', 'true');
+                                                    localStorage.setItem('mobileNoteHidden', 'true');
                                                 }}
                                             >
                                                 x
