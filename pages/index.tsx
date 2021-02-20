@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Layout, Tooltip, Typography, Card } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import { Layout, Tooltip, Typography, Card, message } from 'antd';
 import moment from 'moment';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
@@ -11,12 +11,6 @@ import PinchIndicator from '../assets/zoom-in.svg';
 import styles from '../styles/Home.module.scss'
 
 import WorldMap from '../components/WorldMap';
-import { GetServerSideProps, GetStaticProps } from 'next';
-import { fetchTopStories } from '../sourceFetching/topStories';
-import { CountriesNews } from '../types';
-import { TRANSLATE_TO } from '../config/consts';
-import sourcesConfig from '../config/sourceConfig.json';
-import { translateToAll } from './../sourceFetching/translate';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
@@ -25,8 +19,11 @@ import { homeVariants, mapVariants } from '../animation/home';
 import { useContext } from 'react';
 import RouteContext from '../lib/RouteContext';
 import globalState from '../lib/GlobalState' ;
-import { fbGetTopArticle, fbGetTopArticles, fbSaveTopArticles } from './../sourceFetching/firebase';
+import useTopArticles from './../hooks/useTopArticles';
+import { CountryNews } from '../types';
 const { useGlobalState } = globalState;
+import FetchStateIndicator from '../components/FetchStateIndicator';
+import sourcesConfig from '../config/sourceConfig.json';
 
 const { Title, Paragraph } = Typography;
 
@@ -34,13 +31,11 @@ export interface CountryHoveredInfo {
     countryName: string;
     isoA2: string;
 }
-interface HomeProps {
-    news: CountriesNews;
-    availableCountries: Array<string>;
-}
 
 let selectedCountry = '';
-export default function Home({ news, availableCountries }: HomeProps) {
+export default function Home() {
+
+    const { news, isLoading, isError } = useTopArticles();
 
     useEffect(() => {
         selectedCountry = '';
@@ -71,7 +66,7 @@ export default function Home({ news, availableCountries }: HomeProps) {
         Object.values(news).forEach(n => {
             new Image().src = n.topArticle.imgLink;
         })
-    }, []);
+    }, [news]);
 
     const showArticleTooltipHandler = (info: CountryHoveredInfo) => {
         if (info) {
@@ -144,11 +139,27 @@ export default function Home({ news, availableCountries }: HomeProps) {
         }
     }
 
+    const availableCountries = useMemo<{ [isoA2: string]: true }>(() => {
+        const cs = {};
+        Object.values(news).forEach(vals => {
+            if ((vals as CountryNews).topArticle) {
+                cs[(vals as CountryNews).isoA2] = true;
+            }
+        });
+        return cs;
+    }, [news]);
+
     return (
         <>
             <Head>
                 <title>OurWorldInNews</title>
             </Head>
+
+            <FetchStateIndicator
+                loading={isLoading}
+                error={isError}
+                success={news !== null && Object.keys(news).length > 0}
+            />
 
             <motion.div 
                 initial='hidden' animate='visible' exit='exit' variants={homeVariants(oldRoute)}
@@ -257,65 +268,4 @@ export default function Home({ news, availableCountries }: HomeProps) {
             </motion.div>
         </>
     )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-
-    // fetch data from firebase
-    const cachedNews = await fbGetTopArticles(Object.keys(sourcesConfig.countryConfigs));
-
-    // filter countries not returned by firebase
-    const toFetch = Object.keys(sourcesConfig.countryConfigs).filter(k => !cachedNews[k]);
-
-    // fetch non-cached data from news apis
-    let newNews = await fetchTopStories(toFetch);
-
-    // sort out countries for which no article was returned
-    Object.keys(cachedNews).forEach(key => {
-        if (!cachedNews[key].topArticle) {
-            delete cachedNews[key];
-        }
-    });
-    Object.keys(newNews).forEach(key => {
-        if (!newNews[key].topArticle) {
-            delete newNews[key];
-        }
-    });
-
-    // translate new data
-    if (Object.keys(newNews).length > 0) {
-        await translateToAll(newNews, TRANSLATE_TO);
-    }
-
-    // if not all countries are returned by fetchTopStories (e.g. api limit reached for some reason)
-    // refetch them from cache
-    const unfetched = toFetch.filter(iso => !newNews[iso]);
-    if (unfetched.length > 0) {
-        const refetchedNews = await fbGetTopArticles(unfetched, true);
-        newNews = {
-            ...newNews,
-            ...refetchedNews,
-        };
-    }
-
-    // merge with cached data
-    const news = {
-        ...cachedNews,
-        ...newNews,
-    };
-
-    // save new data to firebase
-    await fbSaveTopArticles(newNews);
-
-    // set available countries object
-    const availableCountries = {};
-    Object.keys(news).forEach(key => availableCountries[key] = true);
-
-    // return props
-    return {
-        props: {
-            news,
-            availableCountries,
-        },
-    };
 }

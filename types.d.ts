@@ -1,11 +1,7 @@
-export interface TranslatableArticle {
+export interface ShallowTranslatableArticle {
     title: string;
     titleTranslated: {
         [string]: string; // en: "this is tranlated title"
-    };
-    teaser: string;
-    teaserTranslated: {
-        [string]: string;
     };
     imgLink: string;
     published: string;
@@ -13,13 +9,27 @@ export interface TranslatableArticle {
     sourceDomain: string;
 }
 
-export interface CountryNews {
+export interface TranslatableArticle extends ShallowTranslatableArticle {
+    teaser: string;
+    teaserTranslated: {
+        [string]: string;
+    };
+}
+
+export interface ShallowCountryNews {
     isoA2: string;
     countryName: string;
     expAt: number;
+    topArticle: ShallowTranslatableArticle | null;
+}
+export interface CountryNews extends ShallowCountryNews {
     topArticle: TranslatableArticle | null;
 }
 
+export interface ShallowCountriesNews {
+    [key: string]: ShallowCountryNews;
+}
+
 export interface CountriesNews {
-    [string]: CountryNews;
+    [key: string]: CountryNews;
 } 

@@ -11,7 +11,7 @@ import { CountryHoveredInfo } from '../pages';
 import { isMobile } from '../utils/util';
 
 interface WorldMapProps {
-    available: Array<string>;
+    available: { [key: string]: any };
     onMouseEnter(content: CountryHoveredInfo | null): void;
     onMouseLeave(content: CountryHoveredInfo | null): void;
     onTouchStart(content: CountryHoveredInfo | null): void;

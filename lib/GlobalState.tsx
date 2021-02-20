@@ -1,5 +1,6 @@
 import { createGlobalState } from 'react-hooks-global-state';
 import { Point } from 'react-simple-maps';
+import { ShallowCountriesNews } from '../types';
 import { isMobile } from '../utils/util';
 
 interface GlobalState {
@@ -10,6 +11,7 @@ interface GlobalState {
         zoom: number;
     };
     mobileNoteHidden: boolean;
+    shallowNews: ShallowCountriesNews;
 }
 const initialState: GlobalState = {
     siderCollapsed: true,
@@ -19,5 +21,6 @@ const initialState: GlobalState = {
         zoom: isMobile() ? 2 : 1,
     },
     mobileNoteHidden: false,
+    shallowNews: null,
 };
 export default createGlobalState(initialState);
