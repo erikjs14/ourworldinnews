@@ -171,7 +171,10 @@
             "daysInPast": 1
         },
         "de": {
-            "daysInPast": 1
+            "daysInPast": 1,
+            "additionalReqParams": {
+                "exclude_domains": "deutsch.rt.com"
+            }
         },
         "ec": {
             "daysInPast": 1
