@@ -71,9 +71,9 @@ export default async function handler(req, res) {
             }
         })
 
-        res.status(200).json(shallowNews);
-
         // save new data to firebase
         await fbSaveTopArticles(newNews);
+
+        res.status(200).json(shallowNews);
     }
 }
