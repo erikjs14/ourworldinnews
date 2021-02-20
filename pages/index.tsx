@@ -61,13 +61,6 @@ export default function Home() {
 
     useEffect(() => setIsTouch('ontouchstart' in  window || 'ontouchstart' in document.documentElement), []);
 
-    // pre-fetch images of articles
-    useEffect(() => {
-        Object.values(news).forEach(n => {
-            new Image().src = n.topArticle.imgLink;
-        })
-    }, [news]);
-
     const showArticleTooltipHandler = (info: CountryHoveredInfo) => {
         if (info) {
             const topArt = news[info.isoA2]?.topArticle;
@@ -243,6 +236,7 @@ export default function Home() {
                                     zoom: pos.zoom
                                 });
                             }}
+                            loading={isLoading}
                         />
                         <NewsTooltip
                             className={styles.tooltip}
