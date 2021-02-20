@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Layout, Tooltip, Typography, Card, message } from 'antd';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Layout, Typography, Card } from 'antd';
 import moment from 'moment';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import NewsTooltip from 'react-tooltip';
-import DragIndicator from '../assets/drag-indicator.svg';
-import ZoomIndicator from '../assets/zoom-indicator.svg';
-import PinchIndicator from '../assets/zoom-in.svg';
 
 import styles from '../styles/Home.module.scss'
 
 import WorldMap from '../components/WorldMap';
+import Indicators from '../components/Indicators';
 import BubbleContent from '../components/BubbleContent';
 import Sider from '../components/Sider';
 import useNewsLang from '../hooks/useNewsLang';
@@ -23,7 +21,7 @@ import useTopArticles from './../hooks/useTopArticles';
 import { CountryNews } from '../types';
 const { useGlobalState } = globalState;
 import FetchStateIndicator from '../components/FetchStateIndicator';
-import { isDrag } from '../utils/util';
+import { isDrag, isMobile } from '../utils/util';
 
 const { Title, Paragraph } = Typography;
 
@@ -49,6 +47,16 @@ export default function Home() {
     const [clientRouted] = useGlobalState('clientRouted');
     const [zoomState, setZoomState] = useGlobalState('mapZoomState');
     const [mobileNoteHidden, setMobileNoteHidden] = useGlobalState('mobileNoteHidden');
+
+    const doZoom = useCallback((zoomState, factor: number) => {
+        const newVal = zoomState.zoom * factor;
+        if (newVal >= 1 && newVal <= (isMobile() ? 50 : 30)) {
+            setZoomState({
+                ...zoomState,
+                zoom: newVal,
+            });
+        }       
+    }, []);
 
     useEffect(() => {
         const mnh = localStorage.getItem('mobileNoteHidden');
@@ -258,17 +266,10 @@ export default function Home() {
                             {tooltipContent}
                         </NewsTooltip>
 
-                        <div className={styles.indicators}>
-                            <Tooltip title='Drag the map' mouseEnterDelay={0.3} >
-                                <DragIndicator />
-                            </Tooltip>
-                            <Tooltip title='Zoom using the mouse wheel' mouseEnterDelay={0.3} placement='topLeft'>
-                                <ZoomIndicator className={styles.desktop} />
-                            </Tooltip>
-                            <Tooltip title='Pinch to zoom' mouseEnterDelay={0.3} placement='topLeft'>
-                                <PinchIndicator className={styles.mobile} />
-                            </Tooltip>
-                        </div>
+                        <Indicators 
+                            onPlusClicked={() => doZoom(zoomState, 1.4)}
+                            onMinusClicked={() => doZoom(zoomState, 0.6)}
+                        />
 
                     </motion.div>
                 </Layout.Content>

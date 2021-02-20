@@ -35,18 +35,6 @@
         }
     }
 
-    .indicators {
-        position: fixed;
-        bottom: var(--indicator-pad-bottom);
-        right: 3rem;
-        display: flex;
-
-        svg {
-            fill: var(--home-indicator-fill-color);
-            margin-left: 1em;
-        }
-    }
-
 }
 
 .intro {

@@ -17,7 +17,16 @@ module.exports = withCSS(withSass({
         }) => {
             config.module.rules.unshift({
                 test: /\.svg$/,
-                use: ["@svgr/webpack"],
+                use: [{
+                    loader: "@svgr/webpack",
+                    options: {
+                        svgoConfig: {
+                            plugins: {
+                                removeViewBox: false,
+                            }
+                        }
+                    }
+                }],
             });
             
             return config;
