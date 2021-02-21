@@ -8,8 +8,11 @@ import {
     ZoomableGroup,
 } from 'react-simple-maps';
 import { CountryHoveredInfo } from '../pages';
-import { getIff, isMobile } from '../utils/util';
-import { Touch, useEffect, useState } from 'react';
+import { getIff, isMobile, randomBrightnessChange } from '../utils/util';
+import { Touch, useEffect, useMemo, useState } from 'react';
+import { COUNTRY_FILL_COLOR } from '../config/consts';
+import globalState from '../lib/GlobalState' ;
+const { useGlobalState } = globalState;
 
 interface WorldMapProps {
     available: { [key: string]: any };
@@ -30,6 +33,17 @@ export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouc
     useEffect(() => {
         if (!loading) setTimeout(() => setSlowFade(false), 2000);
     }, [loading]);
+
+    const [countryCols, setCountryCols] = useGlobalState('countryColors');
+    useEffect(() => {
+        if (!countryCols || !Object.keys(countryCols).length) {
+            const map = {};
+            Object.keys(available).forEach(key => {
+                map[key] = randomBrightnessChange(COUNTRY_FILL_COLOR[0], COUNTRY_FILL_COLOR[1], COUNTRY_FILL_COLOR[2], 20)
+            });
+            setCountryCols(map);
+        }
+    }, [available]);
     
     return (
         <ComposableMap 
@@ -46,83 +60,94 @@ export default function WorldMap({ available, onMouseEnter, onMouseLeave, onTouc
                 maxZoom={isMobile() ? 50 : 30}
             >
                 <Geographies geography={worldGeography}>
-                    {({ geographies }) => geographies.map(geo => geo.properties.ISO_A2 !== 'AQ' && (
-                        <Geography 
-                            key={geo.rsmKey}
-                            geography={geo}
-                            onMouseEnter={() => {
-                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
-                                    onMouseEnter({
+                    {({ geographies }) => geographies.map(geo => {
+                        const iso = geo.properties['ISO_A2']?.toLowerCase();
+                        return (
+                            geo.properties.ISO_A2 !== 'AQ' && (
+                                <Geography 
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    onMouseEnter={() => {
+                                        if (available[iso]) {
+                                            onMouseEnter({
+                                                countryName: geo.properties['NAME'],
+                                                isoA2: iso,
+                                            });
+                                        } else {
+                                            onMouseEnter(null);
+                                        }
+                                    }}
+                                    onClick={() => onCountryClicked({
+                                        isoA2: iso, 
                                         countryName: geo.properties['NAME'],
-                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                    });
-                                } else {
-                                    onMouseEnter(null);
-                                }
-                            }}
-                            onClick={() => onCountryClicked({
-                                isoA2: geo.properties['ISO_A2']?.toLowerCase(), 
-                                countryName: geo.properties['NAME'],
-                            })}
-                            onMouseLeave={() => {
-                                onMouseLeave({
-                                    countryName: geo.properties['NAME'],
-                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                });
-                            }}
-                            className={
-                                styles.country 
-                                + getIff(available[geo.properties['ISO_A2']?.toLowerCase()], ` ${styles.available}`)
-                                + getIff(slowFade, ` ${styles.slowFade}`)
-                            }
-                            onTouchStartCapture={(event) => {
-                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
-                                    onTouchStart({
-                                        countryName: geo.properties['NAME'],
-                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                    },
-                                        event.touches[0]
-                                    );
-                                } else {
-                                    onTouchStart(null, event.touches[0]);
-                                }
-                            }}
-                            onTouchStart={(event) => {
-                                if (available[geo.properties['ISO_A2']?.toLowerCase()]) {
-                                    onTouchStart({
-                                        countryName: geo.properties['NAME'],
-                                        isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                    },
-                                        event.touches[0]
-                                    );
-                                } else {
-                                    onTouchStart(null, event.touches[0]);
-                                }
-                            }}
-                            onTouchEndCapture={(event) => {
-                                onTouchEnd({
-                                    countryName: geo.properties['NAME'],
-                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                },
-                                    event.changedTouches[0]
-                                );
-                            }}
-                            onTouchEnd={(event) => {
-                                onTouchEnd({
-                                    countryName: geo.properties['NAME'],
-                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                },
-                                    event.changedTouches[0]
-                                );
-                            }}
-                            onBlur={() => {
-                                onBlur({
-                                    countryName: geo.properties['NAME'],
-                                    isoA2: geo.properties['ISO_A2'].toLowerCase(),
-                                });
-                            }}
-                        />
-                    ))}
+                                    })}
+                                    onMouseLeave={() => {
+                                        onMouseLeave({
+                                            countryName: geo.properties['NAME'],
+                                            isoA2: iso,
+                                        });
+                                    }}
+                                    className={
+                                        styles.country 
+                                        + getIff(available[iso], ` ${styles.available}`)
+                                        + getIff(slowFade, ` ${styles.slowFade}`)
+                                    }
+                                    onTouchStartCapture={(event) => {
+                                        if (available[iso]) {
+                                            onTouchStart({
+                                                countryName: geo.properties['NAME'],
+                                                isoA2: iso,
+                                            },
+                                                event.touches[0]
+                                            );
+                                        } else {
+                                            onTouchStart(null, event.touches[0]);
+                                        }
+                                    }}
+                                    onTouchStart={(event) => {
+                                        if (available[iso]) {
+                                            onTouchStart({
+                                                countryName: geo.properties['NAME'],
+                                                isoA2: iso,
+                                            },
+                                                event.touches[0]
+                                            );
+                                        } else {
+                                            onTouchStart(null, event.touches[0]);
+                                        }
+                                    }}
+                                    onTouchEndCapture={(event) => {
+                                        onTouchEnd({
+                                            countryName: geo.properties['NAME'],
+                                            isoA2: iso,
+                                        },
+                                            event.changedTouches[0]
+                                        );
+                                    }}
+                                    onTouchEnd={(event) => {
+                                        onTouchEnd({
+                                            countryName: geo.properties['NAME'],
+                                            isoA2: iso,
+                                        },
+                                            event.changedTouches[0]
+                                        );
+                                    }}
+                                    onBlur={() => {
+                                        onBlur({
+                                            countryName: geo.properties['NAME'],
+                                            isoA2: iso,
+                                        });
+                                    }}
+                                    style={{
+                                        default: {
+                                            fill: countryCols[iso],
+                                            transitionDelay: slowFade ? `${Math.random()}s` : undefined,
+                                        },
+                                    }}
+                                />
+                            ))
+                        }
+                    )}
                 </Geographies>
             </ZoomableGroup>
         </ComposableMap>

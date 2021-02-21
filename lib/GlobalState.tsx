@@ -12,6 +12,7 @@ interface GlobalState {
     };
     mobileNoteHidden: boolean;
     shallowNews: ShallowCountriesNews;
+    countryColors: { [key: string]: string };
 }
 const initialState: GlobalState = {
     siderCollapsed: true,
@@ -22,5 +23,6 @@ const initialState: GlobalState = {
     },
     mobileNoteHidden: false,
     shallowNews: null,
+    countryColors: {},
 };
 export default createGlobalState(initialState);
