@@ -1907,6 +1907,13 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+axios-retry-interceptor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/axios-retry-interceptor/-/axios-retry-interceptor-1.1.0.tgz#5fb1b4d2abde259b175fe55a786dd449349dd3bd"
+  integrity sha512-v92fl95XaD3KNC9DpTGAzjEvcwbysXjo5g4z4OiVp4Zwi6SlYLVGSQVv50Ze/W6zV47OTd8M1zTFFboJNdEkRg==
+  dependencies:
+    typy "^2.0.0"
+
 axios@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
@@ -7255,6 +7262,11 @@ typescript@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
   integrity sha512-B3ZIOf1IKeH2ixgHhj6la6xdwR9QrLC5d1VKeCSY4tvkqhF2eqd9O7txNlS0PO3GrBAFIdr3L1ndNwteUbZLYg==
+
+typy@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/typy/-/typy-2.0.1.tgz#bfc0caebceecb39d98fbc84488379978085b1fb5"
+  integrity sha512-XmaoLLk90L1Hq9yoWuh9oIzohATamlIIHm15Uz+8oL8IxyGLczCaGZgVISmaYvUs0UNGt/SVXp5IuojoI2a3cw==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

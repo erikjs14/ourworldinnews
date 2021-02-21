@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { ShallowCountriesNews } from "../types";
 import globalState from '../lib/GlobalState';
 const { useGlobalState } = globalState;
+import retryInterceptor from 'axios-retry-interceptor';
+
+retryInterceptor(axios, {
+    maxAttempts: 3,
+    waitTime: 500,
+});
 
 export default function useTopArticles(): {
     news: ShallowCountriesNews;
