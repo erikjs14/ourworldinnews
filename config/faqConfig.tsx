@@ -12,11 +12,11 @@ export default [
     },
     {
         question: "How often are news updated?",
-        answer: <Paragraph>Currently, twice a day.</Paragraph>,
+        answer: <Paragraph>Currently, once a day.</Paragraph>,
     },
     {
         question: "What are the sources?",
-        answer: <Paragraph>The news are fetched twice a day by querying the API from <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> and <a href="https://newsapi.org" target='_blank'>newsapi.org</a>.<br /> Top stories are selected by them and exposed via the API. They offer differing amounts of news sites where data is fetched from for more than 70 countries they offer together.</Paragraph>,
+        answer: <Paragraph>The news are fetched once a day by querying the API from <a href="https://thenewsapi.com" target='_blank'>thenewsapi.com</a> and <a href="https://newsapi.org" target='_blank'>newsapi.org</a>.<br /> Top stories are selected by them and exposed via the API. They offer differing amounts of news sites where data is fetched from for more than 70 countries they offer together.</Paragraph>,
     },
     {
         question: "How are the countries selected that are included?",
@@ -24,7 +24,7 @@ export default [
     },
     {
         question: "How is the text translated?",
-        answer: <Paragraph>Google Translate was selected as it excells in translation and request speed, translation accuracy, as well as the amount of languages offered.</Paragraph>,
+        answer: <Paragraph>Microsoft Translator was selected as it excells in translation and request speed, translation accuracy, as well as the amount of languages offered.</Paragraph>,
     },
     {
         question: "Why are some news not directly related to the country they are associated with?",
@@ -36,6 +36,6 @@ export default [
     },
     {
         question: "How does this work?",
-        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a> and by <a href="https://www.flaticon.com/authors/pixel-perfect" target="_blank" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a>. Translations are performed by <a href="https://cloud.google.com/translate" target="_blank">Google Cloud Translations</a>. <a href="https://firebase.google.com/" target="_blank">Google Cloud Firebase</a> is used for caching the API responses. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
+        answer: <Paragraph>The website is built with <a href="https://nextjs.org" target='_blank'>Next.js</a> and <a href="https://ant.design" target='_blank'>ant.design</a> elements. Icons from <a href="https://iconmonstr.com" target='_blank'>Iconmonstr</a> and by <a href="https://www.flaticon.com/authors/pixel-perfect" target="_blank" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a>. Translations are performed by <a href="https://azure.microsoft.com/services/cognitive-services/translator/" target="_blank">Microsoft Azure Translator</a>. <a href="https://firebase.google.com/" target="_blank">Google Cloud Firebase</a> is used for caching the API responses. Check out the <a href="https://github.com/erikjs14/ourworldinnews" target='_blank'>Github repo</a>.</Paragraph>,
     },
 ]

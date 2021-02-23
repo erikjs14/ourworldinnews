@@ -1,5 +1,5 @@
 import Article from '../../components/Article';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from 'next/head';
 import { Layout } from 'antd';
 import { TRANSLATE_TO } from "../../config/consts";
@@ -18,6 +18,7 @@ import RouteContext from '../../lib/RouteContext';
 import globalState from '../../lib/GlobalState' ;
 import { fbGetTopArticle, fbSaveTopArticle } from '../../sourceFetching/firebase';
 const { useGlobalState } = globalState;
+import sourcesConfig from '../../config/sourceConfig.json';
 
 interface TopArticleProps {
     countryName: string;
@@ -78,24 +79,23 @@ TopArticle.showFooter = true;
 
 export const  getServerSideProps: GetServerSideProps = async ({ params, query }) => {
 
+    const isoA2 = params.isoA2 as string;
+
     // fetch country data from firebase (force if nf query param is set)
     // forcing prevents this site showing a different article when coming from index.tsx
-    let news = await fbGetTopArticle(params.isoA2 as string, query.nf === 'true');
+    let news = await fbGetTopArticle(isoA2, query.nf === 'true');
 
-    // if not cached by fb -> fetch from api
-    if (!news) {
-        news = await fetchTopStoriesOf(params.isoA2 as string);
+    // if not cached by fb -> fetch from api if valid country code
+    if (!news && Object.keys(sourcesConfig.countryConfigs).includes(isoA2)) {
+        news = await fetchTopStoriesOf(isoA2);
 
-        // if not returned, in case of api limit, force fetch from cache
-        if (!news?.topArticle && query.nf !== 'true') {
-            news = await fbGetTopArticle(params.isoA2 as string, true);
-        } else if (news?.topArticle) {
+        if (news?.topArticle) {
             // translate
             await translateOneToAll(news, TRANSLATE_TO);
-
-            // save to fb
-            await fbSaveTopArticle(params.isoA2 as string, news);
         }
+
+        // save to fb
+        await fbSaveTopArticle(isoA2, news);
     }
 
     // return props

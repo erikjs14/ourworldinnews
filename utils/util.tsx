@@ -1,3 +1,5 @@
+import util from 'util';
+
 export const toCss = (...classNames: string[]): string => classNames.join(' ');
 
 export const getIff = (condition: boolean, val: string): string => condition ? val : '';
@@ -28,6 +30,17 @@ export const minMaxAdd = (start: number, toAdd: number, min: number, max: number
     }
 }
 
+export const minMaxMult = (start: number, toMult: number, min: number, max: number) => {
+    const val = start * toMult;
+    if (val < min) {
+        return min;
+    } else if (val > max) {
+        return max;
+    } else {
+        return val;
+    }
+}
+
 // randomly lighten or darken color
 export const randomBrightnessChange = (r: number, g: number, b: number, maxAmount: number): string => {
     const amount = Math.round(Math.random() * maxAmount);
@@ -37,4 +50,14 @@ export const randomBrightnessChange = (r: number, g: number, b: number, maxAmoun
         minMaxAdd(b, amount, 0, 255),
     ];
     return `rgb(${col[0]}, ${col[1]}, ${col[2]})`;
+}
+
+// split array into chunks of size n
+export const splitArray = <T extends unknown>(ar: Array<T>, size: number): Array<Array<T>> => ar.reduce((res, _, idx, self) => idx*size < self.length ? [...res, self.slice(idx*size, idx*size+size)] : res, []);
+
+// get object based on subset of keys
+export const subset = <T extends Object>(obj: T, subset: Array<keyof T>): Partial<T> => {
+    const subObj: Partial<T> = {};
+    subset.forEach(key => subObj[key] = obj[key]);
+    return subObj;
 }

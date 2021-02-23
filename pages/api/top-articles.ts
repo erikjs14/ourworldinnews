@@ -17,32 +17,11 @@ export default async function handler(req, res) {
         // fetch non-cached data from news apis
         let newNews = await fetchTopStories(toFetch);
 
-        // sort out countries for which no article was returned
-        Object.keys(cachedNews).forEach(key => {
-            if (!cachedNews[key].topArticle) {
-                delete cachedNews[key];
-            }
-        });
-        Object.keys(newNews).forEach(key => {
-            if (!newNews[key].topArticle) {
-                delete newNews[key];
-            }
-        });
-
         // translate new data
         if (Object.keys(newNews).length > 0) {
             await translateToAll(newNews, TRANSLATE_TO);
-        }
-
-        // if not all countries are returned by fetchTopStories (e.g. api limit reached for some reason)
-        // refetch them from cache
-        const unfetched = toFetch.filter(iso => !newNews[iso]);
-        if (unfetched.length > 0) {
-            const refetchedNews = await fbGetTopArticles(unfetched, true);
-            newNews = {
-                ...newNews,
-                ...refetchedNews,
-            };
+            // save new data to firebase
+            await fbSaveTopArticles(newNews);
         }
 
         // merge with cached data
@@ -50,6 +29,13 @@ export default async function handler(req, res) {
             ...cachedNews,
             ...newNews,
         };
+
+        // sort out countries for which no article was returned
+        Object.keys(news).forEach(key => {
+            if (!news[key].topArticle) {
+                delete news[key];
+            }
+        });
 
         // only send shallow news to client
         const shallowNews = {};
@@ -70,9 +56,6 @@ export default async function handler(req, res) {
                 }
             }
         })
-
-        // save new data to firebase
-        await fbSaveTopArticles(newNews);
 
         res.status(200).json(shallowNews);
     }

@@ -28,7 +28,6 @@ const rawFetchFromSource = async (isoA2: string, api: keyof typeof sourcesConfig
         if (articles?.length > 0) {
             const map = source.responseMap.articleMap;
 
-            const uuid = map.uuid ? articles[map.uuid] : null;
             const article = articles[0];
             const countryNews: CountryNews = {
                 isoA2,
@@ -67,7 +66,7 @@ export const fetchTopStoriesOf = async (isoA2: string): Promise<CountryNews> => 
     return {
         isoA2,
         countryName: countries.getName(isoA2, 'en', {select: 'official'}),
-        expAt: new Date().getTime(),
+        expAt: new Date().getTime() + sourcesConfig.defaultTtl,
         topArticle: null,
     };
 

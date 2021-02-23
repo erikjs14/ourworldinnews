@@ -11,10 +11,11 @@ The website is built with [Next.js](nextjs.org) and bootstrapped with *create-ne
 On top of that it uses the following services:
 - [Google Firestore](https://firebase.google.com) for caching the results returned from the news APIs
 - [Google Secret Manager](https://cloud.google.com/secret-manager) for managing API keys
-- [Google Cloud Translate](https://cloud.google.com/translate) for translations of the article snippets
+- [Microsoft Azure Translator](https://azure.microsoft.com/services/cognitive-services/translator/) for translations of the article snippets
 - Various news APIs which can be queried by country and return top headlines
 
-All services are available in free tiers with usage limits. Because news api responses are cached in firebase, even those with query rate limits can be used.
+All services are available in free tiers with usage limits. Because news api responses are cached in firebase, even those with query rate limits can be used.  
+Google Cloud Translate was used before, but Azure offers a 4 times higher limit in its free tier.
 
 ## Run It Locally
 
@@ -23,12 +24,14 @@ There are a few prerequisite steps before you can run the project:
 2. [Set up the Google Secret Manager](https://cloud.google.com/secret-manager/docs/configuring-secret-manager).
 3. [Set up a new private key for the service account](https://cloud.google.com/iam/docs/creating-managing-service-account-keys). Save the json file, you need to set some environment variables based on this file later.
 4. [Set up a new Firebase project](https://firebase.google.com/docs/firestore/quickstart), create a firestore database and create a new private key under *Service Accounts* in the project settings. Copy the entire json file content and create a new secret in Google Secret Manager, named "firebase-access-key", and paste in the credentials as its value. 
-5. Activate the Cloud Translation API in you Google Cloud Console. You could also store a separate private key for access in the secret manager. However, you can also simply access the translation api with you service account created before.
+5. Create a Microsoft Azure account if you haven't already. Then activate the [Azure Translator](https://docs.microsoft.com/de-de/azure/cognitive-services/translator/). You can find the api key in the left menu under *Keys and Endpoint*.
 6. Set up the following environment variables. Either create a ".env.local" file in the project's root, or add real environment variables.
 ```bash
 GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL="<the client email from the service account credentials file downloaded earlier>"
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="<the private key from the service account credentials file downloaded earlier>"
 FIREBASE_ACCESS_KEY="projects/<your-google-cloud-project-handle>/secrets/firebase-access-key/versions/1"
+AZURE_TRANSLATOR_KEY="<one of the two keys you find in azure>"
+AZURE_TRANSLATOR_REGION="<the region where you activated the translator in>"
 ```
 7. Also add environment variables for the news APIs used as specified in *config/sourceConfig.json*. If you use the same sources as me, this is what you need to set up:
 ```bash

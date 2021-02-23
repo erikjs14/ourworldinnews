@@ -67,7 +67,7 @@
                     "uuid": "uuid"
                 }
             },
-            "ttl": 43200000
+            "ttl": 86400000
         },
         "newsapi": {
             "baseUrl": "https://newsapi.org/v2",
@@ -120,10 +120,11 @@
                     "uuid": null
                 }
             },
-            "ttl": 21600000
+            "ttl": 86400000
         }
     },
     "sourcePriority": ["thenewsapi", "newsapi"],
+    "defaultTtl": 86400000,
     "countryConfigs": {
         "am": {
             "daysInPast": 1

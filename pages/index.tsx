@@ -21,7 +21,7 @@ import useTopArticles from './../hooks/useTopArticles';
 import { CountryNews } from '../types';
 const { useGlobalState } = globalState;
 import FetchStateIndicator from '../components/FetchStateIndicator';
-import { isDrag, isMobile } from '../utils/util';
+import { isDrag, isMobile, minMaxMult } from '../utils/util';
 
 const { Title, Paragraph } = Typography;
 
@@ -49,13 +49,11 @@ export default function Home() {
     const [mobileNoteHidden, setMobileNoteHidden] = useGlobalState('mobileNoteHidden');
 
     const doZoom = useCallback((zoomState, factor: number) => {
-        const newVal = zoomState.zoom * factor;
-        if (newVal >= 1 && newVal <= (isMobile() ? 50 : 30)) {
-            setZoomState({
-                ...zoomState,
-                zoom: newVal,
-            });
-        }       
+        const newVal = minMaxMult(zoomState.zoom, factor, 1, (isMobile() ? 50 : 30));
+        setZoomState({
+            ...zoomState,
+            zoom: newVal,
+        });
     }, []);
 
     useEffect(() => {

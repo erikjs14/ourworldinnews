@@ -1,52 +1,74 @@
+import axios from 'axios';
 import { CountriesNews, CountryNews } from "../types";
-const { Translate } = require('@google-cloud/translate').v2;
-
-const translate = new Translate({
-    credentials: {
-        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    }
-});
-
-export const translateTo = async (texts: string[], toIsoA2: string): Promise<string[]> => {
-    try {
-        let [ translations ] = await translate.translate(texts, toIsoA2);
-        translations = Array.isArray(translations) ? translations : [translations];
-        if (translations.length < 1) throw new Error('No translation found');
-
-        return translations;
-    } catch (error) {
-        console.log(error);
-        return texts;
-    }
-}
+import { splitArray, subset } from './../utils/util';
 
 // !!! mutates news
 export const translateOneToAll = async (news: CountryNews, langCodes: string[]) => {
-    if (news.topArticle?.title && news.topArticle?.teaser) {
-        await Promise.all(langCodes.map(async lang => {
-            const [translatedArticle, translatedTeaser] = await translateTo(
-                [news.topArticle.title, news.topArticle.teaser],
-                lang
-            );
-            news.topArticle.titleTranslated[lang] = translatedArticle;
-            news.topArticle.teaserTranslated[lang] = translatedTeaser;
-        }));
+    if (!news || !news.topArticle) return;
+    try {
+        const query = '?api-version=3.0&to=' + langCodes.join('&to=');
+        const res = await axios.post('https://api.cognitive.microsofttranslator.com/translate' + query, 
+        [ { Text: news.topArticle.title } , { Text: news.topArticle.teaser } ], 
+            {
+                headers: {
+                    'Ocp-Apim-Subscription-Key': process.env.AZURE_TRANSLATOR_KEY,
+                    'Ocp-Apim-Subscription-Region': process.env.AZURE_TRANSLATOR_REGION,
+                }
+            }
+        );
+        const propTranslated = [ 'titleTranslated', 'teaserTranslated' ];
+        res.data.forEach((data, idx) => {
+            data.translations.forEach(trans => {
+                news.topArticle[propTranslated[idx]][trans.to] = trans.text;
+            })
+        });
+    } catch (error) {
+        return;
     }
 }
 
 // !!! mutates news
 export const translateToAll = async (news: CountriesNews, langCodes: string[]) => {
-    const titles = Object.values(news).map((val: CountryNews) => val.topArticle.title);
-    const teasers = Object.values(news).map((val: CountryNews) => val.topArticle.teaser);
-    await Promise.all(langCodes.map(async lang => {
-        const [translatedTitles, translatedTeasers] = await Promise.all([
-            translateTo(titles, lang),
-            translateTo(teasers, lang),
-        ]);
-        Object.keys(news).forEach((key, i) => {
-            news[key].topArticle.titleTranslated[lang] = translatedTitles[i];
-            news[key].topArticle.teaserTranslated[lang] = translatedTeasers[i];
-        });
-    }));
+    if (langCodes.length === 0) return;
+    const tmp_news = { ...news };
+    Object.keys(tmp_news).forEach(key => {
+        if (!tmp_news[key].topArticle) {
+            delete tmp_news[key];
+        }
+    });
+    if (Object.keys(tmp_news).length === 0) {
+        return;
+    }
+
+    try {
+        const query = '?api-version=3.0&to=' + langCodes.join('&to=');
+        // split news so that limit of 10000 chars and 100 array entries is not reached
+        const doQuery = async (tmp_news: CountriesNews, prop: string, propTranslated: string) => {
+            const isoCodes = Object.keys(tmp_news);
+            const res = await axios.post('https://api.cognitive.microsofttranslator.com/translate' + query, 
+                isoCodes.map((key: keyof typeof tmp_news) => ({ Text: tmp_news[key].topArticle[prop] }) ), 
+                {
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': process.env.AZURE_TRANSLATOR_KEY,
+                        'Ocp-Apim-Subscription-Region': process.env.AZURE_TRANSLATOR_REGION,
+                    }
+                }
+            );
+            res.data.forEach((data, idx) => {
+                const iso = isoCodes[idx];
+                data.translations.forEach(trans => {
+                    news[iso].topArticle[propTranslated][trans.to] = trans.text;
+                })
+            })
+        }
+        // split into arrays of size 20 to do the requests
+        const allIsoCodes = Object.keys(tmp_news);
+        const splitIsoCodes = splitArray(allIsoCodes, 20);
+        await Promise.allSettled(
+            splitIsoCodes.map(codes => doQuery(subset(tmp_news, codes), 'title', 'titleTranslated'))
+                .concat(splitIsoCodes.map(codes => doQuery(subset(tmp_news, codes), 'teaser', 'teaserTranslated')))
+        );
+    } catch (error) {
+        return;
+    }
 }
